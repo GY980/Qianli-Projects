@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新车卖点提炼 — 奇瑞风云A9</title>
+<style>
+  :root {
+    --bg: #0B0F15;
+    --card: #141921;
+    --card-hover: #1A2030;
+    --border: #222A38;
+    --blue: #2D7FF9;
+    --blue-glow: rgba(45,127,249,0.25);
+    --gold: #F0B429;
+    --gold-glow: rgba(240,180,41,0.2);
+    --text: #E6EDF3;
+    --text-dim: #7D8998;
+    --green: #3FB950;
+    --red: #F85149;
+    --lidar-gradient: linear-gradient(135deg, #2D7FF9 0%, #7C3AED 50%, #F0B429 100%);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* === HERO === */
+  .hero {
+    padding: 72px 0 48px;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 1.5px solid var(--blue);
+    border-radius: 24px;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: 4px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+    background: rgba(45,127,249,0.06);
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 .brand { color: var(--text-dim); font-weight: 400; font-size: 20px; display: block; margin-bottom: 8px; }
+  .hero h1 .model { background: linear-gradient(90deg, #fff, var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-sub {
+    margin-top: 16px;
+    font-size: 17px;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === HIGHLIGHT BANNER === */
+  .highlight-banner {
+    margin: 0 auto 48px;
+    max-width: 720px;
+    background: linear-gradient(135deg, rgba(45,127,249,0.08), rgba(240,180,41,0.08));
+    border: 1px solid rgba(45,127,249,0.2);
+    border-radius: 12px;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .highlight-icon {
+    flex-shrink: 0;
+    width: 56px; height: 56px;
+    background: var(--lidar-gradient);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .highlight-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .highlight-text h3 .hl { color: var(--gold); }
+  .highlight-text p { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+
+  /* === PRICE CARDS === */
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    text-align: center;
+  }
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .price-card:hover { transform: translateY(-2px); }
+  .price-card .trim { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .price-card .price { font-size: 32px; font-weight: 800; margin-bottom: 2px; }
+  .price-card .price .unit { font-size: 14px; font-weight: 400; color: var(--text-dim); margin-left: 2px; }
+  .price-card .price-note { font-size: 13px; color: var(--text-dim); }
+
+  /* Featured card */
+  .price-card.featured {
+    border-color: transparent;
+    background: var(--card);
+    overflow: hidden;
+  }
+  .price-card.featured::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 14px;
+    padding: 1.5px;
+    background: var(--lidar-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .price-card.featured .trim { color: var(--gold); }
+  .price-card.featured .price { color: #fff; }
+  .featured-tag {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--gold);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  /* === HARDWARE TABLE === */
+  .hw-section { margin-bottom: 56px; }
+  .hw-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .hw-table th, .hw-table td {
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hw-table th {
+    background: #181E28;
+    font-weight: 600;
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .hw-table th:first-child, .hw-table td:first-child { text-align: left; }
+  .hw-table th:last-child { color: var(--gold); }
+  .hw-table tr:last-child td { border-bottom: none; }
+  .hw-table td:last-child { background: rgba(240,180,41,0.04); }
+
+  .dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    background: var(--green);
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+  .dot-blue { background: var(--blue); }
+  .dot-gold { background: var(--gold); }
+  .spec-note { font-size: 12px; color: var(--text-dim); margin-left: 4px; }
+  .empty-cell { color: var(--border); }
+
+  /* === SAFETY FEATURES === */
+  .safety-section { margin-bottom: 64px; }
+  .safety-intro {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    max-width: 640px;
+  }
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+  }
+  .safety-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    transition: border-color 0.2s;
+  }
+  .safety-item:hover { border-color: var(--blue); }
+  .safety-item .abbr {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--blue);
+    width: 52px;
+    text-align: center;
+    padding: 4px 0;
+    background: rgba(45,127,249,0.08);
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+  }
+  .safety-item .desc { color: var(--text-dim); }
+
+  /* Critical safety items */
+  .safety-item.critical { border-color: rgba(240,180,41,0.3); background: rgba(240,180,41,0.04); }
+  .safety-item.critical .abbr { background: rgba(240,180,41,0.12); color: var(--gold); }
+
+  /* === KEY FEATURE CALLOUT === */
+  .callout-section { margin-bottom: 56px; }
+  .callout-card {
+    background: linear-gradient(135deg, rgba(45,127,249,0.06) 0%, rgba(124,58,237,0.06) 50%, rgba(240,180,41,0.06) 100%);
+    border: 1px solid rgba(45,127,249,0.15);
+    border-radius: 16px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .callout-left h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .callout-left h3 span { color: var(--gold); }
+  .callout-left p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+  .callout-right { display: flex; flex-direction: column; gap: 12px; }
+  .callout-stat {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .callout-stat .num { font-size: 28px; font-weight: 800; color: var(--blue); min-width: 48px; text-align: right; }
+  .callout-stat .label { font-size: 13px; color: var(--text-dim); }
+
+  /* === FOOTER === */
+  .footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 28px; }
+    .price-grid { grid-template-columns: 1fr; }
+    .callout-card { grid-template-columns: 1fr; }
+    .highlight-banner { flex-direction: column; text-align: center; }
+    .hw-table th, .hw-table td { padding: 10px 12px; font-size: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">智驾新车卖点提炼</div>
+    <h1>
+      <span class="brand">奇瑞汽车</span>
+      <span class="model">风云A9</span>
+    </h1>
+    <p class="hero-sub">猎鹰智能驾驶辅助 &middot; 三款配置 &middot; 预售 ¥11.59万起</p>
+  </section>
+
+  <!-- KEY HIGHLIGHT -->
+  <div class="highlight-banner">
+    <div class="highlight-icon">🛡</div>
+    <div class="highlight-text">
+      <h3>核心亮点：辅助驾驶兜底 + <span class="hl">MAX激光雷达版</span></h3>
+      <p>655MAX激光雷达版搭载完整感知硬件矩阵——12颗超声波雷达 + 1颗毫米波前雷达 + 2颗毫米波后雷达 + 驾驶辅助小蓝灯，实现全方位辅助驾驶安全兜底能力。</p>
+    </div>
+  </div>
+
+  <!-- PRICE -->
+  <h2 class="section-title">预售价格</h2>
+  <div style="text-align:center; margin-bottom:56px;">
+    <span style="font-size:48px; font-weight:800; background:linear-gradient(90deg, var(--blue), var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">¥11.59-13.59万</span>
+  </div>
+
+  <!-- CALLOUT -->
+  <section class="callout-section">
+    <div class="callout-card">
+      <div class="callout-left">
+        <h3>辅助驾驶<span>兜底</span>能力</h3>
+        <p style="font-size:13px; color:var(--gold); line-height:1.6; margin-bottom:12px; padding:10px 14px; background:rgba(240,180,41,0.06); border-radius:8px; border:1px solid rgba(240,180,41,0.15);">首任车主、非营运车辆，自购车之日起一年内，在"泊车场景"、"智能领航场景"判定为"智能驾驶辅助系统原因"导致事故，造成车上人员伤害与第三者损失赔偿的，最高赔偿500万。</p>
+        <h3>猎鹰驾驶辅助</h3>
+        <div style="margin-bottom:14px; padding:12px 16px; background:rgba(45,127,249,0.06); border-radius:8px; border:1px solid rgba(45,127,249,0.15);">
+          <div style="font-size:13px; color:var(--text-dim);">城市NOA / 高速NOA / 300+泊车场景</div>
+        </div>
+      </div>
+      <div class="callout-right">
+        <div class="callout-stat">
+          <div class="num">15</div>
+          <div class="label">颗雷达传感器<br>（超声波+毫米波）</div>
+        </div>
+        <div class="callout-stat">
+          <div class="num">24+</div>
+          <div class="label">项主动安全功能<br>全系标配</div>
+        </div>
+        <div class="callout-stat">
+          <div class="num">4</div>
+          <div class="label">重紧急制动/避让兜底<br>AEB · AES · FCTB · RCTB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE TABLE -->
+  <section class="hw-section">
+    <h2 class="section-title">猎鹰智能驾驶辅助 — 硬件配置</h2>
+    <table class="hw-table">
+      <thead>
+        <tr>
+          <th>硬件</th>
+          <th>655PRO版</th>
+          <th>655MAX版</th>
+          <th>655MAX激光雷达版</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>激光雷达（1颗）</td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="dot dot-gold"></span></td>
+        </tr>
+        <tr>
+          <td>高清摄像头</td>
+          <td><span class="dot"></span><span class="spec-note">5颗</span></td>
+          <td><span class="dot"></span><span class="spec-note">11颗</span></td>
+          <td><span class="dot dot-gold"></span><span class="spec-note">11颗</span></td>
+        </tr>
+        <tr>
+          <td>超声波倒车雷达</td>
+          <td><span class="dot"></span><span class="spec-note">4颗</span></td>
+          <td><span class="dot"></span><span class="spec-note">12颗</span></td>
+          <td><span class="dot dot-gold"></span><span class="spec-note">12颗</span></td>
+        </tr>
+        <tr>
+          <td>毫米波前雷达（1颗）</td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="dot dot-gold"></span></td>
+        </tr>
+        <tr>
+          <td>毫米波后雷达（2颗）</td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="dot"></span></td>
+          <td><span class="dot dot-gold"></span></td>
+        </tr>
+        <tr>
+          <td>驾驶辅助小蓝灯（外后视镜+尾灯）</td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="empty-cell">—</span></td>
+          <td><span class="dot dot-gold"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SAFETY FEATURES -->
+  <section class="safety-section">
+    <h2 class="section-title">智能驾驶功能</h2>
+    <p class="safety-intro">全系搭载覆盖行车、泊车、预警三大场景的主动安全体系，核心兜底功能以金色标注。</p>
+    <div class="safety-grid">
+      <div class="safety-item critical">
+        <span class="abbr">AEB</span>
+        <span class="desc">自动紧急制动</span>
+      </div>
+      <div class="safety-item critical">
+        <span class="abbr">AES</span>
+        <span class="desc">紧急转向避让</span>
+      </div>
+      <div class="safety-item critical">
+        <span class="abbr">FCTB</span>
+        <span class="desc">前方横向紧急制动</span>
+      </div>
+      <div class="safety-item critical">
+        <span class="abbr">RCTB</span>
+        <span class="desc">倒车倾向制动</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">ACC</span>
+        <span class="desc">全速自适应巡航</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">ICA</span>
+        <span class="desc">集成式巡航</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">TJA</span>
+        <span class="desc">交通拥堵辅助</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">LKA</span>
+        <span class="desc">车道保持辅助</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">LDP</span>
+        <span class="desc">车道偏离抑制</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">LDW</span>
+        <span class="desc">车道偏离预警</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">LCC</span>
+        <span class="desc">并线辅助</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">BSD</span>
+        <span class="desc">盲点监测</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">FCW</span>
+        <span class="desc">前方碰撞预警</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">FCTA</span>
+        <span class="desc">前方横向预警</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">RCW</span>
+        <span class="desc">后方碰撞预警</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">RCTA</span>
+        <span class="desc">倒车倾向警告</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">DOW</span>
+        <span class="desc">开门预警系统</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">DMS</span>
+        <span class="desc">疲劳监测</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">TPMS</span>
+        <span class="desc">直接式胎压报警</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">IHC</span>
+        <span class="desc">智能远近光灯控制</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">SLA</span>
+        <span class="desc">限速标识监测及主动提醒</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">&#9888;</span>
+        <span class="desc">限速提醒</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">&#9881;</span>
+        <span class="desc">电子限速设置</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">&#9673;</span>
+        <span class="desc">行车记录仪</span>
+      </div>
+      <div class="safety-item">
+        <span class="abbr">&#9670;</span>
+        <span class="desc">哨兵模式</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span>以上信息基于预售阶段公开数据整理，最终配置以官方发布为准。</span>
+      <span>信息收集 BY FO 甚平</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
