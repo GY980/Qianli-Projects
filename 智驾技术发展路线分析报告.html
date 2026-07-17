@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华为 · 小鹏 · 理想 智驾技术发展路线分析报告</title>
+<style>
+:root {
+  color-scheme: light;
+  --ink: #18212f;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --accent-hw: #d9793f;
+  --accent-xp: #28a87d;
+  --accent-li: #5f8ee8;
+  --border: #e5eaf0;
+  --muted: #66758a;
+  --shadow: 0 8px 24px rgba(24,33,47,0.06), 0 1px 3px rgba(24,33,47,0.05);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 15px;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+header {
+  background:
+    radial-gradient(circle at 86% 18%, rgba(95,142,232,0.18) 0%, transparent 34%),
+    radial-gradient(circle at 18% 12%, rgba(40,168,125,0.14) 0%, transparent 32%),
+    linear-gradient(135deg, #ffffff 0%, #f2f8ff 48%, #fff7ef 100%);
+  color: var(--ink);
+  padding: 72px 0 56px;
+  position: relative;
+  overflow: hidden;
+}
+header::after {
+  content: '';
+  position: absolute;
+  top: -40%; right: -10%;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217,121,63,0.10) 0%, transparent 68%);
+}
+header h1 {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+header .subtitle { font-size: 16px; color: #526070; max-width: 720px; }
+header .meta { margin-top: 24px; font-size: 13px; color: #718096; }
+
+.nav-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 6px 18px rgba(24,33,47,0.06), 0 1px 2px rgba(24,33,47,0.04);
+}
+.nav-bar .container { display: flex; gap: 0; overflow-x: auto; }
+.nav-tab {
+  padding: 15px 22px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #405064;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-decoration: none;
+  position: relative;
+}
+.nav-tab:hover {
+  color: var(--ink);
+  background: #f5f9ff;
+}
+.nav-tab.active {
+  color: #24364d;
+  background: linear-gradient(180deg, #f7fbff 0%, #eef6ff 100%);
+  border-bottom-color: var(--accent-li);
+}
+
+section { padding: 48px 0; }
+section + section { border-top: 1px solid var(--border); }
+h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+h2 .brand-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.section-desc { color: var(--muted); font-size: 14px; margin-bottom: 32px; max-width: 720px; }
+h3 { font-size: 18px; font-weight: 600; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+/* ============ KEY VERSION TIMELINE ============ */
+.timeline-chart {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 20px 16px 12px;
+  box-shadow: var(--shadow);
+  margin: 0 0 32px;
+  overflow-x: auto;
+}
+.timeline-chart .tc-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+.timeline-svg {
+  display: block;
+  width: 100%;
+  min-width: 1050px;
+  height: 280px;
+}
+
+/* ============ SNAKE ROAD TIMELINE ============ */
+.snake-road {
+  --c: var(--accent-hw);
+  --road: 4px;
+  --dot: 18px;
+  --dot-sm: 12px;
+  margin: 8px 0 24px;
+}
+.s-row {
+  display: flex;
+  position: relative;
+  padding: 0 20px;
+}
+.s-row.rev { flex-direction: row-reverse; }
+.s-row::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 48px; right: 48px;
+  height: var(--road);
+  background: var(--c);
+  opacity: 0.25;
+  border-radius: 2px;
+  z-index: 0;
+}
+.s-bend {
+  width: 48px;
+  height: 48px;
+  border: var(--road) solid var(--c);
+  opacity: 0.25;
+  border-radius: 0;
+  position: relative;
+  z-index: 0;
+}
+.s-bend.right {
+  margin-left: auto;
+  margin-right: 28px;
+  border-left: none;
+  border-radius: 0 24px 24px 0;
+}
+.s-bend.left {
+  margin-right: auto;
+  margin-left: 28px;
+  border-right: none;
+  border-radius: 24px 0 0 24px;
+}
+.s-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+.s-dot {
+  width: var(--dot-sm);
+  height: var(--dot-sm);
+  border-radius: 50%;
+  background: var(--c);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--c);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.2s;
+}
+.s-dot.major {
+  width: var(--dot);
+  height: var(--dot);
+  box-shadow: 0 0 0 3px var(--c), 0 0 12px rgba(0,0,0,0.1);
+}
+.s-card {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow);
+  margin-top: 10px;
+  width: 100%;
+  max-width: 200px;
+  font-size: 11.5px;
+  line-height: 1.55;
+  border-top: none;
+  border: 1px solid var(--border);
+}
+.s-card .sc-ver {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--c);
+  margin-bottom: 1px;
+}
+.s-card .sc-time {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.s-card .sc-focus {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  color: var(--c);
+}
+.s-card .sc-body {
+  font-size: 11.5px;
+  color: #374151;
+  line-height: 1.5;
+}
+.s-card .sc-body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.s-node:hover .s-dot { transform: scale(1.3); }
+.s-node:hover .s-card { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+/* Summary / Predict / Insight / Table styles */
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 24px 0; }
+@media (max-width: 768px) { .summary-grid { grid-template-columns: 1fr; } .predict-grid { grid-template-columns: 1fr; } }
+.summary-card { background: var(--card); border-radius: 10px; padding: 24px; box-shadow: var(--shadow); text-align: center; }
+.summary-card .brand-name { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.summary-card .tech-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.summary-card .tech-value { font-size: 20px; font-weight: 700; }
+.summary-card .stages { display: flex; justify-content: center; gap: 4px; margin-top: 16px; flex-wrap: wrap; }
+.summary-card .stage-pill { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+.summary-card .stage-pill {
+  background: #f5f8fb !important;
+  color: #526070 !important;
+  border: 1px solid #e5eaf0;
+}
+
+.predict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-top: 24px; }
+.predict-card { background: var(--card); border-radius: 10px; padding: 24px; box-shadow: var(--shadow); }
+.predict-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.predict-card p { font-size: 14px; color: #374151; margin-bottom: 8px; }
+
+.insight { background: linear-gradient(135deg, #f3f8ff 0%, #f3fbf7 100%); border-left: 3px solid var(--accent-li); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 24px 0; font-size: 14px; }
+.insight .insight-title { font-weight: 700; font-size: 13px; color: #36577f; margin-bottom: 4px; }
+
+.compare-table-wrap { overflow-x: auto; margin: 24px 0; border-radius: 10px; box-shadow: var(--shadow); }
+table.compare { width: 100%; border-collapse: collapse; background: var(--card); font-size: 13px; min-width: 800px; }
+table.compare thead th { background: #eaf1f8; color: #273446; padding: 12px 16px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+table.compare thead th.hw-col { background: #fff0e6; color: #8c4c23; }
+table.compare thead th.xp-col { background: #e9f7f1; color: #236c55; }
+table.compare thead th.li-col { background: #edf4ff; color: #3f609c; }
+table.compare td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.compare tr:last-child td { border-bottom: none; }
+table.compare tr:hover td { background: #f9fafb; }
+table.compare td.dim-label { font-weight: 600; color: var(--ink); background: #f9fafb; white-space: nowrap; }
+
+footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>华为 · 小鹏 · 理想<br>智驾技术发展路线分析</h1>
+    <p class="subtitle">基于三大品牌智驾系统各版本更新内容，系统梳理感知、决策、规控架构演进脉络，提炼各阶段研发重点，并推导可预测的技术发展路径。</p>
+    <p class="meta">报告日期：2026年7月16日 &nbsp;|&nbsp; 数据来源：官方OTA公告、百度百科、汽车之家、IT之家、知乎技术解析等公开资料</p>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <div class="container">
+    <a class="nav-tab active" href="#overview">总览</a>
+    <a class="nav-tab" href="#huawei">华为 ADS</a>
+    <a class="nav-tab" href="#xpeng">小鹏 XNGP</a>
+    <a class="nav-tab" href="#lixiang">理想 AD</a>
+    <a class="nav-tab" href="#compare">横向对比</a>
+    <a class="nav-tab" href="#predict">趋势预测</a>
+    <a class="nav-tab" href="#sources">信息来源</a>
+  </div>
+</nav>
+
+<!-- ==================== 总览 ==================== -->
+<section id="overview">
+<div class="container">
+  <h2>三家智驾关键版本节点与技术主题</h2>
+  <p class="section-desc">截至2026年7月，华为、小鹏、理想三家已全部完成"端到端"架构的量产落地，并各自向下一代架构演进。</p>
+
+  <!-- ===== 关键版本时间轴 ===== -->
+  <div class="timeline-chart">
+    <div class="tc-title">三家智驾关键版本节点与技术主题</div>
+    <svg class="timeline-svg" viewBox="0 0 1050 260" role="img" aria-label="三大品牌关键版本时间轴">
+      <!-- Y-axis line -->
+      <line x1="80" y1="30" x2="80" y2="220" stroke="#ccc" stroke-width="1"/>
+      <!-- Grid lines -->
+      <line x1="80" y1="220" x2="980" y2="220" stroke="#e5e5e5" stroke-width="1"/>
+      <!-- Year labels -->
+      <g font-size="12" fill="#999" text-anchor="middle">
+        <text x="100" y="245">2019</text>
+        <text x="210" y="245">2020</text>
+        <text x="320" y="245">2021</text>
+        <text x="430" y="245">2022</text>
+        <text x="540" y="245">2023</text>
+        <text x="650" y="245">2024</text>
+        <text x="760" y="245">2025</text>
+        <text x="870" y="245">2026</text>
+      </g>
+      <!-- Brand labels -->
+      <g font-size="14" font-weight="700" text-anchor="end" fill="#1a1a2e">
+        <text x="70" y="72">华为</text>
+        <text x="70" y="132">小鹏</text>
+        <text x="70" y="192">理想</text>
+      </g>
+      <!-- Huawei dots -->
+      <g fill="var(--accent-hw)">
+        <text x="335" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 1.0</text>
+        <circle cx="335" cy="67" r="9"/>
+        <text x="555" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 2.0</text>
+        <circle cx="555" cy="67" r="9"/>
+        <text x="660" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 3.0</text>
+        <circle cx="660" cy="67" r="9"/>
+        <text x="770" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 4</text>
+        <circle cx="770" cy="67" r="9"/>
+        <text x="880" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 5</text>
+        <circle cx="880" cy="67" r="9"/>
+      </g>
+      <!-- XPeng dots -->
+      <g fill="var(--accent-xp)">
+        <text x="120" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XPILOT 2.5</text>
+        <circle cx="120" cy="127" r="9"/>
+        <text x="325" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XPILOT 3.0</text>
+        <circle cx="325" cy="127" r="9"/>
+        <text x="555" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XNGP</text>
+        <circle cx="555" cy="127" r="9"/>
+        <text x="690" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 5.2</text>
+        <circle cx="690" cy="127" r="9"/>
+        <text x="775" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 5.5</text>
+        <circle cx="775" cy="127" r="9"/>
+        <text x="885" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 6.2</text>
+        <circle cx="885" cy="127" r="9"/>
+      </g>
+      <!-- Li Auto dots -->
+      <g fill="var(--accent-li)">
+        <text x="410" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 3.0</text>
+        <circle cx="410" cy="187" r="9"/>
+        <text x="620" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 5.0</text>
+        <circle cx="620" cy="187" r="9"/>
+        <text x="700" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 6.0</text>
+        <circle cx="700" cy="187" r="8"/>
+        <text x="750" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 6.4</text>
+        <circle cx="750" cy="187" r="8"/>
+        <text x="870" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 8.0</text>
+        <circle cx="870" cy="187" r="9"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="brand-name" style="color: var(--accent-hw);">华为 ADS</div>
+      <div class="tech-label">当前最新架构</div>
+      <div class="tech-value">WEWA 2.0</div>
+      <div class="tech-label" style="margin-top:12px;">当前版本</div>
+      <div style="font-size:15px;font-weight:600;">ADS 5.0（2026.04）</div>
+      <div class="stages">
+        <span class="stage-pill" style="background:#fee2e2;color:#991b1b;">高精地图</span>
+        <span class="stage-pill" style="background:#fef3c7;color:#92400e;">无图GOD</span>
+        <span class="stage-pill" style="background:#dbeafe;color:#1d4ed8;">端到端</span>
+        <span class="stage-pill" style="background:#ede9fe;color:#6d28d9;">WEWA 2.0</span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="brand-name" style="color: var(--accent-xp);">小鹏 XNGP</div>
+      <div class="tech-label">当前最新架构</div>
+      <div class="tech-value">VLA 2.0</div>
+      <div class="tech-label" style="margin-top:12px;">当前版本</div>
+      <div style="font-size:15px;font-weight:600;">XOS 6.2.0（2026.05）</div>
+      <div class="stages">
+        <span class="stage-pill" style="background:#fee2e2;color:#991b1b;">XPILOT规则</span>
+        <span class="stage-pill" style="background:#fef3c7;color:#92400e;">XNGP无图</span>
+        <span class="stage-pill" style="background:#dbeafe;color:#1d4ed8;">端到端</span>
+        <span class="stage-pill" style="background:#ede9fe;color:#6d28d9;">VLA 2.0</span>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="brand-name" style="color: var(--accent-li);">理想 AD</div>
+      <div class="tech-label">当前最新架构</div>
+      <div class="tech-value">VLA 司机大模型</div>
+      <div class="tech-label" style="margin-top:12px;">当前版本</div>
+      <div style="font-size:15px;font-weight:600;">OTA 8.5（2026.05）</div>
+      <div class="stages">
+        <span class="stage-pill" style="background:#fee2e2;color:#991b1b;">NPN规则</span>
+        <span class="stage-pill" style="background:#fef3c7;color:#92400e;">无图NOA</span>
+        <span class="stage-pill" style="background:#dbeafe;color:#1d4ed8;">端到端+VLM</span>
+        <span class="stage-pill" style="background:#ede9fe;color:#6d28d9;">VLA强化学习</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">核心判断</div>
+    三家品牌的技术路线呈现高度趋同的"四阶段"演进模式：<strong>高精地图依赖 → 无图化/BEV感知 → 端到端大模型 → 世界模型/VLA</strong>。但在具体实现路径上差异显著——华为坚持"激光雷达+多模态融合"的感知路线，小鹏走"纯视觉+自研芯片"方向，理想则以"端到端+VLM双系统"为特色。三家在2025-2026年集中进入"强化学习"范式，标志着智驾从"模仿人类驾驶"向"超越人类驾驶"的关键转折。
+  </div>
+</div>
+</section>
+
+<!-- ==================== 华为 ADS ==================== -->
+<section id="huawei">
+<div class="container">
+  <h2>华为智驾 (HUAWEI ADS) 技术发展路线</h2>
+  <p class="section-desc">华为ADS经历了ADS 1.0→2.0→3.0→4.0→5.0五个大版本，核心技术路线是从"模块化BEV感知+规则规控"向"WEWA世界模型端到端"的全面跃迁。</p>
+
+  <div class="snake-road" style="--c: var(--accent-hw);">
+    <!-- Row 1: ADS 1.0 → 2.0 → 3.0 -->
+    <div class="s-row">
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 1.0</div>
+          <div class="sc-time">2021.04</div>
+          <div class="sc-focus">BEV + 高精地图 + 3颗激光雷达</div>
+          <div class="sc-body">
+            <strong>感知：</strong>BEV网络，仅识别白名单目标<br>
+            <strong>决策：</strong>规则算法 + 高精地图<br>
+            <strong>行车：</strong>高速NCA领航<br>
+            <strong>泊车：</strong>基础APA自动泊车<br>
+            <strong>安全：</strong>基础AEB/FCW
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 2.0</div>
+          <div class="sc-time">2023.04</div>
+          <div class="sc-focus">GOD + RCR 无图化突破</div>
+          <div class="sc-body">
+            <strong>感知：</strong>GOD 2.0（3D像素块识别异形障碍物）+ RCR 2.0道路拓扑推理<br>
+            <strong>硬件：</strong>精简为1颗192线激光雷达<br>
+            <strong>行车：</strong>城区NCA无图领航，摆脱高精地图依赖
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 3.0</div>
+          <div class="sc-time">2024.04</div>
+          <div class="sc-focus">GOD大网 + PDP 分层式端到端</div>
+          <div class="sc-body">
+            <strong>感知：</strong>去掉BEV，GOD大网（场景语义理解）<br>
+            <strong>决策：</strong>PDP神经网络替代规则算法<br>
+            <strong>行车：</strong>车位到车位辅助驾驶<br>
+            <strong>安全：</strong>CAS 3.0全向防碰撞首发
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-bend right"></div>
+    <!-- Row 2 (reversed): ADS 3.2 → 3.3 → 4.0 -->
+    <div class="s-row rev">
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 3.2</div>
+          <div class="sc-time">2024.08</div>
+          <div class="sc-body">
+            <strong>泊车：</strong>跨层泊车代驾<br>
+            泊车能力从平面扩展至立体空间
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 3.3</div>
+          <div class="sc-time">2025初</div>
+          <div class="sc-body">
+            <strong>感知：</strong>极端天气（雨/雪/雾）感知优化<br>
+            <strong>泊车：</strong>无需记忆车位的全场景泊车，跨楼层VPD
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 4.0</div>
+          <div class="sc-time">2025.04</div>
+          <div class="sc-focus">WEWA 1.0 世界模型首发</div>
+          <div class="sc-body">
+            <strong>架构：</strong>WE云端世界引擎 + WA车端行为模型<br>
+            <strong>行车：</strong>高速L3自动驾驶<br>
+            <strong>安全：</strong>CAS 4.0五维安全
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-bend left"></div>
+    <!-- Row 3: ADS 4.1 → 5.0 -->
+    <div class="s-row">
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 4.1</div>
+          <div class="sc-time">2026.01</div>
+          <div class="sc-body">
+            <strong>架构：</strong>100%端到端迁移完成<br>
+            <strong>行车：</strong>新增三点式掉头<br>
+            <strong>安全：</strong>eAES增强
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">ADS 5.0</div>
+          <div class="sc-time">2026.04</div>
+          <div class="sc-focus">WEWA 2.0 代际跃迁</div>
+          <div class="sc-body">
+            <strong>决策：</strong>MoE混合专家模型<br>
+            <strong>硬件：</strong>896线双光路图像级激光雷达<br>
+            <strong>安全：</strong>CAS 5.0全时域安全
+          </div>
+        </div>
+      </div>
+      <div class="s-node" style="visibility:hidden;"><div class="s-dot"></div></div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">华为ADS智驾路线小结</div>
+    <strong>行车：</strong>高速NCA → 城区无图NCA → 车位到车位 → 高速L3。三家中唯一推出L3商用方案。<br>
+    <strong>泊车：</strong>基础APA → 代客泊车 → 跨层VPD → 全场景无需记忆泊车。泊车能力从平面→立体→全场景。<br>
+    <strong>安全：</strong>基础AEB → CAS 3.0全向防碰撞 → CAS 4.0五维安全 → CAS 5.0全时域安全。三家中安全体系代际最分明。<br>
+    <strong>架构：</strong>BEV+规则 → GOD+PDP端到端 → WEWA世界模型 → WEWA 2.0 MoE混合专家。唯一采用"世界模型"命名架构。
+  </div>
+</div>
+</section>
+
+<!-- ==================== 小鹏 XNGP ==================== -->
+<section id="xpeng">
+<div class="container">
+  <h2>小鹏智驾 (XNGP / 天玑系统) 技术发展路线</h2>
+  <p class="section-desc">小鹏智驾经历了XPILOT→XNGP→端到端→VLA四代架构，是国内最早量产城市NGP和端到端大模型的车企之一，也是首家实现VLA大模型量产落地的品牌。</p>
+
+  <div class="snake-road" style="--c: var(--accent-xp);">
+    <!-- Row 1: XPILOT 2.0 → 3.0 → 3.5 → XOS 4.2 -->
+    <div class="s-row">
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XPILOT 2.0/2.5</div>
+          <div class="sc-time">2018-2019</div>
+          <div class="sc-body">
+            <strong>行车：</strong>ACC/LCC/ALC基础L2<br>
+            <strong>泊车：</strong>"超级自动泊车"
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">XPILOT 3.0</div>
+          <div class="sc-time">2020-2021</div>
+          <div class="sc-focus">高速NGP首发</div>
+          <div class="sc-body">
+            <strong>行车：</strong>高速NGP（自动变道/超车/进出匝道）<br>
+            <strong>泊车：</strong>VPA记忆泊车
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">XPILOT 3.5</div>
+          <div class="sc-time">2022</div>
+          <div class="sc-focus">行业首个城市NGP</div>
+          <div class="sc-body">
+            <strong>行车：</strong>广州全量城市NGP<br>
+            <strong>能力：</strong>红绿灯/路口/环岛
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 4.2.0</div>
+          <div class="sc-time">2023.03</div>
+          <div class="sc-body">
+            <strong>架构：</strong>XPILOT→XNGP分水岭<br>
+            <strong>感知：</strong>XNet BEV感知引入<br>
+            <strong>行车：</strong>广深沪三城有图城市NGP
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-bend right"></div>
+    <!-- Row 2 (reversed): XOS 4.4 → 4.5-4.6 → 5.2 → 5.3-5.5 -->
+    <div class="s-row rev">
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 4.4.0</div>
+          <div class="sc-time">2023.11</div>
+          <div class="sc-focus">行业首次全量无图城市NGP</div>
+          <div class="sc-body">
+            <strong>行车：</strong>21城无图城市NGP全量开放<br>
+            <strong>感知：</strong>XNet范围扩大2倍<br>
+            <strong>安全：</strong>防加塞/智能选道
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 4.5-4.6</div>
+          <div class="sc-time">2023.12-2024.03</div>
+          <div class="sc-body">
+            <strong>行车：</strong>无图NGP 21→52城<br>
+            核心是"开城扩面"，架构未变
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 5.2.0</div>
+          <div class="sc-time">2024.07</div>
+          <div class="sc-focus">XBrain端到端 · 全国都好用</div>
+          <div class="sc-body">
+            <strong>架构：</strong>XNet 2.0 + XPlanner + LLM<br>
+            <strong>行车：</strong>不限城市/路线/路况<br>
+            <strong>泊车：</strong>摄像头感知离车泊入
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 5.3-5.5</div>
+          <div class="sc-time">2024.09-2025.01</div>
+          <div class="sc-body">
+            <strong>行车：</strong>乡间小路/无划线道路激活<br>
+            <strong>泊车：</strong>车位到车位先锋版<br>
+            <strong>安全：</strong>RAEB倒车辅助制动
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-bend left"></div>
+    <!-- Row 3: XOS 5.8.5 → 6.1-6.2 → 6.3 -->
+    <div class="s-row">
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 5.8.5</div>
+          <div class="sc-time">2025.12</div>
+          <div class="sc-body">
+            <strong>泊车：</strong>车位到车位焕新（3D建模，无需固定路线）<br>
+            <strong>安全：</strong>AES紧急转向避让
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 6.1-6.2</div>
+          <div class="sc-time">2026.04-05</div>
+          <div class="sc-focus">VLA 2.0量产 · 视觉-动作直连</div>
+          <div class="sc-body">
+            <strong>架构：</strong>去语言层，视觉→驾驶指令直出<br>
+            <strong>行车：</strong>P档直启NGP，无导航漫游<br>
+            <strong>泊车：</strong>终点车位自动选择
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">XOS 6.3（计划）</div>
+          <div class="sc-time">2026.08计划</div>
+          <div class="sc-body">
+            <strong>架构：</strong>VLA 2.3（Ultra版独享）<br>
+            <strong>行车：</strong>乡村窄路/集市混行<br>
+            <strong>感知：</strong>交警手势识别<br>
+            <strong>泊车：</strong>1.2km记忆路线，自动上下电
+          </div>
+        </div>
+      </div>
+      <div class="s-node" style="visibility:hidden;"><div class="s-dot"></div></div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">小鹏智驾路线小结</div>
+    <strong>行车：</strong>高速NGP → 城市NGP(广州) → 21城无图 → 全国端到端 → 无导航漫游。三家中从有图到无图再到无导航，"去依赖"最激进。<br>
+    <strong>泊车：</strong>超级自动泊车 → VPA记忆泊车 → 100m循迹倒车 → 车位到车位3D建模。泊车路线从"找车位"→"记路线"→"3D建图"。<br>
+    <strong>安全：</strong>AEB → RAEB倒车辅助制动 → AES紧急转向避让。安全功能逐步从前向扩展到全向。<br>
+    <strong>架构：</strong>规则算法 → XNet BEV → XBrain端到端 → VLA 2.0视觉直出。首家VLA量产（2026.04），技术"抢首发"节奏最快。
+  </div>
+</div>
+</section>
+
+<!-- ==================== 理想 AD ==================== -->
+<section id="lixiang">
+<div class="container">
+  <h2>理想智驾 (AD Max / AD Pro) 技术发展路线</h2>
+  <p class="section-desc">理想智驾在约两年时间内完成了从NPN规则架构到端到端+VLM双系统再到VLA司机大模型的三次代际跃迁，迭代速度在三家中最为密集。</p>
+
+  <div class="snake-road" style="--c: var(--accent-li);">
+    <!-- Row 1: V1-V4 → OTA 5.0 → OTA 6.0 → OTA 6.4 -->
+    <div class="s-row">
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">V1.x - V4.x</div>
+          <div class="sc-time">2019.12-2022.12</div>
+          <div class="sc-body">
+            基础L2：ACC/LKA → 导航辅助驾驶 → 直线召唤。智驾能力初建阶段。
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 5.0</div>
+          <div class="sc-time">2023.12</div>
+          <div class="sc-focus">BEV+Occupancy + 全场景NOA</div>
+          <div class="sc-body">
+            <strong>感知：</strong>BEV大模型 + Occupancy占用网络<br>
+            <strong>行车：</strong>全场景NOA（高速+110城）<br>
+            <strong>泊车：</strong>代客泊车跨10层地库<br>
+            <strong>安全：</strong>AEB覆盖4-135km/h
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 6.0</div>
+          <div class="sc-time">2024.07</div>
+          <div class="sc-focus">无图NOA全量推送</div>
+          <div class="sc-body">
+            <strong>架构：</strong>端到端大模型，模块缩减为感知+规划<br>
+            <strong>行车：</strong>全国可导航道路均可NOA<br>
+            <strong>AD Pro：</strong>城市LCC（红绿灯/路口/行人）
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 6.4</div>
+          <div class="sc-time">2024.10</div>
+          <div class="sc-focus">端到端+VLM双系统上车</div>
+          <div class="sc-body">
+            <strong>System 1：</strong>one-model端到端（快决策）<br>
+            <strong>System 2：</strong>22亿参数VLM（慢理解），识别潮汐车道/中文语义<br>
+            <strong>行车：</strong>路边起步/U形掉头/环岛
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-bend right"></div>
+    <!-- Row 2 (reversed): OTA 6.5 → 7.0 → 8.0 → 8.1-8.5 -->
+    <div class="s-row rev">
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 6.5</div>
+          <div class="sc-time">2024.11</div>
+          <div class="sc-focus">行业首发车位到车位</div>
+          <div class="sc-body">
+            <strong>泊车：</strong>自主泊出→闸机→城区→目的地车位<br>
+            <strong>行车：</strong>全国高速ETC自主通行<br>
+            <strong>安全：</strong>R-AEB后向制动 + R-MAI误加速抑制
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 7.0</div>
+          <div class="sc-time">2025.01</div>
+          <div class="sc-body">
+            <strong>架构：</strong>全场景端到端全量推送<br>
+            <strong>行车：</strong>高速+城市NOA统一端到端
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot major"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 8.0</div>
+          <div class="sc-time">2025.09</div>
+          <div class="sc-focus">VLA司机大模型上车</div>
+          <div class="sc-body">
+            <strong>架构：</strong>从模仿学习→强化学习<br>
+            <strong>模型：</strong>MindVLA（空间+语言+行为统一）<br>
+            <strong>行车：</strong>任意车位到任意车位<br>
+            <strong>安全：</strong>AES增强型避让<br>
+            <strong>泊车：</strong>记忆泊车下放AD Pro
+          </div>
+        </div>
+      </div>
+      <div class="s-node">
+        <div class="s-dot"></div>
+        <div class="s-card">
+          <div class="sc-ver">OTA 8.1-8.5</div>
+          <div class="sc-time">2025.12-2026.05</div>
+          <div class="sc-body">
+            <strong>8.1：</strong>强化学习变道/绕行<br>
+            <strong>8.2：</strong>VLA行为强化；AD Pro城市NOA<br>
+            <strong>8.3：</strong>VLA路口记忆能力<br>
+            <strong>8.5：</strong>手机遥控泊出；车道偏航重规划
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">理想智驾路线小结</div>
+    <strong>行车：</strong>高速NOA → 全场景NOA(110城) → 无图NOA → 全场景端到端 → VLA任意车位到车位。迭代最密集，两年内三次代际跃迁。<br>
+    <strong>泊车：</strong>视觉泊车 → 离车泊入 → 跨10层代客泊车 → 车位到车位 → 手机遥控泊出。行业首发"车位到车位"功能。<br>
+    <strong>安全：</strong>AEB(4-135km/h) → LS-AEB低速制动 → R-AEB后向制动/R-MAI误加速抑制 → AES增强型避让。三家中后向安全体系最完备。<br>
+    <strong>架构：</strong>NPN多模块 → 端到端+VLM双系统 → VLA司机大模型。"快慢双系统"为行业首创；AD Pro能力持续下放，三家中OTA向后兼容性最强。
+  </div>
+</div>
+</section>
+
+<!-- ==================== 横向对比 ==================== -->
+<section id="compare">
+<div class="container">
+  <h2>三大品牌智驾功能横向对比</h2>
+  <p class="section-desc">从行车、泊车、安全、架构四个智驾核心维度，对三家品牌的当前能力和技术路线进行横向对比。</p>
+
+  <h3>智驾功能对比（截至2026年7月）</h3>
+  <div class="compare-table-wrap">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>智驾维度</th>
+          <th class="hw-col">华为 ADS 5.0</th>
+          <th class="xp-col">小鹏 XOS 6.2</th>
+          <th class="li-col">理想 OTA 8.5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-label">行车能力</td>
+          <td>高速L3自动驾驶<br>城区NCA无图领航<br>车位到车位辅助驾驶<br>三点式掉头</td>
+          <td>无导航NGP漫游<br>P档直启NGP<br>城区/园区/地库自主通行<br>乡间小路/无划线道路</td>
+          <td>任意车位到任意车位<br>全场景端到端NOA<br>全国高速ETC自主通行<br>路边起步/U形掉头/环岛</td>
+        </tr>
+        <tr>
+          <td class="dim-label">泊车能力</td>
+          <td>跨楼层VPD代客泊车<br>全场景无需记忆车位<br>代客充电</td>
+          <td>车位到车位（3D建模）<br>1.2km记忆泊车路线<br>自动上下电泊车<br>智能出库</td>
+          <td>任意车位到任意车位<br>手机遥控泊出<br>记忆泊车下放AD Pro<br>跨10层地库代客泊车</td>
+        </tr>
+        <tr>
+          <td class="dim-label">安全体系</td>
+          <td>CAS 5.0全时域安全<br>eAES增强型避让<br>全向防碰撞<br>鬼探头夜间识别</td>
+          <td>AES紧急转向避让<br>RAEB倒车辅助制动<br>AEB/FCW前向预警</td>
+          <td>AES增强型自动紧急避让<br>R-AEB后向制动<br>R-MAI误加速抑制<br>ELK紧急车道保持<br>LS-AEB低速制动</td>
+        </tr>
+        <tr>
+          <td class="dim-label">核心架构</td>
+          <td>WEWA 2.0世界模型<br>（世界引擎+行为模型）<br>MoE混合专家模型<br>896线双光路激光雷达</td>
+          <td>VLA 2.0端到端<br>去语言层，视觉→指令直出<br>自研图灵AI芯片<br>Ultra版2250 TOPS</td>
+          <td>VLA司机大模型<br>MindVLA（空间+语言+行为统一）<br>强化学习训练<br>自研推理引擎INT4量化</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight">
+    <div class="insight-title">横向对比核心判断</div>
+    <strong>行车：</strong>华为率先在高速场景落地L3，强调"有监督→无监督"渐进策略；小鹏最激进地推出"无导航NGP漫游"，无需设定目的地即可自主通行；理想凭"任意车位到任意车位"实现全链路无断点，覆盖场景最完整。<br>
+    <strong>泊车：</strong>华为强在跨楼层VPD和代客充电，小鹏强在3D建模和1.2km长距离记忆泊车，理想首发"车位到车位"并下放AD Pro，向下覆盖最广。<br>
+    <strong>安全：</strong>华为CAS体系代际最分明（3.0→4.0→5.0），小鹏补齐了倒车（RAEB）和紧急转向（AES），理想安全矩阵最完备（前/后/侧/低速全覆盖）。<br>
+    <strong>架构：</strong>三家2025-2026年全部转向世界模型/VLA架构，但路线不同——华为走"世界模型+激光雷达"，小鹏走"VLA+自研芯片"，理想走"VLA+强化学习+向后兼容"。
+  </div>
+</div>
+</section>
+
+<!-- ==================== 趋势预测 ==================== -->
+<section id="predict">
+<div class="container">
+  <h2>后续路径研判</h2>
+  <p class="section-desc">基于三家品牌已公开的技术规划和当前架构演进方向，对2026下半年至2027年的智驾功能发展路径进行研判。</p>
+
+  <div class="predict-grid">
+    <div class="predict-card">
+      <h4><span class="brand-dot" style="background:var(--accent-hw);"></span> 华为 ADS 后续路径</h4>
+      <p><strong>行车：</strong>高速L3已落地，预计2026下半年扩展至城市快速路；城区NCA场景覆盖度将持续提升，向城区L4方向推进。</p>
+      <p><strong>泊车：</strong>代客充电已量产，预计进一步整合"充电+泊车"一体化方案，实现从车位直达充电桩的全自动流程。</p>
+      <p><strong>安全：</strong>CAS 5.0已覆盖全时域，下一步可能引入"车-路-云"协同安全，结合V2X实现超视距预警。</p>
+      <p><strong>架构：</strong>WEWA 2.0 MoE架构稳定后，预计2027年升级至ADS 6.0，激光雷达可能升级至千线级。</p>
+    </div>
+    <div class="predict-card">
+      <h4><span class="brand-dot" style="background:var(--accent-xp);"></span> 小鹏 XNGP 后续路径</h4>
+      <p><strong>行车：</strong>2026.08推送VLA 2.3，覆盖乡村窄路/集市混行等极限场景；预计年底VLA 3.0实现全域无图端到端，跳过L3直接面向L4。</p>
+      <p><strong>泊车：</strong>记忆泊车路线已达1.2km，预计进一步扩展为"无限距离"记忆路线，实现园区→地库→车位全程无人化泊车。</p>
+      <p><strong>安全：</strong>AES已量产，预计补齐后向安全（类似理想R-AEB），形成前/侧/后全向主动安全矩阵。</p>
+      <p><strong>架构：</strong>自研图灵芯片已获大众集团采购，2026-2027年Robotaxi试运营（4颗图灵芯片/3000 TOPS/纯视觉），从乘用车智驾向L4无人驾驶延伸。</p>
+    </div>
+    <div class="predict-card">
+      <h4><span class="brand-dot" style="background:var(--accent-li);"></span> 理想 AD 后续路径</h4>
+      <p><strong>行车：</strong>VLA持续强化学习迭代，OTA 8.x密集推送中；预计2026下半年百公里接管次数进一步大幅降低，向L3有监督智驾靠拢。</p>
+      <p><strong>泊车：</strong>已实现"任意车位到任意车位"和手机遥控泊出，预计下一步覆盖更多极端车位场景（极窄车位/异形车位/机械车位）。</p>
+      <p><strong>安全：</strong>安全矩阵已覆盖前/后/侧/低速全场景，预计向"预判式安全"进化，结合VLM提前预判潜在风险并主动规避。</p>
+      <p><strong>架构：</strong>城市NOA已下放AD Pro（征程6M芯片），预计进一步缩小Max与Pro差距；VLA框架可能延伸至家庭机器人等具身智能领域。</p>
+    </div>
+  </div>
+
+  <h3>行业共性趋势</h3>
+  <div class="predict-grid">
+    <div class="predict-card">
+      <h4>行车：从"全国能开"到"极限场景"</h4>
+      <p>三家均已实现"全国都好用"，竞争焦点将转向乡村窄路、集市混行、极端天气、夜间复杂场景等长尾场景的覆盖和体验优化。</p>
+    </div>
+    <div class="predict-card">
+      <h4>泊车：从"车位到车位"到"全自动泊车"</h4>
+      <p>当前三家均已实现"车位到车位"，下一阶段将向无人化方向演进——自动上下电、自动充电、超长距离记忆路线，最终实现"下车即走"。</p>
+    </div>
+    <div class="predict-card">
+      <h4>安全：从"被动防碰撞"到"主动避险"</h4>
+      <p>AEB→AES进化，覆盖从前向扩展到全向（R-AEB/ELK），触发速域从高速扩展到全速域。下一步是"预判式安全"——在碰撞风险出现前主动规避。</p>
+    </div>
+    <div class="predict-card">
+      <h4>架构：世界模型/VLA成为标配</h4>
+      <p>三家集体进入世界模型/VLA时代，但实现路径分化——华为走"激光雷达+世界模型"，小鹏走"纯视觉+自研芯片"，理想走"VLA+强化学习"。竞争将围绕"谁的VLA更聪明"展开。</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ==================== 信息来源 ==================== -->
+<section id="sources">
+<div class="container">
+  <h2>信息来源汇总</h2>
+  <p class="section-desc">本报告基于以下公开信息来源整理，所有技术参数和时间节点均经过交叉验证。</p>
+
+  <h3>华为 ADS</h3>
+  <div style="font-size:13px; line-height:2; color:#374151;">
+    <a href="https://chejiahao.autohome.com.cn/info/20283444" target="_blank">汽车之家 · 华为ADS 1.0到4.0全面梳理</a><br>
+    <a href="https://baike.baidu.com/item/HUAWEI%20ADS/63318909" target="_blank">百度百科 · HUAWEI ADS</a><br>
+    <a href="https://baike.baidu.com/item/%E5%8D%8E%E4%B8%BA%E4%B9%BE%E5%B4%91ADS/67698047" target="_blank">百度百科 · 华为乾崑ADS</a><br>
+    <a href="https://news.qq.com/rain/a/20260509A01XAE00" target="_blank">腾讯新闻 · 从ADS 4到ADS 5升级解析</a><br>
+    <a href="https://zhuanlan.zhihu.com/p/2036370385126552097" target="_blank">知乎 · 从ADS 4到ADS 5技术解析</a><br>
+    <a href="https://nev.ofweek.com/2026-05/ART-77015-8140-30686950.html" target="_blank">OFweek · ADS 5.0技术分析</a><br>
+    <a href="https://www.guancha.cn/GongSi/2024_04_25_732822.shtml" target="_blank">观察者网 · 华为ADS 3.0端到端架构</a><br>
+    <a href="https://d1ev.com/news/jishu/233134" target="_blank">第1电动 · 华为ADS 2.0无图智驾</a><br>
+    <a href="https://www.donews.com/news/detail/4/6140285.html" target="_blank">DoNews · ADS 4.0 WEWA架构</a><br>
+    <a href="https://www.eet-china.com/mp/a493602.html" target="_blank">EET China · ADS技术演进</a><br>
+    <a href="https://post.smzdm.com/p/agopdwkw/" target="_blank">什么值得买 · ADS 4.1端到端切换</a>
+  </div>
+
+  <h3>小鹏 XNGP</h3>
+  <div style="font-size:13px; line-height:2; color:#374151;">
+    <a href="https://bbs.xiaopeng.com/article/2261689" target="_blank">小鹏社区 · XPILOT发展历程</a><br>
+    <a href="https://www.eet-china.com/mp/a345862.html" target="_blank">EET China · XPILOT 3.0/3.5技术解析</a><br>
+    <a href="https://www.ithome.com/0/683/745.htm" target="_blank">IT之家 · XOS 4.2.0 XNGP首发</a><br>
+    <a href="https://www.xiaopeng.com/news/company_news/4887.html" target="_blank">小鹏官网 · XNGP落地</a><br>
+    <a href="https://bbs.xiaopeng.com/thread/2846361" target="_blank">小鹏社区 · XOS 4.4.0无图里程碑</a><br>
+    <a href="https://chejiahao.autohome.com.cn/info/16131665" target="_blank">汽车之家 · XOS 5.2.0端到端上车</a><br>
+    <a href="https://www.ithome.com/0/823/556.htm" target="_blank">IT之家 · XOS 5.5.0车位到车位</a><br>
+    <a href="https://bbs.xiaopeng.com/article/3602047" target="_blank">小鹏社区 · XOS 5.8.5焕新</a><br>
+    <a href="https://zhuanlan.zhihu.com/p/2024147203866785143" target="_blank">知乎 · 小鹏VLA 2.0全量上车</a><br>
+    <a href="http://auto.news18a.com/news/storys_263473.html" target="_blank">网通社 · AIOS 6.2.0 VLA 2.0</a><br>
+    <a href="https://www.12365auto.com/news/20260603/569516.shtml" target="_blank">12365auto · XOS 6.2.0推送详情</a><br>
+    <a href="https://zhuanlan.zhihu.com/p/2029703804946330513" target="_blank">知乎 · 小鹏与理想VLA对比</a>
+  </div>
+
+  <h3>理想 AD</h3>
+  <div style="font-size:13px; line-height:2; color:#374151;">
+    <a href="https://chejiahao.autohome.com.cn/info/14057894" target="_blank">汽车之家 · OTA 5.0 AD Max 3.0</a><br>
+    <a href="https://chejiahao.autohome.com.cn/info/15863205" target="_blank">汽车之家 · OTA 6.0无图NOA</a><br>
+    <a href="https://www.lixiang.com/community/detail/article/1436935.html" target="_blank">理想官网社区 · OTA 6.2更新详情</a><br>
+    <a href="https://www.pconline.com.cn/autotech/1829/18295208.html" target="_blank">太平洋电脑网 · 端到端+VLM架构</a><br>
+    <a href="https://www.ithome.com/0/804/490.htm" target="_blank">IT之家 · 端到端+VLM全量推送</a><br>
+    <a href="https://chejiahao.autohome.com.cn/info/18921391" target="_blank">汽车之家 · OTA 6.5车位到车位</a><br>
+    <a href="https://chejiahao.autohome.com.cn/info/18913458" target="_blank">汽车之家 · OTA 7.0全场景端到端</a><br>
+    <a href="https://www.ithome.com/0/820/949.htm" target="_blank">IT之家 · OTA 7.0 AD Max V13.0</a><br>
+    <a href="https://chejiahao.autohome.com.cn/info/19492678" target="_blank">汽车之家 · OTA 7.1 1000万Clips</a><br>
+    <a href="https://www.autoreport.cn/zonghexinwen/20250911/09103527264.html" target="_blank">汽车产经 · OTA 8.0 VLA上车</a><br>
+    <a href="https://m.ithome.com/html/871626.htm" target="_blank">IT之家 · 理想VLA司机大模型</a><br>
+    <a href="https://news.qq.com/rain/a/20250403A05FQV00" target="_blank">腾讯新闻 · 理想VLA技术方案</a><br>
+    <a href="https://cloud.tencent.com/developer/news/3504574" target="_blank">腾讯云 · 理想60亿深耕AI</a><br>
+    <a href="https://www.ncsti.gov.cn/kjdt/kjrd/202601/t20260130_236834.html" target="_blank">国家科技信息资源 · VLA战略升维</a><br>
+    <a href="https://m.d1ev.com/carnews/yongche/237606" target="_blank">第1电动 · OTA 6.0详情</a>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="container">
+    华为 · 小鹏 · 理想 智驾技术发展路线分析报告 &nbsp;|&nbsp; 2026年7月16日 &nbsp;|&nbsp; 基于公开资料整理，仅供内部参考
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(tab.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+const sections = document.querySelectorAll('section[id]');
+const tabs = document.querySelectorAll('.nav-tab');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  tabs.forEach(t => { t.classList.remove('active'); if (t.getAttribute('href') === '#' + current) t.classList.add('active'); });
+});
+</script>
+</body>
+</html>
