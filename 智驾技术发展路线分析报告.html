@@ -295,12 +295,14 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
 <section id="overview">
 <div class="container">
   <h2>三家智驾关键版本节点与技术主题</h2>
-  <p class="section-desc">截至2026年7月，华为、小鹏、理想三家已全部完成"端到端"架构的量产落地，并各自向下一代架构演进。</p>
+  <div class="insight" style="border-left:none;">
+    三家品牌的技术路线呈现高度趋同的"四阶段"演进模式：<strong>高精地图依赖 → 无图化/BEV感知 → 端到端大模型 → 世界模型/VLA</strong>。但在具体实现路径上差异显著——<ul style="margin:8px 0 0 20px;padding:0;"><li style="margin-bottom:4px;"><span style="color:var(--accent-hw);font-weight:700;">华为</span> 坚持"激光雷达+多模态融合"感知路线，唯一推出L3商用方案，以"世界模型"命名架构体系</li><li style="margin-bottom:4px;"><span style="color:var(--accent-xp);font-weight:700;">小鹏</span> 走"纯视觉+自研芯片"方向，首家VLA量产落地，技术"抢首发"节奏最快</li><li style="margin-bottom:0;"><span style="color:var(--accent-li);font-weight:700;">理想</span> 以"端到端+VLM双系统"为特色，迭代速度最密集，安全矩阵覆盖最广</li></ul>三家在2025-2026年集中进入"强化学习"范式，标志着智驾从"模仿人类驾驶"向"超越人类驾驶"的关键转折。
+  </div>
 
   <!-- ===== 关键版本时间轴 ===== -->
   <div class="timeline-chart">
     <div class="tc-title">三家智驾关键版本节点与技术主题</div>
-    <svg class="timeline-svg" viewBox="0 0 1050 260" role="img" aria-label="三大品牌关键版本时间轴">
+    <svg class="timeline-svg" viewBox="0 0 1080 260" role="img" aria-label="三大品牌关键版本时间轴">
       <!-- Y-axis line -->
       <line x1="80" y1="30" x2="80" y2="220" stroke="#ccc" stroke-width="1"/>
       <!-- Grid lines -->
@@ -315,6 +317,7 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
         <text x="650" y="245">2024</text>
         <text x="760" y="245">2025</text>
         <text x="870" y="245">2026</text>
+        <text x="980" y="245">2027</text>
       </g>
       <!-- Brand labels -->
       <g font-size="14" font-weight="700" text-anchor="end" fill="#1a1a2e">
@@ -330,25 +333,31 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
         <circle cx="555" cy="67" r="9"/>
         <text x="660" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 3.0</text>
         <circle cx="660" cy="67" r="9"/>
-        <text x="770" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 4</text>
+        <text x="770" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 4.0</text>
         <circle cx="770" cy="67" r="9"/>
-        <text x="880" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 5</text>
+        <text x="880" y="52" font-size="11" text-anchor="middle" fill="#444" font-weight="600">ADS 5.0</text>
         <circle cx="880" cy="67" r="9"/>
       </g>
       <!-- XPeng dots -->
       <g fill="var(--accent-xp)">
-        <text x="120" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XPILOT 2.5</text>
+        <text x="120" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XPILOT 2.0</text>
         <circle cx="120" cy="127" r="9"/>
         <text x="325" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XPILOT 3.0</text>
         <circle cx="325" cy="127" r="9"/>
-        <text x="555" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XNGP</text>
-        <circle cx="555" cy="127" r="9"/>
+        <text x="545" y="112" font-size="9" text-anchor="middle" fill="#666" font-weight="600">XOS 4.2.0</text>
+        <circle cx="545" cy="127" r="7"/>
+        <text x="575" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XNGP</text>
+        <circle cx="575" cy="127" r="9"/>
+        <text x="641" y="112" font-size="9" text-anchor="middle" fill="#666" font-weight="600">XOS 4.4.0</text>
+        <circle cx="641" cy="127" r="7"/>
         <text x="690" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 5.2</text>
         <circle cx="690" cy="127" r="9"/>
         <text x="775" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 5.5</text>
         <circle cx="775" cy="127" r="9"/>
         <text x="885" y="112" font-size="11" text-anchor="middle" fill="#444" font-weight="600">XOS 6.2</text>
         <circle cx="885" cy="127" r="9"/>
+        <text x="943" y="112" font-size="9" text-anchor="middle" fill="#666" font-weight="600">XOS 6.3</text>
+        <circle cx="943" cy="127" r="7"/>
       </g>
       <!-- Li Auto dots -->
       <g fill="var(--accent-li)">
@@ -358,18 +367,25 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
         <circle cx="620" cy="187" r="9"/>
         <text x="700" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 6.0</text>
         <circle cx="700" cy="187" r="8"/>
-        <text x="750" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 6.4</text>
-        <circle cx="750" cy="187" r="8"/>
+        <text x="751" y="172" font-size="9" text-anchor="middle" fill="#666" font-weight="600">OTA 6.4</text>
+        <circle cx="751" cy="187" r="7"/>
+        <text x="780" y="172" font-size="9" text-anchor="middle" fill="#666" font-weight="600">OTA 6.5</text>
+        <circle cx="780" cy="187" r="7"/>
+        <text x="810" y="172" font-size="9" text-anchor="middle" fill="#666" font-weight="600">OTA 7.0</text>
+        <circle cx="810" cy="187" r="7"/>
         <text x="870" y="172" font-size="11" text-anchor="middle" fill="#444" font-weight="600">OTA 8.0</text>
         <circle cx="870" cy="187" r="9"/>
+        <text x="916" y="172" font-size="9" text-anchor="middle" fill="#666" font-weight="600">OTA 8.5</text>
+        <circle cx="916" cy="187" r="7"/>
       </g>
     </svg>
   </div>
 
+  <h3 style="margin-top:0;">当前最新架构</h3>
   <div class="summary-grid">
     <div class="summary-card">
       <div class="brand-name" style="color: var(--accent-hw);">华为 ADS</div>
-      <div class="tech-label">当前最新架构</div>
+      <div class="tech-label">核心架构</div>
       <div class="tech-value">WEWA 2.0</div>
       <div class="tech-label" style="margin-top:12px;">当前版本</div>
       <div style="font-size:15px;font-weight:600;">ADS 5.0（2026.04）</div>
@@ -382,7 +398,7 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
     </div>
     <div class="summary-card">
       <div class="brand-name" style="color: var(--accent-xp);">小鹏 XNGP</div>
-      <div class="tech-label">当前最新架构</div>
+      <div class="tech-label">核心架构</div>
       <div class="tech-value">VLA 2.0</div>
       <div class="tech-label" style="margin-top:12px;">当前版本</div>
       <div style="font-size:15px;font-weight:600;">XOS 6.2.0（2026.05）</div>
@@ -395,7 +411,7 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
     </div>
     <div class="summary-card">
       <div class="brand-name" style="color: var(--accent-li);">理想 AD</div>
-      <div class="tech-label">当前最新架构</div>
+      <div class="tech-label">核心架构</div>
       <div class="tech-value">VLA 司机大模型</div>
       <div class="tech-label" style="margin-top:12px;">当前版本</div>
       <div style="font-size:15px;font-weight:600;">OTA 8.5（2026.05）</div>
@@ -408,10 +424,6 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
     </div>
   </div>
 
-  <div class="insight">
-    <div class="insight-title">核心判断</div>
-    三家品牌的技术路线呈现高度趋同的"四阶段"演进模式：<strong>高精地图依赖 → 无图化/BEV感知 → 端到端大模型 → 世界模型/VLA</strong>。但在具体实现路径上差异显著——华为坚持"激光雷达+多模态融合"的感知路线，小鹏走"纯视觉+自研芯片"方向，理想则以"端到端+VLM双系统"为特色。三家在2025-2026年集中进入"强化学习"范式，标志着智驾从"模仿人类驾驶"向"超越人类驾驶"的关键转折。
-  </div>
 </div>
 </section>
 
@@ -560,8 +572,9 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
       <div class="s-node">
         <div class="s-dot"></div>
         <div class="s-card">
-          <div class="sc-ver">XPILOT 2.0/2.5</div>
+          <div class="sc-ver">XPILOT 2.0</div>
           <div class="sc-time">2018-2019</div>
+          <div class="sc-focus">ACC/LCC 基础L2 + 超级自动泊车</div>
           <div class="sc-body">
             <strong>行车：</strong>ACC/LCC/ALC基础L2<br>
             <strong>泊车：</strong>"超级自动泊车"
@@ -905,14 +918,14 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
   <div class="predict-grid">
     <div class="predict-card">
       <h4><span class="brand-dot" style="background:var(--accent-hw);"></span> 华为 ADS 后续路径</h4>
-      <p><strong>行车：</strong>高速L3已落地，预计2026下半年扩展至城市快速路；城区NCA场景覆盖度将持续提升，向城区L4方向推进。</p>
+      <p><strong>行车：</strong>高速L3已落地，预计2026下半年扩展至城市快速路；城区NCA场景覆盖度将持续提升。</p>
       <p><strong>泊车：</strong>代客充电已量产，预计进一步整合"充电+泊车"一体化方案，实现从车位直达充电桩的全自动流程。</p>
       <p><strong>安全：</strong>CAS 5.0已覆盖全时域，下一步可能引入"车-路-云"协同安全，结合V2X实现超视距预警。</p>
-      <p><strong>架构：</strong>WEWA 2.0 MoE架构稳定后，预计2027年升级至ADS 6.0，激光雷达可能升级至千线级。</p>
+      <p><strong>架构：</strong>WEWA 2.0 MoE架构稳定后，预计2027年升级至ADS 6.0，激光雷达分辨率有望进一步提升。</p>
     </div>
     <div class="predict-card">
       <h4><span class="brand-dot" style="background:var(--accent-xp);"></span> 小鹏 XNGP 后续路径</h4>
-      <p><strong>行车：</strong>2026.08推送VLA 2.3，覆盖乡村窄路/集市混行等极限场景；预计年底VLA 3.0实现全域无图端到端，跳过L3直接面向L4。</p>
+      <p><strong>行车：</strong>2026.08推送VLA 2.3，覆盖乡村窄路/集市混行等极限场景；预计年底VLA 3.0实现全域无图端到端，持续提升城区复杂场景下的通行能力。</p>
       <p><strong>泊车：</strong>记忆泊车路线已达1.2km，预计进一步扩展为"无限距离"记忆路线，实现园区→地库→车位全程无人化泊车。</p>
       <p><strong>安全：</strong>AES已量产，预计补齐后向安全（类似理想R-AEB），形成前/侧/后全向主动安全矩阵。</p>
       <p><strong>架构：</strong>自研图灵芯片已获大众集团采购，2026-2027年Robotaxi试运营（4颗图灵芯片/3000 TOPS/纯视觉），从乘用车智驾向L4无人驾驶延伸。</p>
