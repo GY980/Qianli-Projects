@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华为乾崑智驾 ADS 5 首版本升级亮点</title>
+<style>
+  :root{
+    --bg:#0B0F15; --card:#141921; --border:#222A38;
+    --text:#E6EDF3; --text-dim:#8A96A6;
+    --gold:#F0B429;
+    --red:#CF1322;
+    --red-soft:rgba(207,19,34,0.14);
+    --red-line:rgba(207,19,34,0.45);
+    --hero-gradient:linear-gradient(120deg,#FF4D4F 0%,#CF1322 55%,#F0B429 120%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-size:18px;
+    line-height:1.7;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:36px 22px 60px;}
+
+  /* ---------- Hero ---------- */
+  .hero{text-align:center;padding:26px 10px 10px;}
+  .kicker{
+    display:inline-block;
+    font-size:20px;font-weight:700;letter-spacing:2px;
+    color:var(--gold);
+    border:1px solid var(--gold);
+    border-radius:999px;
+    padding:8px 22px;
+    margin-bottom:26px;
+  }
+  .brand{font-size:22px;color:var(--text-dim);letter-spacing:3px;margin-bottom:6px;}
+  .model{
+    font-size:64px;font-weight:800;line-height:1.15;
+    background:var(--hero-gradient);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;
+    margin-bottom:8px;
+  }
+  .model .tm{font-size:0.34em;vertical-align:super;font-weight:700;margin:0 1px;-webkit-text-fill-color:var(--red);color:var(--red);}
+  .sub-model{font-size:30px;font-weight:800;color:var(--text);margin-bottom:20px;}
+  .date-pill{
+    display:inline-block;
+    background:var(--red-soft);
+    border:1px solid var(--red-line);
+    color:#FF6B6B;
+    font-size:18px;font-weight:700;
+    padding:8px 22px;border-radius:999px;
+  }
+  .version-note{margin-top:14px;font-size:15px;color:var(--text-dim);}
+
+  /* ---------- Top highlight banner ---------- */
+  .banner{
+    margin:34px 0 10px;
+    background:linear-gradient(135deg,rgba(207,19,34,0.20),rgba(240,180,41,0.10));
+    border:1px solid var(--red-line);
+    border-radius:20px;
+    padding:26px 26px;
+  }
+  .banner .tag{
+    display:inline-block;font-size:15px;font-weight:800;letter-spacing:1px;
+    color:var(--gold);background:rgba(240,180,41,0.12);
+    border:1px solid rgba(240,180,41,0.4);
+    padding:4px 14px;border-radius:8px;margin-bottom:14px;
+  }
+  .banner .title{font-size:30px;font-weight:800;margin-bottom:10px;}
+  .banner .desc{font-size:18px;color:var(--text-dim);}
+  .banner .desc em{color:var(--gold);font-style:normal;font-weight:700;}
+
+  /* ---------- Stat row ---------- */
+  .stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    margin:26px 0 10px;
+  }
+  .stat{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:16px;text-align:center;padding:22px 10px;
+  }
+  .stat .num{font-size:44px;font-weight:800;color:var(--red);line-height:1;}
+  .stat .num span{font-size:22px;color:var(--gold);margin-left:2px;}
+  .stat .lbl{margin-top:10px;font-size:18px;color:var(--text-dim);}
+  .stats-note{text-align:center;font-size:14px;color:var(--text-dim);margin:6px 0 0;}
+
+  /* ---------- Section ---------- */
+  .section-title{
+    font-size:30px;font-weight:800;text-align:center;
+    margin:48px 0 24px;padding-bottom:14px;
+    border-bottom:2px solid var(--border);
+  }
+  .section-title .accent{color:var(--red);}
+
+  /* ---------- Feature card ---------- */
+  .feature{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:18px;padding:24px 24px;margin-bottom:18px;
+  }
+  .feature .badge{
+    display:inline-block;font-size:14px;font-weight:800;letter-spacing:1px;
+    padding:4px 13px;border-radius:8px;margin-bottom:12px;
+  }
+  .badge.up{color:#4DA3FF;background:rgba(45,127,249,0.12);border:1px solid rgba(45,127,249,0.4);}
+  .badge.new{color:var(--gold);background:rgba(240,180,41,0.12);border:1px solid rgba(240,180,41,0.4);}
+  .feature h3{font-size:24px;font-weight:800;margin-bottom:10px;}
+  .feature p{font-size:18px;color:var(--text);}
+  .feature .foot{margin-top:12px;font-size:14px;color:var(--text-dim);border-top:1px dashed var(--border);padding-top:10px;}
+  .feature .shot{width:100%;margin-top:16px;border-radius:12px;border:1px solid var(--border);display:block;}
+
+  /* sub-points inside a feature */
+  .points{margin-top:8px;}
+  .point{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:12px 0;border-top:1px solid var(--border);
+  }
+  .point:first-child{border-top:none;}
+  .point .k{
+    flex:0 0 auto;min-width:96px;
+    font-size:15px;font-weight:800;color:var(--red);
+    background:var(--red-soft);border:1px solid var(--red-line);
+    border-radius:8px;padding:6px 10px;text-align:center;
+  }
+  .point .v{font-size:17px;color:var(--text-dim);}
+  .point .v b{color:var(--text);font-weight:700;}
+
+  /* ---------- More upgrades list ---------- */
+  .more{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:12px 24px;}
+  .more-item{display:flex;gap:14px;padding:18px 0;border-top:1px solid var(--border);}
+  .more-item:first-child{border-top:none;}
+  .more-item .bar{flex:0 0 4px;background:var(--red);border-radius:4px;}
+  .more-item h4{font-size:19px;font-weight:800;margin-bottom:4px;}
+  .more-item p{font-size:16px;color:var(--text-dim);}
+
+  /* ---------- Footer ---------- */
+  .footer{margin-top:44px;border-top:1px solid var(--border);padding-top:20px;}
+  .disclaimer{font-size:13px;color:var(--text-dim);line-height:1.8;}
+  .sign{margin-top:16px;text-align:right;font-size:15px;font-weight:700;color:var(--gold);}
+
+  @media(max-width:768px){
+    .model{font-size:46px;}
+    .sub-model{font-size:24px;}
+    .stats{grid-template-columns:repeat(3,1fr);gap:8px;}
+    .stat .num{font-size:32px;}
+    .stat .lbl{font-size:15px;}
+    .section-title{font-size:25px;}
+    .banner .title{font-size:24px;}
+    .point{flex-direction:column;gap:6px;}
+    .point .k{min-width:0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="kicker">智驾新闻资讯</div>
+    <div class="brand">HUAWEI · 华为乾崑</div>
+    <div class="model">华为乾崑智驾 ADS<sup class="tm">™</sup> 5</div>
+    <div class="sub-model">首版本升级亮点 · 一图看懂</div>
+    <div class="date-pill">首版本即将推送</div>
+    <div class="version-note">ADS 软件版本号:ADS Max V5.0 &nbsp;|&nbsp; 具体车型是否具备所述功能及升级时间,请以各车企官方信息为准</div>
+  </header>
+
+  <!-- Top highlight banner -->
+  <section class="banner">
+    <span class="tag">本期重点 · ADS Max V5.0</span>
+    <div class="title">华为乾崑智驾 ADS 5 首版本来了!</div>
+    <div class="desc">首版本即将推送,<em>出行效率、乘车舒适度、安全可靠性</em>全面提升。</div>
+  </section>
+
+  <!-- Stat row -->
+  <section class="stats">
+    <div class="stat"><div class="num">30<span>%↑</span></div><div class="lbl">效率</div></div>
+    <div class="stat"><div class="num">30<span>%↑</span></div><div class="lbl">舒适</div></div>
+    <div class="stat"><div class="num">50<span>%↑</span></div><div class="lbl">安全</div></div>
+  </section>
+
+  <!-- ===== 领航体验 ===== -->
+  <h2 class="section-title"><span class="accent">领航</span>体验</h2>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>领航体验全面升级,超越老司机</h3>
+    <div class="points">
+      <div class="point"><div class="k">通行效率</div><div class="v"><b>决策更聪明</b>:面对复杂路况,变道更精准,超车更丝滑。</div></div>
+      <div class="point"><div class="k">驾乘舒适</div><div class="v"><b>更有预见性</b>:更早避开障碍物、平稳完成变道,启停也更柔和。</div></div>
+      <div class="point"><div class="k">安全能力</div><div class="v"><b>防御性驾驶增强</b>:面对盲区提前减速观察;它车近距离紧急切入可更快减速避让。</div></div>
+    </div>
+    <img class="shot" src="imgs/nav-upgrade.jpg" alt="领航体验升级实拍">
+  </div>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>领航辅助 NCA 覆盖场景更丰富</h3>
+    <p>环岛路口、乡间土路、无标线道路等非标路况,均可激活 NCA,领航更随心!</p>
+    <img class="shot" src="imgs/nca-scene.jpg" alt="非标路况领航实拍">
+    <div class="foot">*非标路况:路面标线不清晰、不符合道路铺装标准。</div>
+  </div>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>领航辅助 NCA 支持直达充电车位</h3>
+    <p>选择充电车位,领航辅助 NCA 一键直达!自主寻找空闲充电车位并泊入,让充电更省心!</p>
+    <img class="shot" src="imgs/nca-charge.jpg" alt="NCA直达充电车位截图">
+    <div class="foot">*仅合作充电运营商的部分停车场(星星充电、特来电等)支持显示充电车位,更多充电车位持续拓展中。</div>
+  </div>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>领航辅助 NCA 支持添加园区内部途经点</h3>
+    <p>领航辅助 NCA 过程中,支持添加园区内部的车位、电梯口等作为途经点,买杯咖啡、停车送人更方便!</p>
+    <img class="shot" src="imgs/nca-waypoint.jpg" alt="NCA添加园区内部途经点车机截图">
+    <div class="foot">*途经点包含车位、电梯口等场景。</div>
+  </div>
+
+  <div class="feature">
+    <span class="badge new">新增 +</span>
+    <h3>城区漫游巡航辅助 RCA</h3>
+    <p>在导航未开启的情况下,城区漫游巡航功能也支持红绿灯识别、路口连续通行、自主超车变道等。轻松"漫游",遇见更多风景。</p>
+    <img class="shot" src="imgs/rca-city.jpg" alt="城区漫游巡航中截图">
+  </div>
+
+  <div class="feature">
+    <span class="badge new">新增 +</span>
+    <h3>园区漫游巡航辅助 RCA</h3>
+    <p>进入园区地面,也支持一键开启漫游巡航辅助功能,"漫游"中还可一键就近泊车或选择沿途车位快速泊入,停车更便捷更省心。</p>
+    <img class="shot" src="imgs/rca-park.jpg" alt="园区漫游巡航地图截图">
+  </div>
+
+  <!-- ===== 泊车体验 ===== -->
+  <h2 class="section-title"><span class="accent">泊车</span>体验</h2>
+
+  <div class="feature">
+    <span class="badge new">新增 +</span>
+    <h3>即插即充服务</h3>
+    <p>插上就能充,充完就能走,无需扫码,补能更便捷!</p>
+    <img class="shot" src="imgs/plug-charge.jpg" alt="即插即充服务车机截图">
+    <div class="foot">*只需一次授权,即可支持多家运营商。<br>*仅合作充电运营商(星星充电、特来电)的部分充电桩支持该功能,更多充电桩持续拓展中。</div>
+  </div>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>极限车位泊车能力增强</h3>
+    <p>断头路车位、极窄车位等复杂车位,系统识别更精准,泊车轨迹规划更高效,泊入更从容。</p>
+    <img class="shot" src="imgs/tight-park.jpg" alt="极限车位泊车截图">
+  </div>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>守位泊车</h3>
+    <p>选中目标车位,开启泊车辅助,转向灯亮起,此时若后方来车,泊车轨迹将更贴近车位,减少车位被占风险,守护您的"心仪"车位!</p>
+    <img class="shot" src="imgs/guard-park.jpg" alt="守位泊车车库实拍">
+  </div>
+
+  <!-- ===== 主动安全 ===== -->
+  <h2 class="section-title"><span class="accent">主动</span>安全</h2>
+
+  <div class="feature">
+    <span class="badge up">升级 ↑</span>
+    <h3>自动防追尾辅助</h3>
+    <p>在城区快速路 / 高速路段行车,系统检测到后方车辆即将追尾且自车前方具备避让空间时,判定环境安全后,会主动加速降低被追尾风险,让安全领先一步。</p>
+    <img class="shot" src="imgs/anti-rear.jpg" alt="自动防追尾加速避让实拍">
+    <div class="foot">*仅在领航辅助 NCA / 车道巡航辅助 LCC 状态下生效,且自车车速需在 0~70km/h 范围内;<br>*该功能不支持大雨、下雪、大雾等恶劣天气。</div>
+  </div>
+
+  <!-- ===== 更多升级 ===== -->
+  <h2 class="section-title"><span class="accent">更多</span>升级</h2>
+  <div class="more">
+    <div class="more-item"><div class="bar"></div><div><h4>泊车体验全面提升</h4><p>泊车轨迹规划速度更快,泊入更高效。</p></div></div>
+    <div class="more-item"><div class="bar"></div><div><h4>地图显示信息焕新</h4><p>新增电梯口、车位分区等信息,并支持点选电梯口发起导航。</p></div></div>
+    <div class="more-item"><div class="bar"></div><div><h4>实时环境渲染界面新增右转专用视角</h4><p>扩大右转场景下的渲染可视范围,提升对右转盲区的可视化呈现能力。</p></div></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="disclaimer">
+      *目前乘用车所搭载的华为乾崑智驾 ADS™ 仅为辅助驾驶系统,不能替代驾驶员操控,不能应对所有路况、天气和交通,具体功能的操作方法、注意事项与局限等详见车企用户手册等,使用时驾驶员应时刻保持注意并做好随时干预的准备,遵守交规、安全出行。<br>
+      *文中车机图片、视频等仅供示意,可能因具体车型而不同,请以实际为准。
+    </p>
+    <div class="sign">信息收集 BY FO 甚平</div>
+  </footer>
+
+</div>
+</body>
+</html>
