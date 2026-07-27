@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>千里速闻 · 已推送车型与资讯看板</title>
+<style>
+:root { color-scheme: light; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f4f6f9; color: #1f2733; padding: 24px; line-height: 1.5;
+}
+.wrap { max-width: 1400px; margin: 0 auto; }
+header h1 { font-size: 24px; font-weight: 700; letter-spacing: .5px; }
+header .sub { color: #6b7684; font-size: 13px; margin-top: 4px; }
+
+.stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 20px 0; }
+.stat {
+  background: #fff; border: 1px solid #e5e9f0; border-radius: 12px;
+  padding: 14px 20px; min-width: 130px; box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+.stat .num { font-size: 26px; font-weight: 700; color: #2563eb; }
+.stat .lbl { font-size: 12px; color: #6b7684; margin-top: 2px; }
+
+.controls {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  background: #fff; border: 1px solid #e5e9f0; border-radius: 12px;
+  padding: 14px; margin-bottom: 16px;
+}
+.controls input, .controls select {
+  padding: 8px 12px; border: 1px solid #d5dbe6; border-radius: 8px;
+  font-size: 13px; background: #fff; color: #1f2733;
+}
+.controls input#search { flex: 1; min-width: 200px; }
+.controls .reset {
+  padding: 8px 14px; border: none; border-radius: 8px; background: #eef2f7;
+  color: #40495a; font-size: 13px; cursor: pointer;
+}
+.controls .reset:hover { background: #e2e8f0; }
+
+.tablecard { background: #fff; border: 1px solid #e5e9f0; border-radius: 12px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: #f0f4fa; text-align: left; padding: 12px 14px; font-weight: 600;
+  color: #40495a; white-space: nowrap; cursor: pointer; user-select: none;
+  border-bottom: 2px solid #e2e8f0; position: sticky; top: 0;
+}
+thead th:hover { background: #e7edf6; }
+thead th .arrow { color: #94a3b8; font-size: 11px; margin-left: 3px; }
+tbody td { padding: 11px 14px; border-bottom: 1px solid #eef1f6; vertical-align: top; }
+tbody tr:hover { background: #f8fafc; }
+.tag {
+  display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 12px; font-weight: 500;
+}
+.tag.car { background: #dbeafe; color: #1d4ed8; }
+.tag.news { background: #fef3c7; color: #b45309; }
+.brand { font-weight: 600; }
+.model { font-weight: 600; color: #0f172a; }
+.todo { color: #b0b7c3; font-style: italic; }
+a.link { color: #2563eb; text-decoration: none; }
+a.link:hover { text-decoration: underline; }
+.empty { text-align: center; padding: 40px; color: #94a3b8; }
+footer { margin-top: 18px; color: #8a93a3; font-size: 12px; line-height: 1.8; }
+footer code { background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>千里速闻 · 已推送车型与资讯看板</h1>
+    <div class="sub">记录订阅号已推送的新车智驾要闻与行业资讯 · 最近更新 2026-07-27</div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="🔍 搜索车型 / 品牌 / 卖点 / 关键词…">
+    <select id="fType"><option value="">全部类型</option></select>
+    <select id="fBrand"><option value="">全部品牌</option></select>
+    <select id="fSupplier"><option value="">全部智驾方案</option></select>
+    <button class="reset" id="reset">重置</button>
+  </div>
+
+  <div class="tablecard">
+    <table>
+      <thead>
+        <tr>
+          <th data-k="date">推送日期<span class="arrow">↕</span></th>
+          <th data-k="type">类型<span class="arrow">↕</span></th>
+          <th data-k="brand">品牌/车企<span class="arrow">↕</span></th>
+          <th data-k="model">车型<span class="arrow">↕</span></th>
+          <th data-k="supplier">智驾方案/供应商<span class="arrow">↕</span></th>
+          <th data-k="chip">芯片·算力<span class="arrow">↕</span></th>
+          <th data-k="highlight">核心卖点</th>
+          <th data-k="status">上市/价格<span class="arrow">↕</span></th>
+          <th data-k="link">git 地址</th>
+          <th data-k="note">备注</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <b>维护说明：</b>每天把当天推送内容发给助手，助手会向下方 <code>DATA</code> 数组追加新行并回传更新后的文件。<br>
+    维度含义：<code>type</code> 新车要闻 / 新闻资讯 · <code>supplier</code> 智驾方案（华为乾崑 / 自研 / 供应商名）· <code>chip</code> 芯片与算力 · <code>status</code> 上市状态或价格 · <code>link</code> HTML 页面的 git 地址。<br>
+    未确认的字段填 <code>""</code>（显示为"待补充"），后续补齐即可。表头可点击排序，上方可筛选/搜索。
+  </footer>
+</div>
+
+<script>
+// ====== 数据区：每日新增一行对象即可（最新的放最上面）======
+// 字段：date 推送日期 | type 类型 | brand 品牌/车企 | model 车型
+//       supplier 智驾方案/供应商 | chip 芯片·算力 | highlight 核心卖点
+//       status 上市/价格 | link 页面链接 | note 备注
+const DATA = [
+  { date:"2026-07-24", type:"新车要闻", brand:"岚图", model:"追光S", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】华为乾崑智驾 ADS 5 四激光雷达方案，33颗高性能传感器（1颗前向896线图像级激光雷达 + 3颗固态补盲激光雷达）；120km/h 时速下可识别120米外14cm低矮障碍物。【功能详情】① 全维防碰撞 CAS 5.0：行业首个前向感知支持地面凹坑识别，AEB 4-150km/h、后向1-30km/h、侧向10-130km/h 主动避让；② 车位到车位 P2P 3.0：不依赖高精地图，城区 NCA 99% 道路覆盖，驾驶员失能辅助2.0；③ 160+ 泊车场景覆盖：极窄车位一把入，含智能/遥控/离车泊入/代客泊车、园区领航。传感器：4激光雷达+3前向4D毫米波+2后毫米波+11高清摄像头+12驻车雷达+1车内摄像头。", status:"7月24日预售 · ¥30.99万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/voyah-zhuiguang-s-20260724.html", note:"顶配1款配置；全系标配华为乾崑 ADS 5 四激光雷达方案" },
+  { date:"2026-07-24", type:"新闻资讯", brand:"华为", model:"乾崑智驾 ADS 5", supplier:"华为乾崑", chip:"", highlight:"【本期重点】ADS Max V5.0 首版本即将推送，出行效率 +30%、乘车舒适度 +30%、安全可靠性 +50%。【功能详情】① 领航：NCA 覆盖环岛/乡间土路/无标线等非标路况，支持一键直达充电车位、添加园区内部途经点，新增城区/园区漫游巡航辅助 RCA（导航未开启也可红绿灯识别、路口通行、自主超车变道）；② 泊车：新增即插即充、极限车位泊车增强、守位泊车；③ 主动安全：新增自动防追尾辅助（0-70km/h 主动加速避让）；④ 更多：泊车轨迹规划更快、地图信息焕新、右转专用视角。", status:"首版本即将推送", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/huawei-qiankun-ads5-20260724.html", note:"行业资讯 · 软件版本 ADS Max V5.0；功能及升级时间以各车企官方为准" },
+  { date:"2026-07-23", type:"新车要闻", brand:"北京越野", model:"泰钽700", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】硬派越野首搭华为乾崑智驾 ADS 5 + 896线双光路图像级前激光雷达，城区/高速/越野全路况智能覆盖，填补硬派越野主动安全盲区。【功能详情】① 全场景越野 NOA；② CAS 5.0 全维防碰撞（LOCP 侧向障碍物防碰撞、驾驶员失能辅助2.0）；③ 高速 NCA 领航、全速域 ACC；④ 哨兵模式 + 智能远近光 HMA；⑤ 全场景车载卫星通信。硬件：前896线+后DTOF激光雷达+5毫米波+12超声波+11摄像头。高阶选配：城区 NCA、车位到车位 P2P 3.0、AVP 代客泊车、泊车代驾2.0、园区领航、城区漫游巡航等。", status:"7月21日预售 · ¥29.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260723.html", note:"3款车型；与向往S7 PHEV同期推送" },
+  { date:"2026-07-23", type:"新车要闻", brand:"广汽传祺", model:"向往 S7 PHEV（2027款）", supplier:"", chip:"", highlight:"【本期重点】新一代192线激光雷达 + 智能泊车事故责任兜底，支持城市 NDA 领航，全系标配智能自动泊车。【功能详情】① 行车领航：NDA 高速领航（NDA-Highway）、NDA 城区领航（NDA-City）、ACC、LCC；② 主动安全：AEB/RAEB/FCTB/RCTB/ELKA 等兜底 + 智能小蓝灯，含 FCW/FCTA/RCW/RCTA/LDW/LDP/BSD/DOW/TSR；③ 智能泊车：融合泊车 FAPA、遥控泊车 RPA、记忆泊车 HPA。硬件：1颗新一代192线激光雷达+3毫米波+12超声波+7感知摄像头+4环视摄像头。", status:"7月22日上市 · ¥12.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260723.html", note:"4款车型；广汽传祺2027款，与泰钽700同期推送" },
+  { date:"2026-07-23", type:"新车要闻", brand:"东风奕派", model:"奕派 M8", supplier:"华为乾崑智驾 ADS 5 Pro", chip:"", highlight:"【本期重点】乾崑智驾 ADS 5 Pro，27个智能感知硬件（1颗 Limera 舱内激光视觉+3颗4D毫米波+11颗高精摄像头+12颗超声波雷达）。【功能详情】① 全链路领航辅助 NCA：高速/城区/园区 NCA，全程几乎无断点；② 全维防碰撞 CAS 5.0：同级领先侧向障碍物防碰撞 LOCP、防误踩加速踏板 UAP；③ 泊车：VPD/AVP/APA/RPA/EPA/RA；④ ADS 辅助驾驶权益：泊车与行车场景意外事故，为自身及第三者人身/财产损失提供增值保障。", status:"7月23日上市 · ¥16.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dongfeng-yipai-m8-20260723.html", note:"5款车型；全系搭载华为乾崑六件套，标配 ADS 5 Pro" },
+  { date:"2026-07-12", type:"新车要闻", brand:"一汽", model:"悦意 08", supplier:"华为乾崑", chip:"座舱骁龙8295P", highlight:"【本期重点】华为乾崑智驾 + 终身智能泊车事故维修保障（不限使用人、不限质保期、不设理赔上限，事故全额包赔）。【功能详情】配备激光雷达，覆盖高速领航、智能泊车、主动安全全场景：高速 NOA、记忆泊车 HPA、120米循迹倒车、ALC 高速智能变道；主动安全兜底 FCW/AEB/AEB-P/FCTB/RCTB/LAEB/RAEB；ACC/LCC、哨兵模式。硬件：1激光雷达+12超声波+3毫米波+11摄像头。", status:"7月12日上市 · ¥9.99万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/yueyi-08.html", note:"6款配置；座舱搭载骁龙8295P" },
+  { date:"2026-07", type:"新车要闻", brand:"奇瑞", model:"风云A9", supplier:"猎鹰智能驾驶辅助（奇瑞自研）", chip:"", highlight:"【本期重点】猎鹰智驾，655MAX激光雷达版搭载完整感知硬件矩阵；辅助驾驶兜底：首任车主一年内泊车/智能领航场景经判定为系统原因事故，最高赔付500万。【功能详情】① 城市 NOA / 高速 NOA / 300+ 泊车场景；② 24+ 项主动安全全系标配；③ 4重紧急制动/避让兜底 AEB/AES/FCTB/RCTB；④ 15颗雷达传感器（超声波+毫米波）。三配置 655PRO/655MAX/655MAX激光雷达版；激光雷达版含1激光雷达+11摄像头+12超声波+1前毫米波+2后毫米波+驾驶辅助小蓝灯。", status:"预售 ¥11.59-13.59万", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/fengyun-a9.html", note:"3款配置；预售阶段公开数据" },
+];
+// ====== 数据区结束 ======
+
+const cell = v => v && v.trim() ? v : '<span class="todo">待补充</span>';
+let sortKey = null, sortAsc = true;
+let filtered = [...DATA];
+
+function initFilters(){
+  const uniq = k => [...new Set(DATA.map(d=>d[k]).filter(Boolean))].sort();
+  fill('fType', uniq('type'));
+  fill('fBrand', uniq('brand'));
+  fill('fSupplier', uniq('supplier'));
+}
+function fill(id, arr){
+  const sel = document.getElementById(id);
+  arr.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
+}
+function renderStats(){
+  const cars = DATA.filter(d=>d.type==='新车要闻').length;
+  const news = DATA.filter(d=>d.type==='新闻资讯').length;
+  const brands = new Set(DATA.map(d=>d.brand).filter(Boolean)).size;
+  const months = new Set(DATA.map(d=>d.date)).size;
+  const s = [[DATA.length,'总条数'],[cars,'新车要闻'],[news,'新闻资讯'],[brands,'涉及品牌'],[months,'覆盖月份']];
+  document.getElementById('stats').innerHTML = s.map(([n,l])=>
+    `<div class="stat"><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join('');
+}
+function apply(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const t = document.getElementById('fType').value;
+  const b = document.getElementById('fBrand').value;
+  const sp = document.getElementById('fSupplier').value;
+  filtered = DATA.filter(d=>{
+    if(t && d.type!==t) return false;
+    if(b && d.brand!==b) return false;
+    if(sp && d.supplier!==sp) return false;
+    if(q){ return Object.values(d).join(' ').toLowerCase().includes(q); }
+    return true;
+  });
+  if(sortKey) filtered.sort((a,b2)=>{
+    const x=(a[sortKey]||''), y=(b2[sortKey]||'');
+    return sortAsc ? x.localeCompare(y,'zh') : y.localeCompare(x,'zh');
+  });
+  render();
+}
+function render(){
+  const tb = document.getElementById('tbody');
+  if(!filtered.length){ tb.innerHTML='<tr><td colspan="10" class="empty">没有匹配的记录</td></tr>'; return; }
+  tb.innerHTML = filtered.map(d=>{
+    const tag = d.type==='新车要闻' ? '<span class="tag car">新车要闻</span>' : '<span class="tag news">新闻资讯</span>';
+    const link = d.link && d.link.trim() ? `<a class="link" href="${d.link}" target="_blank">打开</a>` : '<span class="todo">—</span>';
+    return `<tr>
+      <td>${cell(d.date)}</td><td>${tag}</td>
+      <td class="brand">${cell(d.brand)}</td><td class="model">${cell(d.model)}</td>
+      <td>${cell(d.supplier)}</td><td>${cell(d.chip)}</td>
+      <td>${cell(d.highlight)}</td><td>${cell(d.status)}</td>
+      <td>${link}</td><td>${cell(d.note)}</td>
+    </tr>`;
+  }).join('');
+}
+document.querySelectorAll('thead th[data-k]').forEach(th=>{
+  th.addEventListener('click', ()=>{
+    const k=th.dataset.k;
+    if(sortKey===k) sortAsc=!sortAsc; else { sortKey=k; sortAsc=true; }
+    apply();
+  });
+});
+['search','fType','fBrand','fSupplier'].forEach(id=>
+  document.getElementById(id).addEventListener('input', apply));
+document.getElementById('reset').addEventListener('click', ()=>{
+  document.getElementById('search').value='';
+  ['fType','fBrand','fSupplier'].forEach(id=>document.getElementById(id).value='');
+  sortKey=null; apply();
+});
+initFilters(); renderStats(); apply();
+</script>
+</body>
+</html>

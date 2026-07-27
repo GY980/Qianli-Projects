@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岚图 追光S · 智驾新车卖点资讯</title>
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#F4F1FB;         /* 页面底：淡紫白 */
+    --bg2:#ECE7F9;
+    --card:#FFFFFF;
+    --border:#E4DEF3;
+    --text:#221B33;
+    --text-dim:#6E6683;
+    --gold:#D99400;       /* 浅底上加深的金，保证可读 */
+    --gold-soft:#F0B429;
+    --main:#7C3AED;       /* 暮山紫，浅底加深 */
+    --main-soft:#8B5CF6;
+    --main-tint:#F1EBFE;
+    --shadow:0 10px 30px rgba(124,58,237,0.10);
+    --shadow-sm:0 4px 14px rgba(34,27,51,0.06);
+  }
+  *{margin:0; padding:0; box-sizing:border-box;}
+  body{
+    background:
+      radial-gradient(1000px 520px at 82% -140px, rgba(139,92,246,0.16), transparent 60%),
+      radial-gradient(760px 460px at 6% 8%, rgba(240,180,41,0.10), transparent 55%),
+      linear-gradient(180deg, var(--bg) 0%, #FBFAFF 55%, var(--bg) 100%);
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+    font-size:18px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:940px; margin:0 auto; padding:34px 20px 64px;}
+
+  /* Hero */
+  .hero{
+    position:relative; overflow:hidden;
+    text-align:center; padding:44px 26px 40px;
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(220px 220px at 88% 12%, rgba(240,180,41,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .hero > *{position:relative;}
+  .kicker{
+    display:inline-block; font-size:26px; letter-spacing:5px; font-weight:800;
+    color:#fff; padding:13px 34px; border-radius:999px; margin-bottom:28px;
+    background:linear-gradient(120deg,var(--main),#A855F7);
+    box-shadow:0 6px 18px rgba(124,58,237,0.28);
+  }
+  .brand{font-size:19px; color:var(--text-dim); letter-spacing:6px; margin-bottom:10px;}
+  .model{
+    font-size:74px; font-weight:900; line-height:1.05; letter-spacing:1px;
+    background:linear-gradient(120deg,#4C2A9E 0%, #7C3AED 45%, #A855F7 100%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+    margin-bottom:22px;
+  }
+  .date-pill{
+    display:inline-block; font-size:16px; font-weight:800;
+    color:var(--main); background:#fff;
+    border:1.5px solid rgba(124,58,237,0.35);
+    padding:10px 24px; border-radius:999px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  /* 价格 Hero */
+  .price-hero{
+    position:relative; overflow:hidden;
+    text-align:center; margin-top:22px; padding:40px 24px;
+    background:linear-gradient(135deg,#2B1B4D 0%, #4C2A9E 55%, #7C3AED 100%);
+    border-radius:24px; box-shadow:var(--shadow);
+  }
+  .price-hero::after{
+    content:""; position:absolute; right:-40px; top:-40px;
+    width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(240,180,41,0.35), transparent 70%);
+  }
+  .price{
+    position:relative;
+    font-size:64px; font-weight:900; letter-spacing:1px; color:#fff;
+    text-shadow:0 2px 18px rgba(0,0,0,0.25);
+  }
+  .price-note{position:relative; margin-top:14px; font-size:18px; color:#E7DEFB;}
+  .price-note em{color:var(--gold-soft); font-style:normal; font-weight:800;}
+
+  /* 重点高亮横幅 */
+  .highlight{
+    position:relative; overflow:hidden;
+    margin-top:22px; padding:32px 34px; border-radius:24px;
+    background:linear-gradient(135deg,#FFFFFF, #FBF7FF);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+  }
+  .highlight::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:6px;
+    background:linear-gradient(180deg,var(--gold-soft),var(--main));
+  }
+  .hl-tag{
+    display:flex; align-items:center; gap:10px;
+    font-size:14px; font-weight:800; letter-spacing:1px; color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hl-tag .ico{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:8px; font-size:15px; color:#fff;
+    background:linear-gradient(135deg,var(--gold-soft),#E39A00);
+  }
+  .hl-title{font-size:32px; font-weight:900; line-height:1.22; margin-bottom:14px; color:var(--text);}
+  .hl-desc{font-size:18px; color:var(--text-dim); margin-bottom:14px;}
+  .hl-desc:last-child{margin-bottom:0;}
+  .hl-desc em{color:var(--main); font-style:normal; font-weight:800;}
+  .hl-sub{
+    margin-top:16px; padding:16px 18px; border-radius:14px;
+    background:var(--main-tint); border:1px solid rgba(124,58,237,0.16);
+    font-size:16.5px; color:var(--text-dim);
+  }
+  .hl-sub .k{
+    display:inline-block; font-weight:800; color:var(--main);
+    margin-right:8px;
+  }
+  .hl-sub-title{
+    font-size:19px; font-weight:900; color:var(--text); margin-bottom:8px;
+  }
+  .hl-sub-title em{color:var(--main); font-style:normal;}
+  .hl-sub b{color:var(--text); font-weight:800;}
+
+  /* Section */
+  .section-title{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    font-size:30px; font-weight:900; margin:52px 0 26px; letter-spacing:1px;
+  }
+  .section-title::before, .section-title::after{
+    content:""; height:2px; width:54px; border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--main));
+  }
+  .section-title::after{background:linear-gradient(90deg,var(--main),transparent);}
+  .section-title .accent{color:var(--main);}
+
+  /* 硬件卡网格 */
+  .hw-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .hw-item{
+    position:relative; overflow:hidden;
+    background:var(--card); border:1px solid var(--border); border-radius:20px;
+    padding:26px 16px; text-align:center; box-shadow:var(--shadow-sm);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .hw-item:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+  .hw-item::before{
+    content:""; position:absolute; left:0; right:0; top:0; height:4px;
+    background:linear-gradient(90deg,var(--main-soft),#C4B5FD);
+  }
+  .hw-num{
+    font-size:46px; font-weight:900; line-height:1; margin-bottom:10px;
+    background:linear-gradient(120deg,var(--main),#A855F7);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent; color:transparent;
+  }
+  .hw-label{font-size:15px; color:var(--text-dim); line-height:1.55; font-weight:600;}
+
+  /* 功能卡 */
+  .safety-grid{display:flex; flex-direction:column; gap:16px;}
+  .safety-item{
+    display:flex; align-items:stretch; gap:0;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:18px; overflow:hidden; font-size:18px;
+    box-shadow:var(--shadow-sm);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .safety-item:hover{transform:translateY(-2px); box-shadow:var(--shadow);}
+  .safety-item .abbr{
+    flex:0 0 132px; display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:18px; line-height:1.3; text-align:center;
+    color:#fff; padding:22px 12px;
+    background:linear-gradient(150deg,var(--main),#9F67F2);
+  }
+  .safety-item .desc{flex:1; color:var(--text-dim); padding:20px 22px;}
+  .safety-item .desc b{color:var(--text); font-weight:800;}
+  .safety-item.critical .abbr{
+    color:#3a2700; background:linear-gradient(150deg,var(--gold-soft),#FFD666);
+  }
+  .safety-item.critical .desc b{color:var(--gold);}
+
+  /* Footer */
+  .footer{
+    margin-top:54px; padding-top:24px; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+    font-size:14px; color:var(--text-dim);
+  }
+  .footer .sign{font-weight:800; color:var(--main); letter-spacing:1px;}
+
+  @media(max-width:768px){
+    .model{font-size:48px;}
+    .price{font-size:46px;}
+    .hl-title{font-size:25px;}
+    .section-title{font-size:24px;}
+    .section-title::before, .section-title::after{width:28px;}
+    .hw-grid{grid-template-columns:repeat(2,1fr);}
+    .safety-item{flex-direction:column;}
+    .safety-item .abbr{flex:none; width:100%; padding:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="kicker">智驾新车卖点资讯</span>
+    <div class="brand">岚 图</div>
+    <div class="model">追光S</div>
+    <span class="date-pill">7月24日开启预售</span>
+  </div>
+
+  <!-- 价格 Hero -->
+  <div class="price-hero">
+    <div class="price">¥30.99万起</div>
+    <div class="price-note"><em>1款配置（顶配车型）</em> · 全系标配华为乾崑智驾®ADS 5 四激光雷达方案</div>
+  </div>
+
+  <!-- 重点高亮横幅 -->
+  <div class="highlight">
+    <div class="hl-tag"><span class="ico">◆</span><span>本期重点 · 华为乾崑智驾®ADS 5</span></div>
+    <div class="hl-title">四激光雷达方案 · 33颗高性能传感器</div>
+    <div class="hl-desc">1颗前向 <em>896线图像级</em> 激光雷达 + 3颗固态补盲激光雷达</div>
+    <div class="hl-sub">
+      <div class="hl-sub-title"><em>远距离、暗光环境</em>也能精准识别</div>
+      在 <b>120km/h</b> 时速下可识别 <b>120米外 14厘米</b> 低矮障碍物,支持无视野避障与自动泊车
+    </div>
+  </div>
+
+  <!-- 传感器配置 -->
+  <div class="section-title">驾驶辅助<span class="accent">传感器配置</span></div>
+
+  <div class="hw-grid">
+    <div class="hw-item">
+      <div class="hw-num">4</div>
+      <div class="hw-label">激光雷达<br>1前向896线图像级 + 3固态补盲</div>
+    </div>
+    <div class="hw-item">
+      <div class="hw-num">3</div>
+      <div class="hw-label">前向分布式<br>4D毫米波雷达</div>
+    </div>
+    <div class="hw-item">
+      <div class="hw-num">2</div>
+      <div class="hw-label">后毫米波<br>雷达</div>
+    </div>
+    <div class="hw-item">
+      <div class="hw-num">11</div>
+      <div class="hw-label">高清<br>摄像头</div>
+    </div>
+    <div class="hw-item">
+      <div class="hw-num">12</div>
+      <div class="hw-label">驻车<br>雷达</div>
+    </div>
+    <div class="hw-item">
+      <div class="hw-num">1</div>
+      <div class="hw-label">车内<br>摄像头</div>
+    </div>
+  </div>
+
+  <!-- 驾驶辅助功能 -->
+  <div class="section-title">华为乾崑智驾®<span class="accent">ADS 5</span></div>
+
+  <div class="safety-grid">
+
+    <div class="safety-item critical">
+      <div class="abbr">全维防碰撞<br>CAS 5.0</div>
+      <div class="desc">行业首个前向感知系统支持 <b>地面凹坑识别</b> 能力;AEB 最高 <b>4-150km/h</b> 主动刹车,后向 <b>1-30km/h</b> 内主动避让,侧向 <b>10-130km/h</b> 内主动避让</div>
+    </div>
+
+    <div class="safety-item critical">
+      <div class="abbr">车位到车位<br>P2P 3.0</div>
+      <div class="desc">不依赖高精地图,从乡道土路到城市环岛、从地库到高速,<b>随时随地一键激活</b>。城区 NCA <b>99% 道路覆盖</b>,城区博弈更聪明、高速通行更省心,<b>驾驶员失能辅助2.0</b> 守住安全</div>
+    </div>
+
+    <div class="safety-item">
+      <div class="abbr">160+泊车<br>场景覆盖</div>
+      <div class="desc">从生活高频泊车场景出发,<b>160+ 泊车场景覆盖</b>,极窄车位一把入,支持智能泊车辅助、遥控泊车辅助、离车泊入辅助、代客泊车辅助、园区领航辅助</div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>本页信息整理自公开资料,具体配置及功能以车企官方发布为准。</div>
+    <div class="sign">信息收集 BY FO 甚平</div>
+  </div>
+
+</div>
+
+<!-- ===== 导出移动端长图按钮（截图时不会出现在画面里）===== -->
+<button id="exportBtn" onclick="exportLongImage()">⤓ 导出移动端长图</button>
+<style>
+  #exportBtn{
+    position:fixed; right:22px; bottom:22px; z-index:9999;
+    font-family:inherit; font-size:15px; font-weight:800; letter-spacing:1px;
+    color:#fff; border:none; cursor:pointer;
+    padding:14px 22px; border-radius:999px;
+    background:linear-gradient(120deg,#7C3AED,#A855F7);
+    box-shadow:0 8px 24px rgba(124,58,237,0.4);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  #exportBtn:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(124,58,237,0.5);}
+  #exportBtn:disabled{opacity:.6; cursor:wait;}
+  @media print{ #exportBtn{display:none;} }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+  // === 可调参数 ===
+  const EXPORT_WIDTH = 980;        // 导出内容宽度（CSS px）；移动端资讯 980~1080 足够清晰
+  const PIXEL_BUDGET = 10000000;   // 平台像素上限：宽 × 高 ≤ 1000万
+  const MAX_SCALE    = 2;          // 最高清晰度倍数（不超预算时才生效）
+
+  function showPreview(dataUrl, w, h){
+    const mask = document.createElement('div');
+    mask.style.cssText =
+      'position:fixed; inset:0; z-index:100000; background:rgba(15,10,30,.82);'+
+      'display:flex; flex-direction:column; align-items:center; overflow:auto; padding:22px;';
+    const bar = document.createElement('div');
+    bar.style.cssText='display:flex; gap:12px; align-items:center; margin-bottom:14px; flex-wrap:wrap; justify-content:center;';
+    const info = document.createElement('span');
+    info.style.cssText='color:#fff; font-weight:700; font-size:14px;';
+    info.textContent = '长图 '+w+'×'+h+'（'+(w*h/1e6).toFixed(2)+'M像素） · 右键或长按图片即可保存';
+    const dl = document.createElement('a');
+    dl.textContent='⤓ 下载 PNG'; dl.href=dataUrl; dl.download='voyah-zhuiguang-s-长图-'+w+'x'+h+'.png';
+    dl.style.cssText='background:linear-gradient(120deg,#7C3AED,#A855F7); color:#fff; text-decoration:none;'+
+      'font-weight:800; padding:9px 18px; border-radius:999px; font-size:14px;';
+    const close = document.createElement('button');
+    close.textContent='✕ 关闭'; close.onclick=()=>mask.remove();
+    close.style.cssText='background:#fff2; color:#fff; border:1px solid #fff5; cursor:pointer;'+
+      'font-weight:700; padding:9px 16px; border-radius:999px; font-size:14px;';
+    bar.append(info, dl, close);
+    const img = document.createElement('img');
+    img.src=dataUrl; img.style.cssText='max-width:min(420px,92vw); height:auto; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,.5);';
+    mask.append(bar, img);
+    mask.onclick=(e)=>{ if(e.target===mask) mask.remove(); };
+    document.body.appendChild(mask);
+  }
+
+  async function exportLongImage(){
+    const btn = document.getElementById('exportBtn');
+    if (typeof htmlToImage === 'undefined' || window.__h2iFailed){
+      alert('截图脚本没能加载。请确认：\n\n'
+          + '1) 用真正的浏览器打开本文件（在文件夹里双击 → Chrome/Edge），\n'
+          + '   不要在聊天预览窗格 / 侧边栏里点；\n'
+          + '2) 当前电脑能联网（脚本需从 CDN 加载一次）。\n\n'
+          + '满足这两点后刷新页面再点即可。');
+      return;
+    }
+
+    btn.disabled = true; const old = btn.textContent; btn.textContent = '⏳ 正在生成…';
+    let holder;
+    try{
+      const src = document.querySelector('.wrap');
+      holder = document.createElement('div');
+      holder.style.cssText =
+        'position:fixed; left:0; top:0; z-index:-1; width:'+EXPORT_WIDTH+'px; overflow:hidden;';
+      holder.style.background =
+        'radial-gradient(680px 360px at 82% 60px, rgba(139,92,246,0.16), transparent 60%),'+
+        'radial-gradient(560px 320px at 6% 40px, rgba(240,180,41,0.10), transparent 55%),'+
+        'linear-gradient(180deg,#F4F1FB 0%, #FBFAFF 55%, #F4F1FB 100%)';
+      holder.appendChild(src.cloneNode(true));
+      document.body.appendChild(holder);
+
+      if (document.fonts && document.fonts.ready) { try{ await document.fonts.ready; }catch(e){} }
+      await new Promise(r=>setTimeout(r,120));
+
+      const H = holder.offsetHeight;
+      const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET / (EXPORT_WIDTH * H)));
+      const opts = { width: EXPORT_WIDTH, height: H, pixelRatio: ratio, cacheBust: true,
+                     backgroundColor: '#F4F1FB' };
+
+      // 热身渲染（该库首帧常出空白/字体未上），再正式出图
+      try{ await htmlToImage.toPng(holder, opts); }catch(e){}
+      const dataUrl = await Promise.race([
+        htmlToImage.toPng(holder, opts),
+        new Promise((_,rej)=>setTimeout(()=>rej(new Error('渲染超时，页面可能太长')),20000))
+      ]);
+
+      const w = Math.round(EXPORT_WIDTH * ratio), h = Math.round(H * ratio);
+
+      // 先尝试自动下载
+      try{ const a=document.createElement('a'); a.download='voyah-zhuiguang-s-长图-'+w+'x'+h+'.png'; a.href=dataUrl; a.click(); }catch(e){}
+      // 同时弹预览层，确保一定能拿到图（自动下载被拦也不怕）
+      showPreview(dataUrl, w, h);
+
+      btn.textContent = '✓ 已生成 '+w+'×'+h;
+      setTimeout(()=>{ btn.textContent = old; btn.disabled = false; }, 3500);
+    }catch(e){
+      alert('导出失败：'+e.message); btn.textContent = old; btn.disabled = false;
+    }finally{
+      if (holder && holder.parentNode) holder.parentNode.removeChild(holder);
+    }
+  }
+</script>
+</body>
+</html>
