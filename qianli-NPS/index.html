@@ -267,6 +267,228 @@ table.compare tr:hover td { background: #f9fafb; }
 table.compare td.dim-label { font-weight: 600; color: var(--ink); background: #f9fafb; white-space: nowrap; }
 
 footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+
+/* ============ 华为版本路线图 ============ */
+.roadmap {
+  position: relative;
+  margin: 18px 0 44px;
+  padding: 0 8px;
+}
+/* 主轴：渐变公路 */
+.roadmap-track {
+  position: absolute;
+  top: 50%; left: 2%; right: 2%;
+  height: 6px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg,
+    #f0c9b0 0%, #e6a878 25%, #d9793f 55%, #c85f28 100%);
+  border-radius: 6px;
+  z-index: 0;
+}
+.roadmap-track::before {
+  /* 中央虚线，像车道分割线 */
+  content: '';
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.9) 0 14px, transparent 14px 30px);
+  border-radius: 2px;
+}
+.roadmap-track::after {
+  /* 终点箭头 */
+  content: '';
+  position: absolute; right: -4px; top: 50%;
+  transform: translateY(-50%);
+  border-left: 14px solid #c85f28;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+.roadmap-row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 1;
+}
+.rm-stop {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+/* 上下交替 */
+.rm-stop .rm-card { order: 0; }
+.rm-stop .rm-node { order: 1; }
+.rm-stop .rm-spacer { order: 2; }
+.rm-stop.down .rm-card { order: 2; }
+.rm-stop.down .rm-node { order: 1; }
+.rm-stop.down .rm-spacer { order: 0; }
+.rm-spacer { height: 150px; }
+.rm-card {
+  width: 100%;
+  max-width: 210px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 12px 13px 13px;
+  position: relative;
+  min-height: 150px;
+}
+.rm-card::after {
+  /* 指向节点的小三角 */
+  content: '';
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  border: 8px solid transparent;
+}
+.rm-stop:not(.down) .rm-card::after { bottom: -15px; border-top-color: var(--card); }
+.rm-stop.down .rm-card::after { top: -15px; border-bottom-color: var(--card); }
+.rm-ver {
+  font-size: 18px; font-weight: 800; color: var(--accent-hw);
+  display: flex; align-items: baseline; gap: 6px;
+}
+.rm-ver .rm-time { font-size: 11px; font-weight: 600; color: var(--muted); }
+.rm-tag {
+  display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 20px; margin: 6px 0 7px;
+  background: color-mix(in srgb, var(--accent-hw) 12%, transparent); color: var(--accent-hw);
+}
+.rm-one { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.4; margin-bottom: 5px; }
+.rm-arch { font-size: 11px; color: #6b7787; line-height: 1.45; margin-bottom: 6px; }
+.rm-car { font-size: 10.5px; color: var(--muted); line-height: 1.4; border-top: 1px dashed var(--border); padding-top: 6px; }
+.rm-car b { color: #526070; font-weight: 700; }
+/* 轴上的里程碑节点 */
+.rm-node {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--card);
+  border: 4px solid var(--accent-hw);
+  box-shadow: 0 0 0 4px rgba(217,121,63,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: var(--accent-hw);
+  margin: 8px 0; flex-shrink: 0;
+  position: relative; z-index: 2;
+}
+@media (max-width: 860px) {
+  .roadmap-track { display: none; }
+  .roadmap-row { flex-direction: column; gap: 14px; }
+  .rm-stop { flex-direction: row !important; align-items: stretch; }
+  .rm-stop .rm-card, .rm-stop.down .rm-card { order: 1; max-width: none; min-height: 0; }
+  .rm-stop .rm-node, .rm-stop.down .rm-node { order: 0; align-self: center; }
+  .rm-spacer, .rm-stop.down .rm-spacer { display: none; }
+  .rm-card::after { display: none; }
+}
+
+/* ============ 能力维度演进矩阵 ============ */
+.cap-dim {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin: 0 0 20px;
+  overflow: hidden;
+}
+.cap-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 20px;
+  background: linear-gradient(90deg, #fff6ef 0%, #ffffff 70%);
+  border-bottom: 1px solid var(--border);
+}
+.cap-head .cap-icon {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--accent-hw) 14%, transparent);
+  font-size: 18px;
+}
+.cap-head .cap-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+.cap-head .cap-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.cap-subhead {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 20px; font-size: 13px; font-weight: 700; color: #8c4c23;
+  background: #fbf3ec; border-bottom: 1px solid var(--border);
+}
+.cap-subhead .csh-scene {
+  font-size: 11px; font-weight: 600; color: #fff; background: var(--accent-hw);
+  padding: 1px 9px; border-radius: 20px; letter-spacing: 0.5px;
+}
+.cap-subhead .csh-note { font-size: 11px; font-weight: 400; color: var(--muted); }
+.cap-flow { display: flex; overflow-x: auto; padding: 4px; gap: 0; }
+.cap-step {
+  flex: 1 0 0;
+  min-width: 170px;
+  position: relative;
+  padding: 16px 16px 18px 20px;
+  border-right: 1px dashed var(--border);
+}
+.cap-step:last-child { border-right: none; }
+.cap-step::before {
+  content: attr(data-ver);
+  display: inline-block;
+  font-size: 11px; font-weight: 800; color: var(--accent-hw);
+  background: color-mix(in srgb, var(--accent-hw) 10%, transparent);
+  padding: 2px 8px; border-radius: 20px; margin-bottom: 8px;
+}
+.cap-step .cs-title { font-size: 13.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.4; }
+.cap-step .cs-list { list-style: none; margin: 0; padding: 0; }
+.cap-step .cs-list li {
+  font-size: 12px; color: #4b5563; line-height: 1.5; padding-left: 13px; position: relative; margin-bottom: 4px;
+}
+.cap-step .cs-list li::before {
+  content: ''; position: absolute; left: 0; top: 7px;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent-hw); opacity: 0.55;
+}
+.cap-step .cs-delta {
+  margin-top: 8px; font-size: 11px; line-height: 1.5;
+  color: #8c4c23; background: #fff6ef; border-radius: 6px; padding: 6px 9px;
+}
+.cap-step .cs-delta b { color: var(--accent-hw); }
+.cap-step.is-first .cs-delta { color: var(--muted); background: #f7f9fb; }
+
+/* 泊车/安全能力段的强调色可复用 accent-hw；保持统一 */
+.cap-legend { font-size: 12px; color: var(--muted); margin: -8px 0 24px; padding-left: 2px; }
+.cap-legend .lg-delta { color: var(--accent-hw); font-weight: 700; }
+
+/* ============ 挑战与下一步 ============ */
+.nextstep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0 8px; }
+@media (max-width: 768px) { .nextstep-grid { grid-template-columns: 1fr; } }
+.ns-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.ns-card .ns-head { padding: 14px 20px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.ns-card.challenge .ns-head { background: #fff6ef; color: #8c4c23; border-bottom: 1px solid var(--border); }
+.ns-card.next .ns-head { background: #eef6ff; color: #36577f; border-bottom: 1px solid var(--border); }
+.ns-card ul { list-style: none; margin: 0; padding: 14px 20px 16px; }
+.ns-card li { font-size: 13px; color: #4b5563; line-height: 1.6; padding-left: 16px; position: relative; margin-bottom: 11px; }
+.ns-card li:last-child { margin-bottom: 0; }
+.ns-card li::before { content: ''; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 2px; }
+.ns-card.challenge li::before { background: var(--accent-hw); opacity: 0.6; }
+.ns-card.next li::before { background: var(--accent-li); opacity: 0.7; }
+.ns-card li b { color: var(--ink); font-weight: 700; }
+.ns-note { font-size: 12px; color: var(--muted); margin-top: 14px; padding: 10px 14px; background: #f7f9fb; border-radius: 8px; line-height: 1.6; }
+/* 用户吐槽 → 华为已公布应对 映射 */
+.gap-map { margin: 22px 0 8px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.gap-row { display: grid; grid-template-columns: 1fr 34px 1fr; align-items: stretch; border-top: 1px solid var(--border); }
+.gap-row:first-child { border-top: none; }
+.gap-head { background: #f2f5f8; font-weight: 700; font-size: 13px; color: #3a4550; }
+.gap-head .gap-cell { padding: 11px 16px; }
+.gap-cell { padding: 14px 16px; font-size: 13px; line-height: 1.62; }
+.gap-cell.pain { background: #fff8f2; color: #7a4a2a; }
+.gap-cell.fix { background: #f2f8ff; color: #35526f; }
+.gap-cell b { font-weight: 700; }
+.gap-cell.pain b { color: #a85a2c; }
+.gap-cell.fix b { color: #2f5580; }
+.gap-cell .src { display: inline-block; margin-top: 5px; font-size: 11px; color: #8894a2; }
+.gap-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 6px; margin-right: 7px; vertical-align: middle; }
+.gap-tag.ok { color: #2f7a55; background: #e3f5ea; border: 1px solid #bfe6cf; }
+.gap-tag.gap { color: #a85a2c; background: #fbe9dc; border: 1px solid #f0cdb2; }
+.gap-arrow { display: flex; align-items: center; justify-content: center; background: #eef1f4; color: var(--accent-hw); font-size: 15px; font-weight: 700; }
+.gap-headrow .gap-cell.pain { background: #fbe9dc; }
+.gap-headrow .gap-cell.fix { background: #e3eefb; }
+.gap-headrow .gap-arrow { background: #eef1f4; color: transparent; }
+@media (max-width: 768px) {
+  .gap-row { grid-template-columns: 1fr; }
+  .gap-arrow { padding: 4px; font-size: 13px; transform: rotate(90deg); }
+  .gap-headrow { display: none; }
+}
 </style>
 </head>
 <body>
@@ -389,6 +611,7 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
       <div class="tech-value">WEWA 2.0</div>
       <div class="tech-label" style="margin-top:12px;">当前版本</div>
       <div style="font-size:15px;font-weight:600;">ADS 5.0（2026.04）</div>
+      <div style="font-size:12px;color:#526070;line-height:1.5;margin-top:6px;">ADS Max V5.0 首版本推送<br>问界M9 Ultra、尊界S800 Ultra</div>
       <div class="stages">
         <span class="stage-pill" style="background:#fee2e2;color:#991b1b;">高精地图</span>
         <span class="stage-pill" style="background:#fef3c7;color:#92400e;">无图GOD</span>
@@ -431,132 +654,545 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
 <section id="huawei">
 <div class="container">
   <h2>华为智驾 (HUAWEI ADS) 技术发展路线</h2>
-  <p class="section-desc">华为ADS经历了ADS 1.0→2.0→3.0→4.0→5.0五个大版本，核心技术路线是从"模块化BEV感知+规则规控"向"WEWA世界模型端到端"的全面跃迁。</p>
+  <p class="section-desc">华为ADS历经ADS 1.0→2.0→3.0→4.0→5.0五个大版本，几乎每一代都伴随一次底层架构重写。</p>
 
-  <div class="snake-road" style="--c: var(--accent-hw);">
-    <!-- Row 1: ADS 1.0 → 2.0 → 3.0 -->
-    <div class="s-row">
-      <div class="s-node">
-        <div class="s-dot major"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 1.0</div>
-          <div class="sc-time">2021.04</div>
-          <div class="sc-focus">BEV + 高精地图 + 3颗激光雷达</div>
-          <div class="sc-body">
-            <strong>感知：</strong>BEV网络，仅识别白名单目标<br>
-            <strong>决策：</strong>规则算法 + 高精地图<br>
-            <strong>行车：</strong>高速NCA领航<br>
-            <strong>泊车：</strong>基础APA自动泊车<br>
-            <strong>安全：</strong>基础AEB/FCW
-          </div>
+  <!-- ===== 五代版本路线图 ===== -->
+  <div class="roadmap">
+    <div class="roadmap-track"></div>
+    <div class="roadmap-row">
+      <!-- ADS 1.0 -->
+      <div class="rm-stop">
+        <div class="rm-card">
+          <div class="rm-ver">ADS 1.0 <span class="rm-time">2021.04</span></div>
+          <div class="rm-tag">L2+ · 有图依赖</div>
+          <div class="rm-one">证明"华为能做智驾"</div>
+          <div class="rm-arch">BEV+Transformer + 高精地图</div>
+          <div class="rm-car"><b>首发：</b>极狐阿尔法S HI版<br>阿维塔11、问界M5(早期)</div>
         </div>
+        <div class="rm-node">1.0</div>
+        <div class="rm-spacer"></div>
       </div>
-      <div class="s-node">
-        <div class="s-dot major"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 2.0</div>
-          <div class="sc-time">2023.04</div>
-          <div class="sc-focus">GOD + RCR 无图化突破</div>
-          <div class="sc-body">
-            <strong>感知：</strong>GOD 2.0（3D像素块识别异形障碍物）+ RCR 2.0道路拓扑推理<br>
-            <strong>硬件：</strong>精简为1颗192线激光雷达<br>
-            <strong>行车：</strong>城区NCA无图领航，摆脱高精地图依赖
-          </div>
+      <!-- ADS 2.0 -->
+      <div class="rm-stop down">
+        <div class="rm-card">
+          <div class="rm-ver">ADS 2.0 <span class="rm-time">2023.04</span></div>
+          <div class="rm-tag">L2+ · 无图化突破</div>
+          <div class="rm-one">解决"只能跑有图的路"</div>
+          <div class="rm-arch">BEV + GOD + RCR</div>
+          <div class="rm-car"><b>搭载：</b>问界M5/M7、智界S7<br>阿维塔11/12、享界S9</div>
         </div>
+        <div class="rm-node">2.0</div>
+        <div class="rm-spacer"></div>
       </div>
-      <div class="s-node">
-        <div class="s-dot major"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 3.0</div>
-          <div class="sc-time">2024.04</div>
-          <div class="sc-focus">GOD大网 + PDP 分层式端到端</div>
-          <div class="sc-body">
-            <strong>感知：</strong>去掉BEV，GOD大网（场景语义理解）<br>
-            <strong>决策：</strong>PDP神经网络替代规则算法<br>
-            <strong>行车：</strong>车位到车位辅助驾驶<br>
-            <strong>安全：</strong>CAS 3.0全向防碰撞首发
-          </div>
+      <!-- ADS 3.0 -->
+      <div class="rm-stop">
+        <div class="rm-card">
+          <div class="rm-ver">ADS 3.0 <span class="rm-time">2024.04</span></div>
+          <div class="rm-tag">L2+ · 端到端</div>
+          <div class="rm-one">做到"没有地图也能跑"</div>
+          <div class="rm-arch">GOD大网 + PDP（弃用BEV）</div>
+          <div class="rm-car"><b>乾崑品牌首发：</b>享界S9<br>问界M9、智界R7、阿维塔12</div>
         </div>
+        <div class="rm-node">3.0</div>
+        <div class="rm-spacer"></div>
       </div>
-    </div>
-    <div class="s-bend right"></div>
-    <!-- Row 2 (reversed): ADS 3.2 → 3.3 → 4.0 -->
-    <div class="s-row rev">
-      <div class="s-node">
-        <div class="s-dot"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 3.2</div>
-          <div class="sc-time">2024.08</div>
-          <div class="sc-body">
-            <strong>泊车：</strong>跨层泊车代驾<br>
-            泊车能力从平面扩展至立体空间
-          </div>
+      <!-- ADS 4.0 -->
+      <div class="rm-stop down">
+        <div class="rm-card">
+          <div class="rm-ver">ADS 4.0 <span class="rm-time">2025.04</span></div>
+          <div class="rm-tag">L2+ → 高速L3</div>
+          <div class="rm-one">实现"AI自己学开车"</div>
+          <div class="rm-arch">WEWA 世界模型</div>
+          <div class="rm-car"><b>首发：</b>问界M9 2025款、尊界S800<br>智界R7 Ultra、享界S9 Ultra</div>
         </div>
+        <div class="rm-node">4.0</div>
+        <div class="rm-spacer"></div>
       </div>
-      <div class="s-node">
-        <div class="s-dot"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 3.3</div>
-          <div class="sc-time">2025初</div>
-          <div class="sc-body">
-            <strong>感知：</strong>极端天气（雨/雪/雾）感知优化<br>
-            <strong>泊车：</strong>无需记忆车位的全场景泊车，跨楼层VPD
-          </div>
+      <!-- ADS 5.0 -->
+      <div class="rm-stop">
+        <div class="rm-card" style="border:1.5px solid var(--accent-hw);">
+          <div class="rm-ver">ADS 5.0 <span class="rm-time">2026.04</span></div>
+          <div class="rm-tag">高速L3量产车落地（试点推进）</div>
+          <div class="rm-one">迈向"不需要人教的全向驾驶"</div>
+          <div class="rm-arch">WEWA 2.0 + 端到端大模型<br>软件版本：ADS Max V5.0</div>
+          <div class="rm-car"><b>首发：</b>问界M9 Ultra、尊界S800 Ultra<br>年内OTA下放80+款车型</div>
         </div>
-      </div>
-      <div class="s-node">
-        <div class="s-dot major"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 4.0</div>
-          <div class="sc-time">2025.04</div>
-          <div class="sc-focus">WEWA 1.0 世界模型首发</div>
-          <div class="sc-body">
-            <strong>架构：</strong>WE云端世界引擎 + WA车端行为模型<br>
-            <strong>行车：</strong>高速L3自动驾驶<br>
-            <strong>安全：</strong>CAS 4.0五维安全
-          </div>
-        </div>
+        <div class="rm-node">5.0</div>
+        <div class="rm-spacer"></div>
       </div>
     </div>
-    <div class="s-bend left"></div>
-    <!-- Row 3: ADS 4.1 → 5.0 -->
-    <div class="s-row">
-      <div class="s-node">
-        <div class="s-dot"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 4.1</div>
-          <div class="sc-time">2026.01</div>
-          <div class="sc-body">
-            <strong>架构：</strong>100%端到端迁移完成<br>
-            <strong>行车：</strong>新增三点式掉头<br>
-            <strong>安全：</strong>eAES增强
-          </div>
-        </div>
+  </div>
+
+  <h3>能力维度逐版本拆解</h3>
+  <p class="cap-legend"><strong>领航辅助(NCA)、泊车、主动安全、感知、决策、硬件</strong>六个能力维度，逐版本拆解 ADS 1.0→5.0 具体做了哪些功能、相比上一代改进了什么。其中领航辅助按"高速/快速路"与"城区道路"两个场景分别展开。</p>
+
+  <!-- ===== 维度1：领航辅助 NCA（高速 + 城区）===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">🛣️</div>
+      <div>
+        <div class="cap-title">领航辅助 (NCA)</div>
+        <div class="cap-sub">点到点自动导航驾驶——同一套功能，按"高速/快速路"和"城区道路"两个场景演进</div>
       </div>
-      <div class="s-node">
-        <div class="s-dot major"></div>
-        <div class="s-card">
-          <div class="sc-ver">ADS 5.0</div>
-          <div class="sc-time">2026.04</div>
-          <div class="sc-focus">WEWA 2.0 代际跃迁</div>
-          <div class="sc-body">
-            <strong>决策：</strong>MoE混合专家模型<br>
-            <strong>硬件：</strong>896线双光路图像级激光雷达<br>
-            <strong>安全：</strong>CAS 5.0全时域安全
-          </div>
-        </div>
+    </div>
+    <div class="cap-subhead"><span class="csh-scene">高速NCA</span>高速/快速路</div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">高速NCA首次落地</div>
+        <ul class="cs-list">
+          <li>高速自动跟车、变道、进出匝道</li>
+          <li>自动避让大车</li>
+          <li>ACC自适应巡航 + 车道保持(LKA)</li>
+        </ul>
+        <div class="cs-delta">起点：可用，但依赖高精地图，一旦驶出覆盖范围即退化为基础L2</div>
       </div>
-      <div class="s-node" style="visibility:hidden;"><div class="s-dot"></div></div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">接管里程翻倍 + 拟人变道</div>
+        <ul class="cs-list">
+          <li>高速NCA平均接管里程 100km → 200km</li>
+          <li>NPR智能变道，观察车流后决策</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>接管里程翻倍进入"实用"门槛；变道从机械执行→拟人博弈</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">全场景无图领航 + 拟人博弈决策</div>
+        <ul class="cs-list">
+          <li>高速/隧道/匝道无图领航（官方标称覆盖施工路段）</li>
+          <li>拥堵跟车、加塞博弈、环岛绕行</li>
+          <li>复杂路口通过率 &gt;96%</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>端到端带来"越开越像人"的博弈能力涌现，路口通过率大幅提升</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">跨入高速L3</div>
+        <ul class="cs-list">
+          <li>Ultra版高速L3有条件自动驾驶</li>
+          <li>60–120km/h合规路段可脱手脱眼</li>
+          <li>驾驶员失能辅助</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>责任主体首次从"人主责"转向"系统主责"，L2+跨入L3</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">高速L3量产车落地（试点推进）</div>
+        <ul class="cs-list">
+          <li>华为宣称合规路段可脱手/脱眼/脱脚、系统担责，配套600万专属保险</li>
+          <li>覆盖23城高速/快速路</li>
+          <li>超视距感知：远距识别散落障碍物，跨车道动态避让</li>
+          <li>通行效率提升约20%、重刹率降低约30%</li>
+          <li>最小风险策略：自动靠边/双闪/报警</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>L3从"技术就绪"走向"量产车落地"；但面向消费者的大规模合法上路仍取决于国家准入与地方通行许可，目前处于试点推进阶段</div>
+      </div>
+    </div>
+
+    <div class="cap-subhead"><span class="csh-scene">城区NCA</span>核心是摆脱高精地图的"无图化"</div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">城区NCA试点</div>
+        <ul class="cs-list">
+          <li>深圳首批推送城区NCA</li>
+          <li>强依赖高精地图</li>
+          <li>城市道路覆盖率不足30%</li>
+        </ul>
+        <div class="cs-delta">起点：全球首款支持中国城市复杂道路的高阶智驾量产车，但仅限试点</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">城区无图化启动</div>
+        <ul class="cs-list">
+          <li>GOD+RCR自生成道路拓扑，无需高精地图</li>
+          <li>Q3落地15城 → Q4累计45城</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>城市泛化速度从2–3年缩短至数月，"无图"成为可能</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">城区NCA大规模商用</div>
+        <ul class="cs-list">
+          <li>红绿灯识别与响应</li>
+          <li>行人/非机动车精准避让</li>
+          <li>复杂路口无保护左转/右转</li>
+          <li>无图从45城 → 全国主要一二线</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>曾经的智驾"禁区"被逐一攻破，从"有就用"→"每天通勤都用"</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">WEWA全场景无图</div>
+        <ul class="cs-list">
+          <li>云端世界引擎生成长尾场景训练</li>
+          <li>城区L3能力同步推进</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从人工标注驱动→海量数据自监督，长尾场景覆盖更广</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">全场景NCA 4.0 + 城区漫游RCA</div>
+        <ul class="cs-list">
+          <li>全国无图通开城区NCA</li>
+          <li>无保护左转通过率99.5%、"鬼探头"识别率98%</li>
+          <li>AEB生效速度提升至150km/h</li>
+          <li>新增RCA城区漫游：无需导航即可红绿灯识别、路口连续通行、自主超车变道</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>覆盖率逼近全域；RCA让"懒得设导航"也能自主巡路，城区领航使用率显著提升</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 维度3：泊车 ===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">🅿️</div>
+      <div>
+        <div class="cap-title">泊车能力</div>
+        <div class="cap-sub">从"找车位泊入"到"车位到车位 + 代客充电"的全链路无人化</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">基础APA自动泊车</div>
+        <ul class="cs-list">
+          <li>垂直/侧方/斜列车位</li>
+          <li>自动泊入 + 泊出</li>
+        </ul>
+        <div class="cs-delta">起点：仅覆盖常规规整车位</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">车位类型爆发 + 代客泊车</div>
+        <ul class="cs-list">
+          <li>APA支持160余种车位（斜坡、断头路等）</li>
+          <li>RPA遥控泊车：车位余量&lt;0.4m直入直出</li>
+          <li>AVP代客泊车：跨楼层导航、车位被占漫游寻找</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>车位类型爆发式扩展，代客泊车/漫游寻位首次上车</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">车位到车位 + 离车即走</div>
+        <ul class="cs-list">
+          <li>车位到车位智驾领航（家门口→目的地车位全程贯通）</li>
+          <li>离车即走：选定车位后人下车自主泊入</li>
+          <li>泊车代驾全场景商用</li>
+          <li><i>3.2/3.3：跨层泊车代驾、代客充电、无需记忆车位</i></li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>打通"最初/最后一公里"，泊车从平面→立体、从记忆→免记忆</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">全场景泊车覆盖</div>
+        <ul class="cs-list">
+          <li>地库/露天/商场全场景</li>
+          <li>跨楼层VPD代客泊车成熟</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>泊车场景基本全覆盖，可靠性随WEWA提升</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">泊车4.0 + 充电一体</div>
+        <ul class="cs-list">
+          <li>即插即充：插枪即充、无需扫码，一次授权多家运营商</li>
+          <li>NCA一键直达空闲充电车位并自主泊入</li>
+          <li>守位泊车：泊入时贴近车位，降低被占风险</li>
+          <li>极限车位（断头路/极窄车位）识别与轨迹规划增强</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>"泊车+充电"一体化，向"下车即走、无人值守"演进</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 维度4：主动安全 CAS ===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">🛡️</div>
+      <div>
+        <div class="cap-title">主动安全（CAS防碰撞）</div>
+        <div class="cap-sub">从前向被动制动，到全向、全时域主动避险</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">基础被动防护</div>
+        <ul class="cs-list">
+          <li>AEB自动紧急制动、FCW前向预警</li>
+          <li>车道保持、盲区预警、360环视</li>
+        </ul>
+        <div class="cs-delta">起点：以前向被动防护为主</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">异形障碍物识别</div>
+        <ul class="cs-list">
+          <li>识别落石、纸箱、侧翻车辆等异形物</li>
+          <li>AEB触发场景扩展</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从"白名单"→通用障碍物，能对"没见过的异常"制动</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">CAS 3.0全向防碰撞</div>
+        <ul class="cs-list">
+          <li>覆盖前/侧/后全向</li>
+          <li>AEB最高约120km/h</li>
+          <li>刹车距离不足时自动紧急转向避障（无需人先打方向）</li>
+          <li>支持斜穿/横穿车辆、自行车、电动车</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从前向→全向，首次实现系统主动转向避险</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">CAS 4.0 + 全维冗余</div>
+        <ul class="cs-list">
+          <li>驾驶员失能辅助</li>
+          <li>爆胎稳定控制</li>
+          <li>转向/制动/感知双冗余</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>冗余硬件到位，为高速L3提供安全兜底</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">CAS 5.0全时域安全</div>
+        <ul class="cs-list">
+          <li>全维/全时域防碰撞</li>
+          <li>新增自动防追尾：后车有追尾风险且前方有空间时主动加速缓冲</li>
+          <li>八大核心系统（供电/转向/制动/通信等）主备双冗余，毫秒级无感接管</li>
+          <li>驾驶员失能2.0：自动送至服务区/收费站</li>
+          <li>实时道路险情云共享预警</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从车端主动避险扩展到"云端险情协同"，并具备L3级全链路冗余兜底</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 维度5：感知架构 ===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">👁️</div>
+      <div>
+        <div class="cap-title">感知架构</div>
+        <div class="cap-sub">BEV → GOD → 世界模型 → 端到端，一条"否定之否定"的重写路径</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">BEV + 白名单</div>
+        <ul class="cs-list">
+          <li>BEV+Transformer多摄融合成鸟瞰图</li>
+          <li>人工标注障碍物白名单（仅识别"学过"的类别）</li>
+          <li>依赖高精地图提供先验</li>
+        </ul>
+        <div class="cs-delta">起点：只能认出"学过的东西"</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">BEV + GOD + RCR</div>
+        <ul class="cs-list">
+          <li>GOD通用障碍物检测（Occupancy占用网格）</li>
+          <li>RCR实时道路拓扑推理</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从"识别白名单"→"判断什么不该出现在这"，能认出没见过的异常</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">纯GOD大网（弃用BEV）</div>
+        <ul class="cs-list">
+          <li>彻底移除BEV，GOD成为唯一感知主干</li>
+          <li>从"识别障碍物"→"理解驾驶场景"</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>换掉地基而非粉刷墙壁，感知即场景理解</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">WEWA World Engine</div>
+        <ul class="cs-list">
+          <li>云端世界引擎，海量未标注数据自学</li>
+          <li>不再依赖人工精确标注边界框</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从监督学习→自监督，突破标注规模天花板</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">端到端全AI大模型</div>
+        <ul class="cs-list">
+          <li>WEWA 2.0，传感器原始数据直入大模型</li>
+          <li>无独立感知/规划模块接口</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>消除模块间信息传递损失，可学到跨模块优化策略</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 维度6：决策规控 ===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">🧠</div>
+      <div>
+        <div class="cap-title">决策规控</div>
+        <div class="cap-sub">从工程师写规则，到AI自己学策略</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">规则驱动</div>
+        <ul class="cs-list">
+          <li>工程师编写if-else规则</li>
+          <li>跟车距离/变道间距等靠人工设定</li>
+        </ul>
+        <div class="cs-delta">起点：简单场景有效，corner case无法穷举</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">规则为主 + 预测决策</div>
+        <ul class="cs-list">
+          <li>引入PDP预测性决策规划</li>
+          <li>NPR拟人变道</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>在规则之上叠加数据驱动的预测能力</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">PDP神经网络替代规则</div>
+        <ul class="cs-list">
+          <li>预决策规划"一张网"</li>
+          <li>决策响应约500ms → 200ms</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>决策全面数据驱动，行驶轨迹更类人</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">WA 世界行为模型</div>
+        <ul class="cs-list">
+          <li>看海量优秀人驾数据自学策略</li>
+          <li>"AI自己学开车"，非工程师写死</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>研发范式从"人教AI"→"AI自学"（模仿学习）</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">端到端AI决策</div>
+        <ul class="cs-list">
+          <li>256专家MoE混合专家模型</li>
+          <li>决策时延低于0.3秒</li>
+          <li>复杂路口通过率约99.3%</li>
+          <li>World Engine累计超6亿公里云端仿真验证</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>决策与感知/控制端到端一体，专家模型按场景分工，生成式仿真反哺训练</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 维度7：硬件平台 ===== -->
+  <div class="cap-dim">
+    <div class="cap-head">
+      <div class="cap-icon">⚙️</div>
+      <div>
+        <div class="cap-title">硬件平台（传感器）</div>
+        <div class="cap-sub">"硬件做减法、算法做加法"，再到L3冗余与图像级激光雷达</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="ADS 1.0">
+        <div class="cs-title">多传感器堆料</div>
+        <ul class="cs-list">
+          <li>3颗96线激光雷达（1前向+2侧向）</li>
+          <li>6颗毫米波 + 多摄像头</li>
+          <li>MDC计算平台</li>
+        </ul>
+        <div class="cs-delta">起点：硬件超配、成本高昂</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 2.0">
+        <div class="cs-title">大幅精简</div>
+        <ul class="cs-list">
+          <li>精简为1颗192线激光雷达（仅前向）</li>
+          <li>3颗4D毫米波 + 11颗800万像素摄像头</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>去掉侧向激光雷达，硬件成本显著下降（约40%）</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 3.0">
+        <div class="cs-title">单件性能提升 · 纯OTA</div>
+        <ul class="cs-list">
+          <li>192线激光雷达探测精度约3cm</li>
+          <li>4D毫米波探测距离约280m</li>
+          <li>12摄像头 + 14超声波雷达</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>沿用2.0高阶硬件，纯OTA即可升级，硬件成本较1.0降约60%</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 4.0">
+        <div class="cs-title">L3冗余硬件</div>
+        <ul class="cs-list">
+          <li>双激光雷达 + 5颗4D毫米波</li>
+          <li>13颗摄像头</li>
+          <li>满足L3安全冗余</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>感知/转向/制动全维冗余，为高速L3铺路</div>
+      </div>
+      <div class="cap-step" data-ver="ADS 5.0">
+        <div class="cs-title">图像级激光雷达 + 四版本策略</div>
+        <ul class="cs-list">
+          <li>896线双光路图像级激光雷达（首发）</li>
+          <li>MDC 910（600TOPS）+ 全域冗余底盘，面向L3量产的算力与安全冗余</li>
+          <li>分SE/Pro/Max/Ultra四版：SE纯视觉、Pro单激光雷达，Max起激光雷达数量与算力递增</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>双光路带来图像级感知精度；按硬件分档把高阶能力下放至10万级车型</div>
+      </div>
     </div>
   </div>
 
   <div class="insight">
-    <div class="insight-title">华为ADS智驾路线小结</div>
-    <strong>行车：</strong>高速NCA → 城区无图NCA → 车位到车位 → 高速L3。三家中唯一推出L3商用方案。<br>
-    <strong>泊车：</strong>基础APA → 代客泊车 → 跨层VPD → 全场景无需记忆泊车。泊车能力从平面→立体→全场景。<br>
-    <strong>安全：</strong>基础AEB → CAS 3.0全向防碰撞 → CAS 4.0五维安全 → CAS 5.0全时域安全。三家中安全体系代际最分明。<br>
-    <strong>架构：</strong>BEV+规则 → GOD+PDP端到端 → WEWA世界模型 → WEWA 2.0 MoE混合专家。唯一采用"世界模型"命名架构。
+    <div class="insight-title">华为ADS演进的三条客观主线</div>
+    <strong>① 能力等级：</strong>L2+（1.0–3.0）→ 高速L3技术就绪（4.0 Ultra）→ 高速L3量产车落地（5.0）。责任主体从"人主责"迈向"系统主责"。<span style="color:var(--muted);">注：以上L3为华为技术宣称与量产车落地口径；面向消费者的大规模合法上路仍取决于国家准入与地方通行许可，截至目前处于试点推进阶段。</span><br>
+    <strong>② "无图"红线：</strong>强依赖高精地图（1.0）→ 45城无图（2.0）→ 全国规模化无图（3.0）→ 全场景无图（4.0）→ 原生无图约99%覆盖（5.0）。摆脱高精地图是贯穿五代的一致目标。<br>
+    <strong>③ 架构"否定之否定"：</strong>BEV+规则（1.0）→ BEV+GOD（2.0）→ 弃用BEV的GOD+PDP（3.0）→ WEWA世界模型（4.0）→ 端到端大模型（5.0）。几乎每代都重写底层地基，而非叠加修补。
   </div>
+
+  <h3>从演进与吐槽反推：华为下一步想做什么</h3>
+  <div class="nextstep-grid">
+    <div class="ns-card challenge">
+      <div class="ns-head">⚠️ 演进与实测中显现的痛点</div>
+      <ul>
+        <li><b>极端场景仍是硬伤。</b>大量车主实测反馈：暴雨、大雾、夜间、逆光及无标线施工路段，系统仍会突然降级或误判障碍物，甚至无提示退出——这是当前最集中的吐槽点，也是"敢放手"与真实路况之间的核心落差。</li>
+        <li><b>会车/脱困/绕行等长尾 corner case 易卡死。</b>窄路会车"顶牛"、凹坑绕行、施工完全封路无替代路径时，系统仍偏保守或直接要求接管，接管频次在复杂城乡结合部明显上升。</li>
+        <li><b>博弈仍偏"怂"。</b>遇加塞以避让为主、不主动抢回路权；无保护左转虽更果断，但对向电动车突然切入时仍可能急刹，存在被后车追尾的隐忧。</li>
+        <li><b>端到端"黑箱"归因难。</b>转向统一大模型后，出错时难以定位是感知漏检还是决策失误，工程排查难度上升——华为自身资料也承认这一客观代价。</li>
+        <li><b>L3责任边界待真实判例。</b>已给出"系统担责+600万保险"，但责任认定依赖"是否在ODD内""是否及时预警"，司法与保险细则尚未完善。</li>
+        <li><b>硬件分档带来体验代差。</b>SE纯视觉版无城区高阶；896线激光雷达、高速L3仅限高价位车型，"技术平权"与旗舰体验间存在硬件门槛。</li>
+      </ul>
+    </div>
+    <div class="ns-card next">
+      <div class="ns-head">🧭 反推出的下一步方向（未来、非5.0已落地项）</div>
+      <ul>
+        <li><b>季度版本啃长尾：</b>官方明确 2026年9–10月 V5.X 引入主被动融合，专攻会车倒车脱困、凹坑绕行等 corner case——正对当前吐槽最集中的场景。</li>
+        <li><b>把安全冗余做厚：</b>规划 2027年初 驾驶员失能辅助2.0 + 紧急逃生，将能力边界从"帮你开"推向"你失能时兜底"。</li>
+        <li><b>L3从点到面、L4起步：</b>2026年 L3 部分城市试点 + 城区低速L4试点；2027年 L3 规模商用、L4 Robotaxi 及 2C 低速L4试点。节奏偏克制，以数据和避撞里程为底气。</li>
+        <li><b>软件定义硬件延续：</b>ADS 4 Max/Pro/SE 可无硬件门槛升级至对应 ADS 5 版本，靠代际兼容持续摊薄升级成本、扩大存量盘。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4 style="font-size:15px;color:var(--ink);margin:26px 0 6px;">痛点 → 华为下一步动作对齐（含尚未回应的缺口）</h4>
+  <div class="gap-map">
+    <div class="gap-row gap-headrow">
+      <div class="gap-cell pain">用户实测痛点</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix">华为下一步动作 / 缺口</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain"><b>会车倒车脱困、凹坑绕行</b>等长尾场景易卡死、频繁接管</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag ok">已列入路线图</span>9–10月 V5.X 引入主被动融合机制，专攻会车倒车脱困与凹坑绕行 corner case</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain">想彻底放手，但<b>极端场景仍需接管</b>、驾驶员失能时无兜底</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag ok">已列入路线图</span>2027年初 规划驾驶员失能辅助2.0 + 紧急逃生，向高阶安全冗余迈进</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain">高速外场景<b>何时能真正放手</b>（城区/全域）</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag ok">已列入路线图</span>2026 L3试点+城区低速L4试点；2027 L3规模商用、L4低速商用试点（节奏偏克制）</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain"><b>暴雨/大雾/夜间/施工路段</b>突然降级或无提示退出（最集中痛点）</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag gap">未明确</span>896线激光雷达、AR-HUD雨雾预警已在5.0落地，但实测极端天气仍翻车；针对该长尾未见进一步公开的专项承诺</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain"><b>加塞博弈偏保守</b>、不主动抢回路权</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag gap">未明确</span>WEWA 2.0 已强化群体博弈，但实测仍偏"怂"；未见针对"主动争取路权"的进一步公开计划</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain"><b>硬件分档造成体验代差</b>：SE纯视觉无城区、L3仅限高价位</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag gap">未明确</span>延续按价位分档策略，未见取消硬件门槛、把高阶能力全系拉平的公开计划</div>
+    </div>
+    <div class="gap-row">
+      <div class="gap-cell pain"><b>端到端"黑箱"</b>出错难归因、误刹/误退偶发</div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-cell fix"><span class="gap-tag gap">未明确</span>华为自认这是端到端的客观代价，但未见针对可解释性/可追溯的专项公开方案</div>
+    </div>
+  </div>
+  <div class="ns-note">说明：本板块基于华为官方年度OTA路线图、ADS 5公开信息及多家媒体车主实测报道整理，不含超出公开范围的主观预测。"未明确"仅代表截至整理时未见相关公开计划，不等于华为未在内部推进。部分为厂商标称值，具体功能、推送时间与合规范围以各车企官方信息为准。详细信息来源见文末。</div>
 </div>
 </section>
 
@@ -918,7 +1554,7 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
   <div class="predict-grid">
     <div class="predict-card">
       <h4><span class="brand-dot" style="background:var(--accent-hw);"></span> 华为 ADS 后续路径</h4>
-      <p><strong>行车：</strong>高速L3已落地，预计2026下半年扩展至城市快速路；城区NCA场景覆盖度将持续提升。</p>
+      <p><strong>行车：</strong>高速L3量产车已落地（大规模合法上路仍依赖国家准入与地方许可、目前处于试点推进阶段），预计2026下半年扩展至城市快速路；城区NCA场景覆盖度将持续提升。</p>
       <p><strong>泊车：</strong>代客充电已量产，预计进一步整合"充电+泊车"一体化方案，实现从车位直达充电桩的全自动流程。</p>
       <p><strong>安全：</strong>CAS 5.0已覆盖全时域，下一步可能引入"车-路-云"协同安全，结合V2X实现超视距预警。</p>
       <p><strong>架构：</strong>WEWA 2.0 MoE架构稳定后，预计2027年升级至ADS 6.0，激光雷达分辨率有望进一步提升。</p>
@@ -979,7 +1615,21 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
     <a href="https://d1ev.com/news/jishu/233134" target="_blank">第1电动 · 华为ADS 2.0无图智驾</a><br>
     <a href="https://www.donews.com/news/detail/4/6140285.html" target="_blank">DoNews · ADS 4.0 WEWA架构</a><br>
     <a href="https://www.eet-china.com/mp/a493602.html" target="_blank">EET China · ADS技术演进</a><br>
-    <a href="https://post.smzdm.com/p/agopdwkw/" target="_blank">什么值得买 · ADS 4.1端到端切换</a>
+    <a href="https://post.smzdm.com/p/agopdwkw/" target="_blank">什么值得买 · ADS 4.1端到端切换</a><br>
+    <a href="https://k.sina.com.cn/article_7879995939_1d5af322301901fwdq.html" target="_blank">新浪 · 华为乾崑ADS 5年度OTA路线图公布（WEWA 2.0）</a><br>
+    <a href="https://baijiahao.baidu.com/s?id=1870952152589111961&wfr=spider&for=pc" target="_blank">百家号 · 190万车128亿公里，乾崑"螺丝钉哲学"规划自动驾驶进程</a><br>
+    <a href="https://www.leiphone.com/category/transportation/AsDfGhJk5LpQw3ErT.html" target="_blank">雷锋网 · 华为ADS 5.0实测分析</a><br>
+    <a href="https://auto.sina.cn/2026-07-27/detail-inikfxaw8391352.d.html" target="_blank">新浪汽车 · 华为乾崑ADS 5 OTA与规划</a><br>
+    <a href="https://news.yiche.com/hao/wenzhang/93372219/" target="_blank">易车 · 问界ADS 5.0升级实测：车主吐槽"就这？"</a><br>
+    <a href="https://www.yoojia.com/article/9079538899093605160.html" target="_blank">有驾 · 华为ADS 5.0实测与用户反馈</a><br>
+    <a href="https://youjia.baidu.com/view/articleDetail/9523973945923796747" target="_blank">百度有驾 · 华为ADS 5.0城区实测吐槽</a><br>
+    <a href="https://www.toutiao.com/article/7633247309450478090/" target="_blank">今日头条 · 华为 ADS 智驾全解析：从 1.0 到 5.0，5 大版本、L2 到 L3 能力</a><br>
+    <a href="https://post.smzdm.com/p/aomlwkpn/" target="_blank">什么值得买 · ADS 5.0实测反馈（一）</a><br>
+    <a href="https://post.smzdm.com/p/apq7xkrx/" target="_blank">什么值得买 · ADS 5.0实测反馈（二）</a><br>
+    <a href="https://post.smzdm.com/p/a26n0dl2/" target="_blank">什么值得买 · ADS 5.0实测反馈（三）</a><br>
+    <a href="https://post.smzdm.com/p/az8nzxk5/" target="_blank">什么值得买 · ADS 5.0实测反馈（四）</a><br>
+    <a href="https://mp.weixin.qq.com/s/OS59_TbLK0CiWNnmx74cJw" target="_blank">微信公众号 · 华为ADS 5.0深度评测（一）</a><br>
+    <a href="https://mp.weixin.qq.com/s?__biz=MjM5NTIyMjA2MQ==&mid=2656824507&idx=1&sn=61f51355861f4d21af47682e48e57c8c" target="_blank">微信公众号 · 华为ADS 5.0深度评测（二）</a>
   </div>
 
   <h3>小鹏 XNGP</h3>
