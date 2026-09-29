@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 广汽埃安 AION V OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== 数据条 ===== */
+.stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:44px;}
+.stat{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px 16px; text-align:center;}
+.stat .num{font-size:38px; font-weight:900; line-height:1; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.stat .unit{font-size:15px; color:var(--gold); font-weight:700; margin-left:2px; -webkit-text-fill-color:var(--gold);}
+.stat .lbl{margin-top:10px; font-size:14px; color:var(--text-dim); font-weight:600; line-height:1.5;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 维度小标题 ===== */
+.grp-title{font-size:20px; font-weight:800; margin:34px 0 16px; padding-left:14px; border-left:4px solid var(--main-2); letter-spacing:.5px;}
+.grp-title.safe{border-left-color:var(--gold);}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card .sub-list{list-style:none; margin-top:12px;}
+.ota-card .sub-list li{font-size:16px; color:var(--text-dim); line-height:1.72; padding-left:18px; position:relative; margin-bottom:8px;}
+.ota-card .sub-list li:last-child{margin-bottom:0;}
+.ota-card .sub-list li::before{content:''; position:absolute; left:0; top:10px; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#E8960C);}
+.ota-card .sub-list li b{color:var(--text); font-weight:700;}
+
+/* ===== 更多升级 ===== */
+.more{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:26px 28px; margin-top:18px;}
+.more h4{font-size:20px; font-weight:800; margin-bottom:12px;}
+.more p{font-size:16px; color:var(--text-dim); line-height:1.72;}
+.more p b{color:var(--text); font-weight:700;}
+.more .tags{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:18px;}
+.more .tags span{font-size:16px; font-weight:700; text-align:center; border-radius:10px; padding:10px 8px; line-height:1.4;}
+.more .tags span.c1{color:var(--main-2); background:rgba(45,127,249,.12); border:1px solid rgba(45,127,249,.35);}
+.more .tags span.c2{color:var(--gold); background:rgba(240,180,41,.10); border:1px solid rgba(240,180,41,.35);}
+.more .tags span.c3{color:#10B981; background:rgba(16,185,129,.10); border:1px solid rgba(16,185,129,.35);}
+.more .tags span.c4{color:#A78BFA; background:rgba(167,139,250,.10); border:1px solid rgba(167,139,250,.35);}
+@media(max-width:768px){.more .tags{grid-template-columns:repeat(2,1fr);}}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:30px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月11日 · 内部速递</span>
+    </div>
+    <h1 class="headline">广汽埃安 AION V OTA 推送<br>新增 <span class="ver">Momenta R6</span> 智驾大模型 · 13 项新增 15 项优化</h1>
+    <div class="version-note"><b>第二代 AION V · 9 月 16 日起分批推送</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · AION V OTA</span>
+    <h2>新增 <em>Momenta R6 大模型</em>、<em>加速踏板防误踩辅助</em>与多项泊车功能</h2>
+    <p>本次 OTA 围绕智能座舱与智能驾驶辅助两大维度，共 <b>13 项新增功能</b>与 <b>15 项细节优化</b>。智驾方面搭载 <b>Momenta R6 强化学习大模型</b>，新增遥控泊车、代客泊车、安全靠边停车、低速倒车主动安全、加速踏板防误踩及高速 ETC 自主通行；座舱新增 Apple CarPlay、哨兵模式、语音声纹识别等。</p>
+  </div>
+
+  <!-- ===== 智能驾驶辅助 ===== -->
+  <div class="section-title">智能驾驶辅助 <span class="accent">新增与升级</span></div>
+  <div class="sys-note">泊车相关功能（遥控泊车、代客泊车、安全靠边停车）及加速踏板防误踩辅助仅<b>激光雷达、配备高速领航辅助的车型</b>可用；高速 ETC 通行功能对车辆配置亦有对应要求，详见各卡适配标签。</div>
+
+  <!-- 泊车辅助 -->
+  <div class="grp-title safe">泊车辅助</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>遥控泊车辅助 · <span class="hl">窄车位遥控泊入</span></h4>
+    <p>具备<b>遥控泊入</b>、<b>遥控直行</b>、<b>离车泊入</b>功能，面对棘手停车场景不用硬扛，降低泊车难度，停车更省心从容。</p>
+    <div class="fit">适配：<b>激光雷达版 · 配备高速领航辅助车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>代客泊车辅助 · <span class="hl">记忆 2 公里停车场路线</span></h4>
+    <p>地库路线记忆，最长支持 <b>2km 路线</b>；重返地库自动循迹行驶，<b>自主避障</b>，全自动完成泊车入位。</p>
+    <div class="fit">适配：<b>激光雷达版 · 配备高速领航辅助车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>安全靠边停车 · <span class="hl">领航辅助遇险主动靠边</span></h4>
+    <p>高快速路领航模式下，若检测到<b>脱手驾驶</b>，系统会通过持续提醒您握住方向盘，NDA 领航辅助驾驶<b>靠边安全停车功能将主动介入</b>。</p>
+    <div class="fit">适配：<b>激光雷达版 · 配备高速领航辅助车型</b></div>
+  </div>
+
+  <!-- 主动安全 -->
+  <div class="grp-title safe">主动安全</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>低速与倒车主动安全辅助 · <span class="hl">低速场景及时预警制动</span></h4>
+    <p>在小区、地下车库等低速环境下，系统识别障碍物后会<b>及时预警</b>，必要时执行<b>紧急制动</b>，有效降低剐蹭、碰撞意外发生概率。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>加速踏板防误踩辅助 · <span class="hl">抑制误踩油门动力输出</span></h4>
+    <p>低速前进、倒车场景，识别周边障碍物，误踩油门且有碰撞风险时<b>抑制动力输出</b>，降低误操作事故。</p>
+    <div class="fit">适配：<b>激光雷达版 · 配备高速领航辅助车型</b></div>
+  </div>
+
+  <!-- 智驾模型与通行 -->
+  <div class="grp-title">智驾模型与通行</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>Momenta R6 强化学习大模型 · <span class="hl">路口环岛匝道预判更贴近人类</span></h4>
+    <p>智驾辅助搭载全新 <b>R6 强化学习大模型</b>，面对复杂路口、环岛、匝道等路况，预判更加贴近人类驾驶习惯。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>高速 ETC 闸机自主通行 · <span class="hl">领航辅助下自动过闸</span></h4>
+    <p>领航辅助状态下支持高速 <b>ETC 闸机自主通行</b>，车辆可自动通过 ETC 通道，无需驾驶员手动接管，仪表同步给出通行提示。</p>
+    <div class="fit">适配：<b>对车辆配置有对应要求</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>高德地图 810 版本引擎 · <span class="hl">新增顺路播报 / 红绿灯播报</span></h4>
+    <p>高德地图升级至 <b>810 版本引擎</b>，新增顺路播报、红绿灯播报、临停违章提醒，优化主辅路识别、偏航检测能力，导航信息提示更全面。</p>
+  </div>
+
+  <!-- ===== 智能座舱 ===== -->
+  <div class="section-title">智能座舱 <span class="accent">新增功能</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>探索埃安 · <span class="hl">沉浸式了解车辆亮点</span></h4>
+    <p>车机新增<b>探索埃安</b>功能，通过高清图片及亮点视频直观展示车辆充电点位等信息，用户可沉浸式了解车辆相关能力。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>语音声纹识别 · <span class="hl">延时聆听 · 粤语</span></h4>
+    <ul class="sub-list">
+      <li><b>语音声纹识别：</b>录入不同人的声纹，车机可识别车内说话人。小朋友说"播放歌曲"，会自动播放儿歌，给家人更贴合的语音服务。</li>
+      <li><b>语音助手（延时聆听）：</b>支持 2 秒延时聆听，说话中途停顿无需重新唤醒，想好即可继续下达指令。</li>
+      <li><b>语音助手（粤语）：</b>普通话唤醒后可直接使用粤语下达指令，助手普通话回复，双语对话流畅自然。</li>
+    </ul>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>Apple CarPlay 手车互联 · <span class="hl">无线连接无缝同步</span></h4>
+    <p>无线 <b>Apple CarPlay</b> 功能落地，苹果手机应用生态可无缝同步至车载大屏，手机与车机联动更便捷。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>哨兵模式 · <span class="hl">本地 + 云端双重存储</span></h4>
+    <p>哨兵模式升级为<b>本地 + 云端双重存储</b>，车辆遭遇剐蹭碰撞等风险事件时向手机推送报警提醒，云端可留存 <b>7 天记录</b>，全天候守护车辆安全。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>手机分享图片至车机 · <span class="hl">自定义桌面壁纸</span></h4>
+    <p>用户可将手机相册图片通过 App 上传到车机，既可<b>本地浏览</b>，也可直接<b>设置为车机桌面壁纸</b>，实现界面个性化自定义。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>界面语言中英文切换 · <span class="hl">仪表与车机同步支持</span></h4>
+    <p>仪表与车机系统同时支持<b>中英文一键切换</b>，更好满足多元语言使用需求。</p>
+  </div>
+
+  <!-- ===== 细节优化 ===== -->
+  <div class="section-title">15 项 <span class="accent">细节体验优化</span></div>
+  <div class="more">
+    <h4>覆盖仪表 · 语音 · 蓝牙 · 智驾 · 空调等日常维度</h4>
+    <p>本次 OTA 另含 <b>15 项</b>细节体验优化：仪表字体显示更加清晰，语音控车与座椅调节逻辑进一步优化，车道居中与领航辅助行驶更加平顺，空调风量调节手感得到改善，点滴提升日常用车质感。</p>
+    <div class="tags">
+      <span class="c1">仪表显示</span>
+      <span class="c2">语音交互</span>
+      <span class="c3">蓝牙互联</span>
+      <span class="c4">智驾行驶稳定性</span>
+      <span class="c1">空调风量调节</span>
+      <span class="c2">座椅调节逻辑</span>
+      <span class="c3">车道居中平顺性</span>
+    </div>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据广汽埃安第二代 AION V OTA 官方推送内容整理，含座舱、导航等非驾驶辅助项；9 月 16 日起分批推送，具体功能与时间以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'aion-v-ota-20260911.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="aion-v-ota-20260911.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

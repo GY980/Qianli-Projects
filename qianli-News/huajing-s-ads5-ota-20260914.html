@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 华境S 华为乾崑智驾 ADS 5 Pro OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(120deg,#FFFFFF 8%,var(--main-2) 58%,var(--main) 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== 数据条 ===== */
+.stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:44px;}
+.stat{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px 16px; text-align:center;}
+.stat .num{font-size:38px; font-weight:900; line-height:1; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.stat .unit{font-size:15px; color:var(--gold); font-weight:700; margin-left:2px; -webkit-text-fill-color:var(--gold);}
+.stat .lbl{margin-top:10px; font-size:14px; color:var(--text-dim); font-weight:600; line-height:1.5;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+
+/* ===== 维度小标题 ===== */
+.grp-title{font-size:20px; font-weight:800; margin:34px 0 16px; padding-left:14px; border-left:4px solid var(--main-2); letter-spacing:.5px;}
+.grp-title.safe{border-left-color:var(--gold);}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .stat-row{grid-template-columns:1fr; gap:12px;}
+  .ota-card h4{font-size:19px;}
+  .grp-title{font-size:18px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月14日 · 内部速递</span>
+    </div>
+    <h1 class="headline">华境S 正式开启新一轮 OTA 升级<br>华为乾崑智驾 ADS 5 Pro 搭载上车</h1>
+    <div class="version-note"><b>9月13日 华境汽车官方宣布 · 覆盖智能驾驶、泊车辅助、主动安全、用车体验四大板块 · 累计新增与优化20余项功能</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 华境S OTA升级</span>
+    <h2>新增<em>园区领航辅助</em>与<em>三点式掉头</em>，搭载<em>GAEB</em>与<em>ESA</em>双重主动安全防护</h2>
+    <p>本次升级覆盖<b>智能驾驶、泊车辅助、主动安全、用车体验</b>四大板块，累计新增与优化<b>20余项功能</b>，华为乾崑智驾 <b>ADS 5 Pro</b> 系统正式搭载上车，进一步拓展车辆全场景使用能力。</p>
+  </div>
+
+  <!-- ===== 数据条 ===== -->
+  <div class="stat-row">
+    <div class="stat">
+      <div><span class="num">20</span><span class="unit">+项</span></div>
+      <div class="lbl">功能新增与优化</div>
+    </div>
+    <div class="stat">
+      <div><span class="num">4</span><span class="unit">大板块</span></div>
+      <div class="lbl">升级覆盖范围</div>
+    </div>
+    <div class="stat">
+      <div><span class="num">100</span><span class="unit">万+</span></div>
+      <div class="lbl">停车场园区领航覆盖</div>
+    </div>
+  </div>
+
+  <!-- ===== OTA 升级 ===== -->
+  <div class="section-title">华境S · <span class="accent">华为乾崑智驾 ADS 5 Pro OTA</span></div>
+
+  <!-- 01 城区领航辅助 -->
+  <div class="grp-title">城区领航辅助 · 场景扩容</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>三点式掉头 · <span class="hl">窄路智能倒车再通行</span></h4>
+    <p>当车辆行驶至窄路无法一次性完成掉头时，系统可<b>智能控制倒车调整空间</b>，随后完成掉头通行，解决窄路掉头难题。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>山野小路 · <span class="hl">乡村窄路场景适配</span></h4>
+    <p>城区领航辅助新增适配<b>山野小路、乡村窄路</b>场景，车辆行驶至乡道、山路等非标准道路时，仍可提供对应的驾驶辅助，提升返乡出行的便利性与安全性。</p>
+  </div>
+
+  <!-- 02 泊车辅助 -->
+  <div class="grp-title">泊车辅助 · 全维度优化</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>园区领航辅助 · <span class="hl">入口到车位全程自主行驶</span></h4>
+    <p>覆盖全国超<b>100万个停车场</b>，可实现从停车场入口到目标车位的<b>全程自主行驶</b>，解决用户寻位难、绕行久、泊车烦的痛点，打通泊车"最后一百米"。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>循迹倒车 · <span class="hl">倒车距离 80m → 120m</span></h4>
+    <p>可支持的最长倒车距离从<b>80米提升至120米</b>，面对长距离狭窄路段、断头路等场景时，倒车操作更从容。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>泊车体验优化 · <span class="hl">障碍物识别精度升级</span></h4>
+    <p>升级了车位内障碍物识别精度，可更精准识别车位内的<b>零散障碍物</b>，提升一把泊入的成功率，实现停靠位置正、入库速度快、车身姿态稳。</p>
+  </div>
+
+  <!-- 03 主动安全 -->
+  <div class="grp-title safe">主动安全 · 双重防护</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>前向异形障碍物自动紧急制动 <span class="hl">GAEB</span></h4>
+    <p>可精准识别<b>锥桶、防撞桶、翻倒车辆</b>等静止异形障碍物，在复杂路况下为车辆额外增加安全保障。</p>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>紧急自动转向辅助 <span class="hl">ESA</span></h4>
+    <p>当系统判定仅靠制动无法规避碰撞，且驾驶员已采取转向避让但幅度不足的危急场景下，系统将<b>紧急辅助施加转向力</b>，高效化解碰撞险情。</p>
+  </div>
+
+  <!-- 04 用车体验 -->
+  <div class="grp-title">用车体验 · 全场景焕新</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>ADS APP 双地图切换 · <span class="hl">新增百度地图</span></h4>
+    <p>ADS APP 新增<b>百度地图</b>选项，支持双地图切换，适配不同用户的地图使用习惯。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>洗车模式 · <span class="hl">常规 / 传送带两种</span></h4>
+    <p>新增<b>常规洗车、传送带洗车</b>两种模式，匹配不同洗车场景的车辆设置需求。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>驻车通风 · <span class="hl">停车6小时自动启动</span></h4>
+    <p>新增驻车通风模式，车辆<b>停车6小时后自动启动通风</b>，保持座舱内空气流通清新。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>窄道浮窗位置自定义 · <span class="hl">窗口位置随心调</span></h4>
+    <p>新增窄道浮窗显示位置自定义功能，用户可根据驾驶习惯<b>调整窗口位置</b>，保障驾驶视野清晰。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>充电状态多端提醒 · <span class="hl">仪表 / APP 同步显示</span></h4>
+    <p>新增充电状态多端提醒功能，<b>仪表端与手机APP端同步显示</b>充电枪连接状态，补能状态更清晰。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>方向盘加热 · <span class="hl">状态记忆自动恢复</span></h4>
+    <p>优化方向盘加热体验，支持<b>加热状态记忆</b>，车辆启动后自动恢复用户预设的温度，提升用车舒适度。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据华境汽车官方OTA升级公告整理，价格与配置以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'huajing-s-ads5-ota-20260914.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="huajing-s-ads5-ota-20260914.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

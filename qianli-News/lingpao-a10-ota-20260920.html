@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 零跑 A10 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 维度小标题 ===== */
+.grp-title{font-size:20px; font-weight:800; margin:34px 0 16px; padding-left:14px; border-left:4px solid var(--main-2); letter-spacing:.5px;}
+.grp-title.safe{border-left-color:var(--gold);}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card .sub-list{list-style:none; margin-top:12px;}
+.ota-card .sub-list li{font-size:16px; color:var(--text-dim); line-height:1.72; padding-left:18px; position:relative; margin-bottom:8px;}
+.ota-card .sub-list li:last-child{margin-bottom:0;}
+.ota-card .sub-list li::before{content:''; position:absolute; left:0; top:10px; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#E8960C);}
+.ota-card .sub-list li b{color:var(--text); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:30px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月20日 · 内部速递</span>
+    </div>
+    <h1 class="headline">全景影像新增后视镜调节入口<br>零跑 A10 迎来 <span class="ver">OTA 升级</span></h1>
+    <div class="version-note"><b>零跑 A10 · 9 月 19 日起分批推送 · 4 款配置 · 6 项新增 8 项优化</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 零跑 A10 OTA</span>
+    <h2>覆盖<em>智能驾驶</em>、<em>自动泊车</em>、<em>用车安全</em>、<em>座舱娱乐</em>与<em>手机互联</em>多维度升级</h2>
+    <p>面向 403 舒享版、403 悦享版、505 悦享版、505 激光雷达版分批推送，本次新增 <b>360 全景影像后视镜调节入口</b>、<b>记忆泊车车速设定及车位收藏</b>、<b>声纹守护</b>等 6 项功能，优化 <b>城市领航辅助</b>、<b>泊车体验</b>、<b>哨兵模式</b>等 8 项体验，进一步提升日常用车便利性。</p>
+  </div>
+
+  <!-- ===== 智能驾驶辅助 ===== -->
+  <div class="section-title">智能驾驶辅助 <span class="accent">新增与优化</span></div>
+  <div class="sys-note">泊车与行车辅助功能按车型配置差异化推送，<b>505 激光雷达版</b>获得记忆泊车车速设定及城市领航辅助优化；360 后视镜调节入口、泊车体验优化、辅助驾驶语音播报覆盖更多配置，详见各卡适配标签。</div>
+
+  <!-- 泊车辅助 -->
+  <div class="grp-title safe">泊车辅助</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>360 全景影像新增后视镜调节入口 · <span class="hl">不退页面直接调镜面</span></h4>
+    <p>360 全景影像界面新增后视镜调节快捷按键，用户<b>无需退出全景页面</b>即可直接调节左右后视镜角度，低速挪车、窄道通行时操作更高效。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>记忆泊车车速设定及车位收藏 · <span class="hl">自定义车速 · 常用车位收藏</span></h4>
+    <p>记忆泊车新增<b>车速自定义设置</b>与<b>车位收藏</b>能力。在园区、封闭式停车场内部道路，可根据路况设定行驶车速；同时支持收藏常用车位，添加个性化特征标签，日常回家、通勤停车更加省心。</p>
+    <div class="fit">适配：<b>505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>泊车体验优化 · <span class="hl">识别 · 规划 · 制动全面升级</span></h4>
+    <ul class="sub-list">
+      <li><b>自动泊车算法优化：</b>提升车位识别成功率，优化泊车路径规划，加快泊入效率。</li>
+      <li><b>行人场景制动策略优化：</b>减少不必要急停，泊车过程更平顺。</li>
+      <li><b>泊出辅助界面升级：</b>可直接显示剩余距离与行驶轨迹线，泊车过程直观可控。</li>
+    </ul>
+    <div class="fit">适配：<b>403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <!-- 行车辅助 -->
+  <div class="grp-title">行车辅助</div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>城市领航辅助 · <span class="hl">UI 可视化 · 直行待行区</span></h4>
+    <p>城市领航辅助完成细节优化，UI 可视化显示逻辑升级，可<b>展示行驶方向箭头信号灯状态</b>，精准匹配车道通行信号；新增支持<b>路口驶入直行待行区</b>，更贴合国内城市道路通行习惯。</p>
+    <div class="fit">适配：<b>505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>辅助驾驶语音播报 · <span class="hl">详细 / 简洁双模式切换</span></h4>
+    <p>辅助驾驶语音播报支持模式切换，提供<b>详细播报</b>、<b>简洁播报</b>两种风格，车主可按需自定义，兼顾信息完备与车内安静度。</p>
+    <div class="fit">适配：<b>403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <!-- ===== 用车安全与隐私 ===== -->
+  <div class="section-title">用车安全与隐私 <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>声纹守护 · <span class="hl">仅响应已录入声纹用户</span></h4>
+    <p>新增声纹守护功能，仅响应<b>已录入声纹用户</b>的语音指令，避免无关人员、误触碰触发语音操作，提升用车安全。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车辆离线提醒 · <span class="hl">长期停放主动推送</span></h4>
+    <p>新增车辆长期离线提醒，车辆长时间停放离线时，App<b>主动推送消息</b>提醒车主查看车辆状态，有效规避静置亏电风险。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>哨兵模式 · <span class="hl">视觉算法优化 · 减少误报</span></h4>
+    <p>哨兵模式视觉算法优化，识别准确率提升，有效过滤<b>光影变化、物体晃动</b>带来的误报警，减少无效干扰。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>权限设置 · <span class="hl">按应用管理 · 到期弹窗续期</span></h4>
+    <p>隐私权限管理进一步升级，支持<b>按应用查看、管理权限使用状态</b>；当应用授权到期，系统将<b>弹窗提醒用户续期</b>，保护用户数据安全。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <!-- ===== 座舱体验与互联 ===== -->
+  <div class="section-title">座舱体验与互联 <span class="accent">新增与优化</span></div>
+
+  <!-- 车载娱乐 -->
+  <div class="grp-title">车载娱乐</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>腾讯云游戏应用 · <span class="hl">触控 / 蓝牙手柄操作</span></h4>
+    <p>车机应用商店新增腾讯云游戏应用，支持<b>触控、蓝牙手柄</b>操作，可搭配悦米 TXGPY11 手柄使用；闲暇停车时段可追剧、游戏，丰富座舱娱乐场景。</p>
+    <div class="fit">适配：<b>505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>芒果 TV 应用 · <span class="hl">车机应用商店新增</span></h4>
+    <p>车机应用商店新增芒果 TV 应用，闲暇停车时段可追剧，丰富座舱娱乐场景。</p>
+    <div class="fit">适配：<b>505激光雷达版</b></div>
+  </div>
+
+  <!-- 座舱与手机互联 -->
+  <div class="grp-title">座舱与手机互联</div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>方向盘加热档位升级 · <span class="hl">两档升级为三档调节</span></h4>
+    <p>方向盘加热由两档升级为<b>高温、低温、关闭</b>三档调节，适配春夏秋冬不同季节的使用需求。</p>
+    <div class="fit">适配：<b>505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>氛围灯音乐律动 · <span class="hl">新增适配酷我音乐</span></h4>
+    <p>氛围灯音乐律动新增适配<b>酷我音乐</b>，跟随音乐节奏律动，座舱氛围感进一步增强。</p>
+    <div class="fit">适配：<b>505激光雷达版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>手机 App 充电信息展示优化 · <span class="hl">充电卡片自动弹出</span></h4>
+    <p>手机端 App 充电界面展示逻辑优化，车辆充电状态下<b>自动弹出充电卡片</b>，充电进度、剩余充电时长等关键信息一目了然，无需多层点击查看。</p>
+    <div class="fit">适配：<b>403舒享版 · 403悦享版 · 505悦享版 · 505激光雷达版</b></div>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据零跑 A10 OTA 官方推送内容整理，含座舱娱乐、手机互联等非驾驶辅助项；9 月 19 日起分批推送，功能以实际车型配置为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'lingpao-a10-ota-20260920.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="lingpao-a10-ota-20260920.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

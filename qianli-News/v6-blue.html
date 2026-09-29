@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新车卖点资讯 · 小米澎程 N70/N90 & 星海 V6</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#F1F4FA; --card:#FFFFFF; --border:#E6E3F2; --text:#1E1B2E; --text-dim:#6A6384;
+  --gold:#E0A008; --gold-text:#C8860B;
+  --shadow:0 10px 30px rgba(90,70,160,0.14); --shadow-sm:0 3px 12px rgba(90,70,160,0.08);
+  /* 主色随分区切换(浅底暮山紫单色系) */
+  --acc:#1E40AF; --acc-soft:rgba(30,64,175,0.08); --acc-line:rgba(30,64,175,0.24);
+  --acc-glow:rgba(30,64,175,0.16);
+}
+/* 小米段主色 = 暮山紫(浅底加深一档保证可读) */
+.brand-xiaomi{ --acc:#1E40AF; --acc-soft:rgba(30,64,175,0.08); --acc-line:rgba(30,64,175,0.26); --acc-glow:rgba(30,64,175,0.16); }
+/* 星海段主色 = 紫罗兰(同色系亮一档,区分不撞色) */
+.brand-haiwei{ --acc:#2563EB; --acc-soft:rgba(37,99,235,0.08); --acc-line:rgba(37,99,235,0.26); --acc-glow:rgba(37,99,235,0.16); }
+
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; color:var(--text);
+  background:
+    radial-gradient(1000px 620px at 15% -8%, rgba(30,64,175,0.10), transparent 60%),
+    radial-gradient(900px 640px at 90% 2%, rgba(37,99,235,0.08), transparent 60%),
+    linear-gradient(180deg,#FAFBFF 0%, #EDF1FA 100%);
+  background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:48px 26px 64px;}
+
+/* ===== Hero ===== */
+.hero{text-align:center; padding:40px 8px 30px; position:relative;}
+.hero::before{
+  content:''; position:absolute; top:-90px; left:50%; transform:translateX(-50%);
+  width:640px; height:640px; max-width:110%;
+  background:radial-gradient(circle, var(--acc-glow) 0%, transparent 68%);
+  pointer-events:none; z-index:0;
+}
+.hero > *{position:relative; z-index:1;}
+.kicker{
+  display:inline-block; font-size:30px; font-weight:800; letter-spacing:6px;
+  color:var(--gold); margin-bottom:26px;
+  padding:12px 34px; border:1.5px solid rgba(224,160,8,0.45); border-radius:24px;
+  background:rgba(224,160,8,0.10);
+}
+.hero .subbrand{font-size:20px; color:var(--text-dim); font-weight:600; letter-spacing:1px; margin-bottom:10px;}
+.hero .maintitle{
+  font-size:58px; font-weight:900; line-height:1.18; letter-spacing:1px;
+  background:linear-gradient(100deg,#2563EB 0%, #1E40AF 50%, #3B82F6 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.hero .maintitle .amp{
+  -webkit-text-fill-color:#E0A008; margin:0 6px; font-weight:800;
+}
+.hero .datepill{
+  display:inline-block; margin-top:20px; padding:10px 24px; border-radius:999px;
+  background:var(--acc-soft); border:1px solid var(--acc-line); box-shadow:var(--shadow-sm);
+  font-size:17px; font-weight:700; color:var(--text);
+}
+.hero .datepill em{color:var(--gold); font-style:normal;}
+
+/* ===== 快速导览 ===== */
+.nav{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin:34px 0 8px;}
+.nav-card{
+  display:block; text-decoration:none; color:inherit; padding:22px 24px;
+  background:var(--card); border:1px solid var(--border); border-radius:18px;
+  box-shadow:var(--shadow-sm); transition:transform .18s, box-shadow .18s; position:relative; overflow:hidden;
+}
+.nav-card::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:linear-gradient(180deg,var(--acc),var(--gold));}
+.nav-card:hover{transform:translateY(-3px); box-shadow:var(--shadow);}
+.nav-card .nc-brand{font-size:15px; color:var(--text-dim); font-weight:600;}
+.nav-card .nc-model{font-size:27px; font-weight:900; color:var(--acc); margin:2px 0 6px;}
+.nav-card .nc-price{font-size:18px; font-weight:800;}
+.nav-card .nc-price em{font-style:normal; color:var(--gold-text);}
+.nav-card .nc-tags{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;}
+.nav-card .nc-tags span{
+  font-size:13px; padding:4px 11px; border-radius:999px;
+  background:var(--acc-soft); color:var(--acc); font-weight:700;
+}
+
+/* ===== 车型分区 ===== */
+.car{margin-top:60px;}
+/* 整合式车型名片:序号+品牌+车名+价格+状态 同一张卡 */
+.car-card{
+  background:var(--card); border:1px solid var(--border); border-radius:22px;
+  padding:34px 38px; margin-bottom:30px; position:relative; overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.car-card::before{
+  content:''; position:absolute; top:-100px; right:-80px; width:360px; height:360px;
+  background:radial-gradient(circle, var(--acc-glow) 0%, transparent 70%); pointer-events:none;
+}
+.car-card > *{position:relative; z-index:1;}
+.cc-top{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+.cc-idx{
+  font-size:22px; font-weight:900; color:var(--acc); background:var(--acc-soft);
+  width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  border:2px solid var(--acc); letter-spacing:0.5px;
+}
+.cc-brand{font-size:17px; color:var(--text-dim); font-weight:600;}
+.cc-model{font-size:42px; font-weight:900; color:var(--text); line-height:1.1;}
+.cc-model .accent{color:var(--acc);}
+.cc-price-line{
+  display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+  margin-top:24px; padding-top:24px; border-top:1px solid var(--border);
+}
+.cc-price{
+  font-size:56px; font-weight:900; line-height:1;
+  background:linear-gradient(120deg,var(--acc),var(--gold));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.cc-price.cc-price-text{font-size:40px;}
+.cc-badges{display:flex; gap:10px; flex-wrap:wrap;}
+.cc-badge{font-size:15px; font-weight:700; padding:8px 16px; border-radius:10px;}
+.cc-badge.gold{color:var(--gold); background:rgba(240,180,41,0.10); border:1px solid rgba(240,180,41,0.32);}
+.cc-badge.dim{color:var(--text-dim); background:var(--acc-soft); border:1px solid var(--acc-line);}
+
+/* 重点高亮横幅 */
+.hl{
+  margin:24px 0; padding:26px 28px; border-radius:20px;
+  background:var(--card); border:1px solid var(--border);
+  border-left:6px solid var(--acc); box-shadow:var(--shadow-sm);
+}
+.hl .hl-tag{font-size:16px; font-weight:800; color:var(--gold); letter-spacing:1px; margin-bottom:8px;}
+.hl .hl-tag .dot{color:var(--acc); margin-right:8px;}
+.hl .hl-title{font-size:27px; font-weight:900; line-height:1.3; margin-bottom:8px;}
+.hl .hl-desc{font-size:18px; color:var(--text-dim);}
+.hl .hl-desc em{font-style:normal; color:var(--acc); font-weight:700;}
+.hl-sub{margin-top:16px; padding-top:16px; border-top:1px dashed var(--border);}
+.hl-sub .hs-title{font-size:16px; font-weight:800; color:var(--text); margin-bottom:6px;}
+.hl-sub .hs-desc{font-size:16px; color:var(--text-dim);}
+
+/* stat 数据条 */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:22px 0;}
+.stat{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; text-align:center; box-shadow:var(--shadow-sm);}
+.stat .sv{font-size:34px; font-weight:900; color:var(--acc); line-height:1;}
+.stat .sv em{font-size:19px; font-style:normal; color:var(--gold-text);}
+.stat .sl{margin-top:8px; font-size:15px; color:var(--text-dim); font-weight:600;}
+
+/* section title */
+.section-title{font-size:32px; font-weight:900; text-align:center; margin:44px 0 24px; letter-spacing:0.5px;}
+.section-title .accent{color:var(--acc);}
+.section-title::after{
+  content:''; display:block; width:64px; height:4px; margin:14px auto 0; border-radius:4px;
+  background:linear-gradient(90deg, var(--acc), var(--gold));
+}
+
+/* 硬件卡网格 */
+.hw-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+.hw-grid.hw5{grid-template-columns:repeat(5,1fr);}
+.hw{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px 18px; text-align:center; box-shadow:var(--shadow-sm);}
+.hw .hn{
+  font-size:40px; font-weight:900; line-height:1;
+  background:linear-gradient(120deg,var(--acc),var(--gold-text));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hw .hl2{margin-top:8px; font-size:16px; color:var(--text); font-weight:700;}
+.hw .hs{margin-top:4px; font-size:13px; color:var(--text-dim);}
+
+/* 功能平铺 grid */
+.safety-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+.safety-item{
+  display:flex; gap:14px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow-sm);
+}
+.safety-item .tag{
+  flex:0 0 auto; min-width:58px; text-align:center; font-size:14px; font-weight:800; line-height:1.15;
+  color:var(--acc); background:var(--acc-soft); border-radius:10px; padding:8px 6px;
+}
+.safety-item .tag.ico{
+  min-width:auto; width:auto; height:auto; font-size:34px; line-height:1;
+  display:flex; align-items:center; justify-content:center; padding:0;
+  background:none; border:none; border-radius:0;
+}
+.safety-item .desc{font-size:16px;}
+.safety-item .desc b{font-size:17px; display:block; margin-bottom:2px;}
+.safety-item.critical{border-color:var(--gold); background:linear-gradient(135deg, rgba(240,180,41,0.10), var(--card));}
+.safety-item.critical .tag{color:var(--gold-text); background:rgba(240,180,41,0.16);}
+.safety-item.critical .tag.ico{background:none;}
+
+/* 感知硬件详解 */
+.sense{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:6px;}
+.sense-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow-sm);}
+.sense-card h4{font-size:18px; font-weight:800; color:var(--acc); margin-bottom:6px;}
+.sense-card p{font-size:15px; color:var(--text-dim);}
+
+/* 功能清单 chip */
+.chip-block{
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:20px 22px; margin:14px 0; box-shadow:var(--shadow-sm);
+}
+.chip-block-title{
+  font-size:18px; font-weight:800; color:var(--acc); margin-bottom:14px;
+  padding-left:12px; border-left:4px solid var(--acc);
+}
+.chips{display:flex; flex-wrap:wrap; gap:10px;}
+.chips span{
+  font-size:16px; font-weight:600; color:var(--text);
+  background:var(--acc-soft); border:1px solid var(--acc-line);
+  padding:8px 15px; border-radius:10px;
+}
+
+/* 场景卡(按解决的问题呈现) */
+.scene-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+.scene{
+  display:flex; gap:16px; align-items:flex-start;
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:22px 24px; box-shadow:var(--shadow-sm); position:relative; overflow:hidden;
+}
+.scene::before{
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:linear-gradient(180deg,var(--acc),var(--gold));
+}
+.scene-ic{
+  flex:0 0 auto; width:auto; height:auto; font-size:34px; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.scene-tx h4{font-size:19px; font-weight:800; color:var(--acc); margin-bottom:6px;}
+.scene-tx p{font-size:16px; color:var(--text-dim); line-height:1.6;}
+
+/* footer */
+.footer{
+  margin-top:56px; padding-top:22px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap;
+}
+.footer .disc{font-size:13px; color:var(--text-dim); max-width:720px; line-height:1.6;}
+.footer .sign{font-size:14px; font-weight:800; color:var(--text); white-space:nowrap;}
+
+/* 导出按钮 */
+#exportBtn{
+  position:fixed; right:22px; bottom:22px; z-index:50;
+  padding:14px 22px; border:none; border-radius:999px; cursor:pointer;
+  background:linear-gradient(120deg,#1E40AF,#2563EB); color:#fff; font-size:16px; font-weight:800;
+  box-shadow:0 8px 24px rgba(30,64,175,0.35);
+}
+#exportBtn:active{transform:translateY(1px);}
+
+@media(max-width:768px){
+  .wrap{padding:32px 16px 48px;}
+  .hero .maintitle{font-size:42px;}
+  .hero .kicker{font-size:22px; letter-spacing:4px; padding:10px 24px;}
+  .nav{grid-template-columns:1fr;}
+  .car-card{padding:26px 22px;}
+  .cc-model{font-size:30px;}
+  .cc-price{font-size:40px;}
+  .cc-price.cc-price-text{font-size:30px;}
+  .stats{grid-template-columns:repeat(3,1fr); gap:8px;}
+  .stat .sv{font-size:24px;}
+  .hw-grid{grid-template-columns:repeat(2,1fr);}
+  .hw-grid.hw5{grid-template-columns:repeat(2,1fr);}
+  .safety-grid{grid-template-columns:1fr;}
+  .sense{grid-template-columns:1fr;}
+  .scene-grid{grid-template-columns:1fr;}
+  .section-title{font-size:24px;}
+}
+@media print{ #exportBtn{display:none;} }
+</style>
+</head>
+<body>
+<div class="wrap" id="capture">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="kicker">智驾新车卖点资讯</div>
+    <div class="subbrand">今日两款新车 · 智驾预售速览</div>
+    <h1 class="maintitle">小米澎程 N70/N90 <span class="amp">&amp;</span> 星海 V6</h1>
+    <div class="datepill">📅 <em>2026年8月3日</em> · 内部速递</div>
+  </header>
+
+  <!-- ===== 快速导览 ===== -->
+  <nav class="nav">
+    <a class="nav-card brand-xiaomi" href="#car1">
+      <div class="nc-brand">小米 · 澎程系列</div>
+      <div class="nc-model">澎程 N70 / N90</div>
+      <div class="nc-price"><em>¥25.99 / 29.99 万</em> · 已开启预订</div>
+      <div class="nc-tags">
+        <span>Xiaomi HAD 辅助驾驶</span>
+        <span>700TOPS Thor</span>
+        <span>双激光雷达</span>
+      </div>
+    </a>
+    <a class="nav-card brand-haiwei" href="#car2">
+      <div class="nc-brand">东风 · 风行系列</div>
+      <div class="nc-model">星海 V6</div>
+      <div class="nc-price"><em>8 月 8 日</em> 开启预售</div>
+      <div class="nc-tags">
+        <span>华为乾崑智驾</span>
+        <span>高速 NOA 领航</span>
+        <span>全维防碰撞</span>
+      </div>
+    </a>
+  </nav>
+
+  <!-- 车型内容占位:后续填充 -->
+  <!-- CAR1 -->
+  <section class="car brand-xiaomi" id="car1">
+    <div class="car-card">
+      <div class="cc-top">
+        <div class="cc-idx">1</div>
+        <div>
+          <div class="cc-brand">小米 · 澎程系列</div>
+          <div class="cc-model">澎程 <span class="accent">N70 / N90</span></div>
+        </div>
+      </div>
+      <div class="cc-price-line">
+        <div class="cc-price">¥25.99 / 29.99 万</div>
+        <div class="cc-badges">
+          <span class="cc-badge gold">2026 年 9 月上市</span>
+          <span class="cc-badge gold">现已开启预订</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl">
+      <div class="hl-tag"><span class="dot">◆</span>本期重点 · 全系标配 Xiaomi HAD</div>
+      <div class="hl-desc">基于自研 <em>Xiaomi MiMo-Embodied 具身基座模型</em> 打造,覆盖泊车、城市、高速多场景,让「车位到车位」的连续辅助驾驶衔接更顺畅,新增商场地库车位级领航。</div>
+      <div class="hl-sub">
+        <div class="hs-title">会主动思考的辅助驾驶</div>
+        <div class="hs-desc">声音交互让指令更直接,场景理解让决策更精准,风险预判让判断更前瞻;驾驶风格更拟人,开始具备解决「长尾场景」的核心认知能力。</div>
+      </div>
+    </div>
+
+    <h3 class="section-title">驾驶辅助<span class="accent">传感器配置</span></h3>
+    <div class="hw-grid hw5">
+      <div class="hw"><div class="hn">700<span style="font-size:20px">TOPS</span></div><div class="hl2">NVIDIA Thor 芯片</div><div class="hs">4nm 工艺制程</div></div>
+      <div class="hw"><div class="hn">2</div><div class="hl2">激光雷达</div><div class="hs">顶部激光雷达 + 后向固态激光雷达</div></div>
+      <div class="hw"><div class="hn">1</div><div class="hl2">4D 毫米波雷达</div><div class="hs">车辆 200m / 行人 100m</div></div>
+      <div class="hw"><div class="hn">11</div><div class="hl2">高清摄像头</div><div class="hs">ALD 镀膜超透防眩</div></div>
+      <div class="hw"><div class="hn">12</div><div class="hl2">超声波雷达</div><div class="hs">近场泊车感知</div></div>
+    </div>
+
+    <h3 class="section-title">行车<span class="accent">辅助能力</span></h3>
+    <div class="hl" style="border-left-color:var(--acc);">
+      <div class="hl-title" style="font-size:23px;">小米 XLA 行车能力拓展 · 会主动思考的辅助驾驶</div>
+      <div class="hl-desc">小米 XLA 架构带来的不仅是感知,更是理解与交互。<em>声音交互</em>让指令更直接,<em>场景理解</em>让决策更精准,<em>风险预判</em>让判断更前瞻。</div>
+    </div>
+    <div class="safety-grid">
+      <div class="safety-item"><div class="tag ico">🛣️</div><div class="desc"><b>高速领航辅助</b>高速场景自主保持车道、智能变道,减轻长途驾驶疲劳。</div></div>
+      <div class="safety-item"><div class="tag ico">🏙️</div><div class="desc"><b>城市领航辅助</b>基于 XLA 覆盖城区复杂路况,通行更拟人合理。</div></div>
+      <div class="safety-item"><div class="tag ico">🅿️</div><div class="desc"><b>车位到车位 P2P</b>覆盖泊车、城市、高速多场景连续衔接,新增商场地库车位级领航,导航至电梯口、充电桩等目标车位并泊入。</div></div>
+      <div class="safety-item"><div class="tag ico">🎙️</div><div class="desc"><b>语音控车</b>支持行车过程中动态语音控车、车内语音控制泊车,一句话执行变道、加减速等操作,实现声音维度的感知与交互。</div></div>
+      <div class="safety-item"><div class="tag ico">⚠️</div><div class="desc"><b>复杂场景风险预判</b>应对复杂场景,理解并推理真实环境,合理提前控速,通行更安全。</div></div>
+    </div>
+
+    <h3 class="section-title">泊车<span class="accent">辅助能力</span></h3>
+    <div class="hl" style="border-left-color:var(--acc);">
+      <div class="hl-title" style="font-size:23px;">小米 XLA 泊车辅助体验升级</div>
+      <div class="hl-desc">小米 XLA 架构具备<em>多模态信息获取</em>、<em>场景认知</em>与<em>行为推理</em>能力,可应对更多复杂泊车场景,拓展更多便捷功能;支持车外语音泊出、关门泊车辅助、寻位泊车辅助等能力,泊车更安全、更高效、更智能。</div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title">泊车后方障碍识别</div>
+      <div class="sense" style="margin-top:0; grid-template-columns:repeat(3,1fr);">
+        <div class="sense-card"><h4>后方负向障碍识别</h4><p>识别后方负向台阶、深沟等障碍,在后轮悬空前提前制动,防止磕底。</p></div>
+        <div class="sense-card"><h4>后方悬空障碍识别</h4><p>识别消防箱等悬空异形障碍,提前刹停,避免碰撞。</p></div>
+        <div class="sense-card"><h4>后方限高障碍识别</h4><p>识别限高杆、地库管道等限高障碍,提前预警,避免刮顶。</p></div>
+      </div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title" style="color:var(--gold); border-left-color:var(--gold);">泊车功能清单 · 11 项</div>
+      <div class="chips">
+        <span>泊入辅助</span><span>泊出辅助</span><span>车外语音泊出</span><span>泊车增强地图</span>
+        <span>关门泊车辅助</span><span>泊车偏移辅助</span><span>遥控泊出辅助</span><span>遥控泊入辅助</span>
+        <span>直线移车辅助</span><span>寻位泊车辅助</span><span>泊车路线自学习</span>
+      </div>
+    </div>
+
+    <h3 class="section-title">安全<span class="accent">辅助功能</span></h3>
+    <div class="hl" style="border-left-color:var(--gold);">
+      <div class="hl-tag" style="font-size:18px;"><span class="dot" style="color:var(--gold);">◆</span>标配 26 项安全辅助功能</div>
+      <div class="hl-desc">覆盖前向、后向、侧向及其他安全能力,全力守护每一次出行。AEB 支持前向 1–135km/h、后向 1–30km/h;AES 支持最多 2 次连续避让。</div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title">前向安全能力</div>
+      <div class="chips">
+        <span>紧急转向辅助</span><span>低速防碰撞辅助(前)</span><span>误加速抑制辅助(前)</span>
+        <span>前向防碰撞辅助(异形障碍物)</span><span>前向防碰撞辅助</span><span>前方碰撞预警</span>
+        <span>前向穿行预警</span><span>前向穿行辅助</span><span>前车起步提醒</span>
+      </div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title">后向安全能力</div>
+      <div class="chips">
+        <span>低速防碰撞辅助(后)</span><span>误加速抑制辅助(后)</span><span>后向碰撞预警</span>
+        <span>低速防撞预警</span><span>倒车穿行预警</span><span>倒车穿行辅助</span>
+      </div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title">侧向安全能力</div>
+      <div class="chips">
+        <span>侧向避让辅助</span><span>车道保持辅助(预警)</span><span>车道保持辅助(纠偏)</span>
+        <span>紧急车道保持</span><span>盲区监测预警</span><span>车门开启预警</span><span>变道辅助预警</span>
+      </div>
+    </div>
+    <div class="chip-block">
+      <div class="chip-block-title">其他安全能力</div>
+      <div class="chips">
+        <span>超速告警</span><span>红绿灯提醒</span><span>自适应防眩目矩阵式大灯</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAR2 -->
+  <section class="car brand-haiwei" id="car2">
+    <div class="car-card">
+      <div class="cc-top">
+        <div class="cc-idx">2</div>
+        <div>
+          <div class="cc-brand">东风 · 风行系列</div>
+          <div class="cc-model">星海 <span class="accent">V6</span></div>
+        </div>
+      </div>
+      <div class="cc-price-line">
+        <div class="cc-price cc-price-text">8 月 8 日 开启预售</div>
+        <div class="cc-badges">
+          <span class="cc-badge gold">6 座中型 SUV</span>
+          <span class="cc-badge gold">全系搭载华为乾崑智驾</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hl">
+      <div class="hl-tag"><span class="dot">◆</span>本期重点 · 全系华为乾崑智驾</div>
+      <div class="hl-desc">引入 <em>华为乾崑智驾</em> 作为核心助力。通过<em>全场景辅助驾驶能力</em>和<em>全维防碰撞系统</em>的扎实兜底,车辆能够在高难度驾驶场景下适时介入引导,帮助驾驶员顺利完成操作,让大车也能变「好开」。</div>
+    </div>
+
+    <h3 class="section-title">全方位<span class="accent">场景助力</span></h3>
+    <p style="text-align:center; color:var(--text-dim); font-size:16px; margin:-8px 0 22px;">针对大六座车型车身偏大、操控难度高的行业痛点,通过全场景高速 NOA 领航辅助与全维防碰撞系统,为驾驶者提供全方位助力。</p>
+    <div class="scene-grid">
+      <div class="scene">
+        <div class="scene-ic">🚗</div>
+        <div class="scene-tx"><h4>工作日早晚高峰</h4><p>系统可通过精准跟车,时刻保持安全距离,通勤更从容。</p></div>
+      </div>
+      <div class="scene">
+        <div class="scene-ic">🛣️</div>
+        <div class="scene-tx"><h4>假日长途出游</h4><p>高速场景激活辅助驾驶,可自主保持车道或智能变道,显著减轻驾驶疲劳。</p></div>
+      </div>
+      <div class="scene">
+        <div class="scene-ic">🅿️</div>
+        <div class="scene-tx"><h4>老旧城区 / 极窄地库</h4><p>智能泊车功能让用户只需简单操作,车辆即可顺畅泊入泊出。</p></div>
+      </div>
+      <div class="scene">
+        <div class="scene-ic">🛡️</div>
+        <div class="scene-tx"><h4>全维防碰撞守护</h4><p>时刻关注前、侧、后潜在风险,面对盲区探头等突发状况,全方位保障家人的出行安全。</p></div>
+      </div>
+    </div>
+
+    <div class="hl" style="border-left-color:var(--acc); margin-top:26px;">
+      <div class="hl-tag" style="font-size:18px;"><span class="dot">◆</span>L2+ 级辅助驾驶方案</div>
+      <div class="hl-desc">V6 给出 <em>L2+ 级</em> 方案,包含自适应巡航、车道居中保持、交通标志识别与自动泊车。可实现城市精准跟车、平稳启停,高速自主保持车道、调节车速、智能变道,并支持泊车辅助。</div>
+    </div>
+    <p style="text-align:center; color:var(--text-dim); font-size:15px; margin-top:16px;">星海 V6 智驾详细配置以官方最终公布为准。</p>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="disc">以上信息据车企官方公开资料整理,配置与参数以实车及官方最终公布为准。</div>
+    <div class="sign">信息收集 BY FO 甚平</div>
+  </footer>
+
+</div>
+
+<button id="exportBtn">⬇ 导出长图</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+  onerror="window.__h2iFailed=true"></script>
+<script>
+/* ===== 可调参数(换平台改这里) ===== */
+const EXPORT_WIDTH = 1080;        // 导出固定宽度(px)
+const PIXEL_BUDGET = 10000000;    // 像素上限(宽×高),默认 1000 万
+const MAX_SCALE   = 2;            // 最高清晰度倍率
+/* ================================== */
+
+const btn = document.getElementById('exportBtn');
+
+function showPreview(dataUrl, w, h){
+  const mask = document.createElement('div');
+  mask.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto;padding:20px;';
+  const bar = document.createElement('div');
+  bar.style.cssText = 'display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap;justify-content:center;';
+  const info = document.createElement('span');
+  info.style.cssText = 'color:#fff;font-size:14px;';
+  info.textContent = `尺寸 ${w}×${h}px · ${(w*h/1e6).toFixed(2)} 百万像素`;
+  const dl = document.createElement('a');
+  dl.href = dataUrl; dl.download = 'xiaomi-pengcheng-haiwei-v6-blue.png';
+  dl.textContent = '下载 PNG';
+  dl.style.cssText = 'background:linear-gradient(120deg,#1E40AF,#2563EB);color:#fff;padding:10px 20px;border-radius:999px;font-weight:800;text-decoration:none;font-size:15px;';
+  const close = document.createElement('button');
+  close.textContent = '关闭';
+  close.style.cssText = 'background:#fff;border:none;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;font-size:15px;';
+  close.onclick = ()=>mask.remove();
+  const img = document.createElement('img');
+  img.src = dataUrl; img.style.cssText = 'max-width:100%;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.4);';
+  bar.append(info, dl, close); mask.append(bar, img); document.body.append(mask);
+}
+
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载成功。请用真正的浏览器双击打开本 HTML(不要在预览窗格里点),并确保能联网加载一次 CDN。');
+    return;
+  }
+  const orig = btn.textContent; btn.textContent = '生成中…'; btn.disabled = true;
+  try{
+    const src = document.getElementById('capture');
+    // 离屏克隆,固定宽度渲染,不受屏幕 DPR 影响
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = `position:fixed;top:0;left:0;z-index:-1;width:${EXPORT_WIDTH}px;`;
+    clone.style.maxWidth = EXPORT_WIDTH + 'px';
+    clone.style.width = EXPORT_WIDTH + 'px';
+    holder.appendChild(clone); document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET / (EXPORT_WIDTH * H)));
+    const opts = { width:EXPORT_WIDTH, height:H, pixelRatio:ratio, backgroundColor:'#F1F4FA' };
+
+    // 热身渲染一次丢弃(修复首帧空白)
+    try{ await htmlToImage.toPng(clone, opts); }catch(e){}
+
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(clone, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+
+    const outW = Math.round(EXPORT_WIDTH*ratio), outH = Math.round(H*ratio);
+    // 尝试自动下载
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'xiaomi-pengcheng-haiwei-v6-blue.png'; a.click();
+    // 预览层兜底
+    showPreview(dataUrl, outW, outH);
+  }catch(err){
+    alert('生成失败:'+err.message+'\n可改用真正浏览器打开重试。');
+  }finally{
+    btn.textContent = orig; btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

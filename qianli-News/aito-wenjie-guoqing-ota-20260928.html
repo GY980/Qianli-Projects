@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 问界国庆版本OTA升级</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 12% -10%, rgba(45,127,249,.18), transparent 60%),
+    radial-gradient(900px 520px at 108% 2%, rgba(91,157,255,.10), transparent 55%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== tm ===== */
+.tm{font-size:.34em; vertical-align:super; font-weight:700; margin:0 1px; color:var(--gold); -webkit-text-fill-color:var(--gold);}
+
+/* ===== Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.24; letter-spacing:.5px;
+  background:linear-gradient(120deg,#FFFFFF 0%,#FF6B6B 35%,#CE0E2D 70%,#C7000B 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== banner ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:48px 0 6px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.section-sub{text-align:center; font-size:18px; color:var(--text-dim); font-weight:600; margin:0 0 24px; letter-spacing:2px;}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:0 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+
+/* ===== grp-title ===== */
+.grp-title{font-size:22px; font-weight:800; color:var(--gold); margin:32px 0 18px; padding-left:14px; border-left:3px solid var(--gold); line-height:1.4;}
+
+/* ===== ota card ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72; margin-bottom:0;}
+.ota-card p + p{margin-top:10px;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .path{font-size:14px; color:var(--text-dim); line-height:1.6; margin-top:10px;}
+.ota-card .path b{color:var(--main-2); font-weight:700; font-size:13px;}
+.ota-card .req{font-size:13px; color:var(--gold); font-weight:600; line-height:1.5; margin-top:8px;}
+.ota-card .fit{display:block; margin-top:14px; font-size:12px; font-weight:600; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:6px 12px; line-height:1.6;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card .map-tbl{width:100%; border-collapse:collapse; margin-top:12px; font-size:15px;}
+.ota-card .map-tbl th{font-size:14px; font-weight:700; color:var(--text-dim); text-align:left; padding:8px 12px; border-bottom:1px solid var(--border);}
+.ota-card .map-tbl td{padding:8px 12px; color:var(--text-dim); border-bottom:1px solid rgba(255,255,255,.04);}
+.ota-card .map-tbl td:first-child{color:var(--text); font-weight:600;}
+.ota-card .note{font-size:13px; color:var(--text-dim); font-weight:600; margin-top:10px; line-height:1.5;}
+.ota-card .note b{color:var(--text); font-weight:700;}
+
+/* ===== 升级方法 ===== */
+.upgrade-box{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:26px 28px; margin-bottom:18px;}
+.upgrade-box .ub-title{font-size:18px; font-weight:800; color:var(--main-2); margin-bottom:14px; line-height:1.4;}
+.upgrade-box .ub-block{margin-bottom:18px;}
+.upgrade-box .ub-block:last-child{margin-bottom:0;}
+.upgrade-box .ub-h{font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px;}
+.upgrade-box .ub-block p{font-size:15px; color:var(--text-dim); line-height:1.72; margin-bottom:6px;}
+.upgrade-box .ub-block p b{color:var(--text); font-weight:700;}
+.upgrade-box .ub-note{font-size:13px; color:var(--text-dim); line-height:1.7; margin-top:4px;}
+.upgrade-box .ub-note b{color:var(--gold); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:31px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月28日 · 内部速递</span>
+    </div>
+    <h1 class="headline">问界国庆版本 OTA 升级<br>华为乾崑智驾 ADS<sup class="tm"></sup> 5 与鸿蒙座舱焕新</h1>
+    <div class="version-note"><b>9月24日晚间启动分批推送</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 问界国庆版本 OTA</span>
+    <h2>华为乾崑智驾 ADS<sup class="tm"></sup> 5 与<em>鸿蒙座舱</em>双板块焕新</h2>
+    <p>ADS<sup class="tm">™</sup> 5 新增<em>充电站分时电价显示</em>、<em>百度地图</em>；优化<em>组队出行实时对讲</em>、<em>沿途联想搜索</em>、<em>高速服务区充电信息</em>等。鸿蒙座舱新增<em>调音魔方</em>、<em>语音安全急停</em>、<em>AR-HUD萌宠-华华箭头主题</em>、<em>iPhone手机镜像投屏</em>等。鸿蒙智行升级体验涵盖<em>一键备车</em>、<em>智慧场景</em>、<em>汽水音乐</em>等。</p>
+  </div>
+
+  <!-- ====== 华为乾崑智驾 ADS 5 ====== -->
+  <div class="section-title">华为乾崑智驾 ADS<sup class="tm"></sup> 5 <span class="accent">新增与优化</span></div>
+  <div class="sys-note">各功能支持车型不同，详见每卡标注。</div>
+
+  <!-- 新增卡在前 -->
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>中控屏转向灯激活影像支持大小设置功能</h4>
+    <p>点击中控屏转向灯影像浮窗的左下角按钮可放大或缩小视图，调节后将自动记忆本次大小设置，支持三个档位选择</p>
+    <p class="req">需设置转向灯激活影像开启</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款 Ultra｜M7 2026 款 Max｜新 M7 Ultra｜新 M7 Max｜M6 Ultra｜M6 Max+｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>支持在导航中按"沿途、周边、目的地"分类搜索功能</h4>
+    <p>发起导航后，搜索加油站、充电站等地点类型时，支持按"沿途""周边""目的地"分类搜索</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>可编辑已添加的途经点功能</h4>
+    <p>新增途经点编辑能力，支持对已添加的途经点进行修改、调整顺序等操作，编辑完成后系统将重新规划路线</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>充电站分时电价显示功能</h4>
+    <p>地图搜索充电站后，在充电站收费详情页新增显示分时电价信息</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>百度地图</h4>
+    <p>新增百度地图，支持高德与百度双地图切换，可按需选用地图服务</p>
+    <div class="fit">支持车型：<b>新 M7 Ultra｜新 M7 Pro｜新 M7 Max｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <!-- 优化卡在后 -->
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>组队出行体验，支持实时对讲等功能</h4>
+    <p>优化组队出行使用体验，一键即可与队友实时畅聊</p>
+    <p>支持实时语音对讲：全员可以同时讲话，对讲单次时长延长至 <b>60 秒</b></p>
+    <p>优化加入队伍、切换队伍流程：①新增昵称编辑入口 ②入队验证默认关闭 ③口令输入过程中不会自动跳转回导航页面，口令输入完成后，将直接进入队伍主页</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>组队出行交互界面升级</h4>
+    <p>新增功能栏大小自主调节功能：支持缩小、放大、全览队员位置功能</p>
+    <p class="note">不支持与未升级至最新版本的车辆组队</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>沿途搜功能，支持联想搜索</h4>
+    <p>优化沿途搜索功能，在沿途搜索模式下支持联想搜索，输入关键字实时显示联想候选结果，提升地点搜索效率</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>高速服务区卡片信息，显示充电站品牌及对应充电桩数量</h4>
+    <p>高德地图高速服务区卡片显示信息更丰富，支持显示充电站品牌名称与对应的充电桩数量，方便提前了解充电站信息</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>高德地图道路提示，信息更丰富</h4>
+    <p>优化高德地图道路信息提示，提升拥堵场景等道路信息的展示逻辑</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <!-- ====== 鸿蒙座舱 ====== -->
+  <div class="section-title">鸿蒙座舱 <span class="accent">新增功能</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>调音魔方功能</h4>
+    <p>新增调音魔方，支持混音台、均衡器、混响效果、通道延时和通道增益五大调音功能，打造个性化音效。内置丰富的官方精品音效推荐，覆盖听音乐、观影等多个场景</p>
+    <p class="path"><b>路径：</b>①设置 &gt; 声音 &gt; 调音魔方 ②应用与服务 &gt; 调音魔方</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜M6 系列｜新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>语音安全急停功能</h4>
+    <p>座椅移动场景下，无需唤醒小艺，支持智能识别乘客喊"停下"、"停止移动"等语音指令，并停止座椅移动进程</p>
+    <p class="path"><b>路径：</b>设置 &gt; 车辆控制 &gt; 语音安全急停</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜M6 系列｜新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>超级桌面设置车机壁纸功能</h4>
+    <p>车机连接超级桌面后，可以选择手机相册中的图片设置为车机壁纸</p>
+    <p class="path"><b>路径：</b>手机端：打开图库 &gt; 选择图片 &gt; 设为车机壁纸 / 车机端：进入超级桌面应用 &gt; 打开图库 &gt; 选择图片 &gt; 设为车机壁纸</p>
+    <p class="req">需 HarmonyOS 6.1.0.117 以上手机支持</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜M6 系列｜新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>超级桌面空间音频功能</h4>
+    <p>在超级桌面中使用华为音乐播放时可选择空间音频</p>
+    <p class="req">需 HarmonyOS 6.1.0.117 以上手机支持</p>
+    <div class="fit">支持车型：<b>M7 2026 款｜M6 系列｜新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>AR HUD"萌宠-华华"箭头主题</h4>
+    <p>AR HUD 引导箭头新增"萌宠-华华"主题，提供更多个性化选择</p>
+    <p class="path"><b>路径：</b>设置 &gt; 显示 &gt; 抬头显示 &gt; AR 增强显示 &gt; 箭头自定义 &gt; 更多箭头</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>HUD 转向影像盲区告警光晕功能</h4>
+    <p>转向灯激活影像开关开启时，开启转向灯显示盲区影像的同时，若触发侧后方来车告警，则联动触发 HUD 转向盲区影像边框红色光晕提示</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜M6 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>金秋画卷、花好月圆、开门见喜迎宾灯效功能</h4>
+    <p>新增【开门见喜 / 金秋画卷 / 花好月圆】三款迎宾灯效。选择相应的灯语后，车辆在迎宾时将自动触发相应灯效，并同步呈现匹配的大灯投影和 ISD 灯效</p>
+    <p class="path"><b>路径：</b>中控点击设置 &gt; 灯光 &gt; 车外灯光 &gt; 迎宾灯效，选择对应的灯效</p>
+    <p class="req">需选装双百万像素全彩智慧投影大灯</p>
+    <div class="fit">支持车型：<b>M9 2026 款</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迎宾灯效自定义功能</h4>
+    <p>增加迎宾灯效自定义功能，可以在自定义界面编辑自己想要的迎宾投影内容</p>
+    <p class="path"><b>路径：</b>中控点击 3D 百变空间 &gt; 选择灯语自定义</p>
+    <p class="req">需选装双百万像素全彩智慧投影大灯</p>
+    <div class="fit">支持车型：<b>M9 2026 款</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>鸿运当头、福禄双全、福字临门、恭喜发财情景灯语功能</h4>
+    <p>新增【鸿运当头、福禄双全、福字临门、恭喜发财】情景灯语</p>
+    <p class="path"><b>路径：</b>中控点击设置 &gt; 灯光 &gt; 车外灯光 &gt; 情景灯语，选择对应的灯效</p>
+    <div class="fit">支持车型：<b>M9 2026 款</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>雨雾天气灯光照明增强功能</h4>
+    <p>雨雾天气开启雾灯场景中，智能车灯自动调节大灯色温，强化光线穿透力，提升雨雾环境行车照明效果</p>
+    <p class="req">需选装双百万像素全彩智慧投影大灯 / 需联动雾灯</p>
+    <div class="fit">支持车型：<b>M9 2026 款</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>Wi-Fi 热点功能</h4>
+    <p>支持手机连接车机 Wi-Fi 热点，共享车机流量</p>
+    <p class="path"><b>路径：</b>设置 &gt; 连接 &gt; 热点</p>
+    <div class="fit">支持车型：<b>M8 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>DLNA 投屏功能</h4>
+    <p>手机连接车机热点后，支持将手机上播放的视频内容投屏至车机屏幕观看，并可将手机作为遥控器控制视频播放</p>
+    <div class="fit">支持车型：<b>M8 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>iPhone 手机镜像投屏功能</h4>
+    <p>新增 iPhone 手机镜像投屏功能，支持将 iPhone 手机屏幕画面投至车机中控屏，实现手机内容在车机端同步显示</p>
+    <p class="path"><b>路径：</b>①应用与服务 &gt; 座舱互联，打开车机热点（或在中控屏设置 &gt; 连接打开车机热点）②使用 AITO APP 扫码连接至车机 ③互联设备端打开 AITO APP &gt; 我的 &gt; 车屏互联，选择手机投屏</p>
+    <div class="fit">支持车型：<b>新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车外喊话功能</h4>
+    <p>启用车外喊话功能后，无需降下车窗，车外人员即可听到车内语音</p>
+    <p class="path"><b>路径：</b>①中控点击设置 &gt; 声音 &gt; 车外喊话 ②中控大屏下拉控制中心 &gt; 选择车外喊话</p>
+    <div class="fit">支持车型：<b>新 M5 Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车外扬声器播放车内音频功能</h4>
+    <p>户外露营等场景下，可将车内媒体音频输出至车外播放。支持"车外播放"和"内外同播"两种模式，并可进行车外播放音量调节</p>
+    <p class="path"><b>路径：</b>中控点击设置 &gt; 声音 &gt; 车外扬声器</p>
+    <div class="fit">支持车型：<b>新 M5 Ultra</b></div>
+  </div>
+
+  <!-- ====== 鸿蒙智行 · 升级体验 ====== -->
+  <div class="section-title">鸿蒙智行 <span class="accent">升级体验</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>哨兵存储容量划分功能</h4>
+    <p>可手动调节哨兵储存空间上限，帮助车主合理利用储存空间</p>
+    <p class="path"><b>路径：</b>中控点击右上角行车记录仪图标 → 前往行车记录仪 → 设置 → 哨兵储存空间上限</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Pro｜新 M7 Max｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车内高温保护功能</h4>
+    <p>新增车内高温保护功能，在电量充足（大于一定阈值）的情况下当车内温度高于 40℃将自动开启空调</p>
+    <p class="path"><b>路径：</b>AITO APP → 空调 → 车内高温保护</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Pro｜新 M7 Max｜新 M7 Plus｜M7 2022 款｜M6 系列｜新 M5 Ultra｜新 M5｜M5 辅助驾驶版</b></div>
+  </div>
+
+  <h4 class="grp-title">一键备车 · 新增功能</h4>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>选择法定工作日功能</h4>
+    <p>设置备车计划时，支持自动筛选法定节假日选项</p>
+    <p class="path"><b>路径：</b>使用 AITO APP → 新建备车计划 → 勾选法定工作日</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Pro｜新 M7 Max</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>座椅加热 / 通风档位设置功能</h4>
+    <p>一键备车新增设置座椅加热 / 通风备车项，可自主选择档位</p>
+    <p class="path"><b>路径：</b>使用 AITO APP → 新建预约备车 → 座椅通风 / 加热 → 选择档位</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Pro｜新 M7 Max｜M6 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车辆后视镜和后挡风玻璃加热功能</h4>
+    <p>一键备车支持设置后视镜及后挡风玻璃加热，快速烘干镜面雨水、雾气、薄霜，提升行车视野</p>
+    <p class="path"><b>路径：</b>使用 AITO APP → 新建备车计划 → 勾选后视镜加热<br>可设置项一览：空调、空气净化、前除霜、座椅加热、座椅通风、方向盘加热、后视镜加热、冷暖箱、电池预热</p>
+    <div class="fit">支持车型：<b>M9 系列｜M8 系列｜M7 2026 款｜新 M7 Ultra｜新 M7 Pro｜新 M7 Max</b></div>
+  </div>
+
+  <h4 class="grp-title">智慧场景 · 新增</h4>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>橱窗灯、后排娱乐屏、声音环绕模式等能力</h4>
+    <p>智慧场景新增多项条件和任务项，可借助橱窗灯、后排娱乐屏、声音环绕模式等能力自定义创建场景，满足更多日常使用需求</p>
+    <div class="fit">支持车型：<b>M6 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>一键副驾置物位功能</h4>
+    <p>智慧场景支持一键切换副驾座椅至置物模式，高效拓展临时置物空间</p>
+    <p class="path"><b>路径①：</b>中控屏 → 设置 → 智慧场景 → 创建场景 → 推荐场景 → 副驾置物位<br><b>路径②：</b>通过小艺语音开启，如"小艺小艺，打开副驾置物位"或"小艺小艺，副驾置物位"</p>
+    <p class="note">内置场景：儿童看护、下班回家、开门调低音量、休息日出游、副驾置物位、副驾置物防掉落、副驾上车小惊喜、出发上班、下车提醒</p>
+    <div class="fit">支持车型：<b>M6 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>汽水音乐 (HIMA)</h4>
+    <p class="path"><b>路径：</b>中控点击应用与服务 → 应用中心 → 应用市场 → 搜索"汽水音乐"→ 下载并安装</p>
+    <div class="fit">支持车型：<b>M7 2022 款｜M5 2022 款</b></div>
+  </div>
+
+  
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">依据AITO汽车官方国庆版本OTA升级资料整理，各功能支持车型以官方说明为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'aito-wenjie-guoqing-ota-20260928.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="aito-wenjie-guoqing-ota-20260928.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

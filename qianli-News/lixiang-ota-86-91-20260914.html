@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 理想汽车 OTA 8.6 · OTA 9.1.1</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero（蓝色版） ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#8AB8FF 55%,#2D7FF9 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{
+  color:var(--main-2);
+  -webkit-text-fill-color:var(--main-2);
+}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 维度小标题 ===== */
+.grp-title{font-size:20px; font-weight:800; margin:34px 0 16px; padding-left:14px; border-left:4px solid var(--main-2); letter-spacing:.5px;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+
+/* VLA 四场景列表 */
+.scenario-list{margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.scenario{background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
+.scenario .sc-title{font-size:16px; font-weight:800; color:var(--main-2); margin-bottom:6px;}
+.ota-card.critical .scenario .sc-title{color:var(--gold);}
+.scenario .sc-desc{font-size:15px; color:var(--text-dim); line-height:1.65;}
+
+/* 语音指令 */
+.voice-cmd{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;}
+.voice-cmd .cmd{font-size:14px; font-weight:600; color:var(--text); background:rgba(91,157,255,.10); border:1px solid rgba(91,157,255,.28); border-radius:8px; padding:5px 12px;}
+
+/* 适配车型多行 */
+.fit-multi{margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:8px 11px; line-height:1.7;}
+.fit-multi b{color:var(--main-2); font-weight:700;}
+
+/* ===== 更多优化 ===== */
+.more{background:var(--card); border:1px dashed var(--border); border-radius:16px; padding:22px 24px; margin-bottom:18px;}
+.more h4{font-size:18px; font-weight:800; margin-bottom:8px; color:var(--main-2);}
+.more p{font-size:16px; color:var(--text-dim); line-height:1.7;}
+.more p b{color:var(--text); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .grp-title{font-size:18px;}
+  .scenario-list{grid-template-columns:1fr;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月14日 · 内部速递</span>
+    </div>
+    <h1 class="headline">理想马赫 VLA 2.0 上线<br>OTA <span class="ver">8.6</span> · OTA <span class="ver">9.1.1</span> 开启推送</h1>
+    <div class="version-note"><b>9 月 10 日正式推送　|　OTA 8.6 面向 2022-2025 款理想 L 系列、理想 i8 和理想 i6　|　OTA 9.1.1 面向 2026 年全新理想 L9、L8、L6 和新一代理想 MEGA</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 理想双版本 OTA</span>
+    <h2>马赫 VLA 2.0 部署至 <em>Orin-X</em> 与 <em>Thor-U</em> 平台，主动悬架游戏登陆 OTA 9.1.1</h2>
+    <p><b>OTA 8.6</b> 将理想马赫 VLA 2.0 部署至搭载 Orin-X 和 Thor-U 平台的车型，实现跟车、绕行、变道及博弈等场景下的智能辅助驾驶体验全面升级；新增指挥泊车、非划线车位识别、大屏转向影像等功能。<b>OTA 9.1.1</b> 新增主动悬架游戏，底盘悬架实时反馈游戏内车辆动作，含飞车寻宝、地平线5 两款游戏。</p>
+  </div>
+
+  <!-- ====== 01 OTA 8.6 ====== -->
+  <div class="section-title">理想汽车 · <span class="accent">OTA 8.6 升级</span></div>
+  <div class="sys-note">面向 <b>2022 款至 2025 款理想 L 系列、理想 i8 和理想 i6</b> 车型，<em>9 月 10 日</em>开启推送。以下按官方功能卡片整理，含辅助驾驶、座舱体验、续航与导航三大维度。</div>
+
+  <!-- 辅助驾驶 -->
+  <div class="grp-title">辅助驾驶</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">+ 新增</span>
+    <h4>理想马赫 VLA 2.0 上线，<span class="hl">辅助驾驶再进阶</span></h4>
+    <p>感知、推理、规划等核心能力<b>多车型蒸馏适配</b>，让车辆想得更快、决策更稳，行驶更丝滑，辅助驾驶更省心。理想汽车将马赫 VLA 2.0 部署至搭载 <b>Orin-X</b> 和 <b>Thor-U</b> 平台的车型，实现跟车、绕行、变道及博弈等场景下的智能辅助驾驶体验全面升级。</p>
+    <p style="margin-top:10px;">理想马赫 VLA 2.0 把<b>响应速度</b>作为重点优化方向，同时保证乘坐的舒适性，在以下四个高频场景里，这一变化能被用户直接感知：</p>
+    <div class="scenario-list">
+      <div class="scenario">
+        <div class="sc-title">绕行更主动</div>
+        <div class="sc-desc">面对施工占道、临停车辆、缓行慢车和两轮车占道，车辆能更早理解可通行的空间，提前规划绕行路线，减少等待和僵持。</div>
+      </div>
+      <div class="scenario">
+        <div class="sc-title">变道更果断</div>
+        <div class="sc-desc">模型会综合判断侧后方车辆的距离、速度和趋势，在安全的前提下抓住合适的时机，减少反复观望，变道过程更连续、更自然。</div>
+      </div>
+      <div class="scenario">
+        <div class="sc-title">跟车更跟手</div>
+        <div class="sc-desc">前车起步、提速时响应更及时。</div>
+      </div>
+      <div class="scenario">
+        <div class="sc-title">博弈更自然</div>
+        <div class="sc-desc">面对路口汇流、车辆穿插、加塞，以及行人和两轮车临近车道，车辆能更好地理解对方的意图，减少不必要的反复加减速。</div>
+      </div>
+    </div>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列的全部理想 AD Max 车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">+ 新增</span>
+    <h4>非划线车位推荐，<span class="hl">更多停车场景轻松泊入</span></h4>
+    <p>支持识别周围车辆旁的<b>非划线车位</b>，遇到没有车位线的停车区域，如露营驻车、服务区临时停靠……都能精准识别，轻松泊入。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列的全部理想 AD Max 车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">+ 新增</span>
+    <h4>理想 AI 眼镜 Livis 也可以<span class="hl">指挥泊车啦</span></h4>
+    <p>在车外，通过理想 AI 眼镜 Livis，可控制车辆<b>泊车及直线召唤</b>。支持多种语音指令：</p>
+    <div class="voice-cmd">
+      <span class="cmd">"帮我泊车"</span>
+      <span class="cmd">"向左泊出车位"</span>
+      <span class="cmd">"向前开5米"</span>
+      <span class="cmd">"暂停/继续泊车"</span>
+      <span class="cmd">……</span>
+    </div>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列的全部理想 AD Max 车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">↑ 优化</span>
+    <h4>遥控泊出支持<span class="hl">远程唤醒</span></h4>
+    <p>遥控泊出新增远程唤醒功能，使用理想汽车 App 提前唤醒车辆，并在 <b>5 分钟</b>内连接蓝牙钥匙，抵达车辆即可直接泊出，从此告别车前罚站。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列的全部理想 AD Max 车型</b></div>
+  </div>
+
+  <!-- 座舱体验 -->
+  <div class="grp-title">座舱体验</div>
+
+  <div class="ota-card">
+    <span class="badge new">+ 新增</span>
+    <h4>新增大屏转向影像，<span class="hl">画面更清晰，转弯更安心</span></h4>
+    <p>打转向灯时，大屏可显示<b>侧后方影像</b>，尺寸、位置随心调，左右转画面可分别设置。暗光逆光更清晰，高清显示低延迟，盲区少一分顾虑，转向多一分从容。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">+ 新增</span>
+    <h4>游戏《<span class="hl">饥饿鲨：世界</span>》</h4>
+    <p>经典大鱼吃小鱼冒险玩法，穿梭特色海域，解锁不同鲨鱼形态。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想系列、22-25 款理想 L 系列</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">↑ 优化</span>
+    <h4>艺术相框支持<span class="hl">动静态循环屏保</span></h4>
+    <p>图片、视频随心选，一键生成循环屏保。合照、萌宠、风景……喜欢的画面，一个都不落。让每一帧美好，都成为车内风景。连续屏保最多勾选 <b>10</b> 张，屏保切换间隔为 <b>30 秒</b>。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想系列、22-25 款理想 L 系列</b></div>
+  </div>
+
+  <!-- 续航与导航 -->
+  <div class="grp-title">续航与导航</div>
+
+  <div class="ota-card">
+    <span class="badge up">↑ 优化</span>
+    <h4>电池温控更聪明，<span class="hl">续航表现更稳定</span></h4>
+    <p><b>按时出发</b>功能：在家充电时提前预冷电池，在快到家/公司前自动停止电池冷却，减少行驶中的能耗。</p>
+    <div class="fit-multi">
+      ① 备车电池预冷功能适用车型：<b>24-25 款理想 MEGA、理想 i 系列、22-25 款理想 L 系列</b><br>
+      ② 智能电池温控功能适用车型：<b>24-25 款理想 MEGA、理想 i8</b>
+    </div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">↑ 优化</span>
+    <h4>目的地预测<span class="hl">地址增加</span></h4>
+    <p>智能推荐目的地增加，工作日放学时段，推荐接娃常用地点，周末推荐超市等位置，一键导航，快速出发。</p>
+    <div class="fit">适用车型：<b>24-25 款理想 MEGA、理想系列、22-25 款理想 L 系列</b></div>
+  </div>
+
+  <!-- ====== 02 OTA 9.1.1 ====== -->
+  <div class="section-title">理想汽车 · <span class="accent">OTA 9.1.1 升级</span></div>
+  <div class="sys-note">面向 <b>2026 年发布的全新理想 L9、全新理想 L8、新一代理想 L6 和新一代理想 MEGA</b> 车型。</div>
+
+  <!-- 座舱体验 -->
+  <div class="grp-title">座舱体验</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">+ 新增</span>
+    <h4>主动悬架游戏，<span class="hl">底盘悬架实时反馈</span></h4>
+    <p>在车辆静止状态下，用户可以借助智能底盘系统能力<b>沉浸式体验赛车游戏</b>。底盘悬架系统会反馈游戏内车辆的动作，包含 <b>飞车寻宝</b>、<b>地平线5</b> 两款游戏。</p>
+    <div class="scenario-list">
+      <div class="scenario">
+        <div class="sc-title">带主动悬架车型</div>
+        <div class="sc-desc">全新理想 L9 Livis 和全新理想 L8 Livis 可以呈现车辆的<b style="color:var(--text)">俯仰与侧倾</b>。</div>
+      </div>
+      <div class="scenario">
+        <div class="sc-title">带主动稳定杆车型</div>
+        <div class="sc-desc">新一代理想 MEGA 可以呈现车辆<b style="color:var(--text)">侧倾</b>。</div>
+      </div>
+    </div>
+    <p style="margin-top:14px;"><b>油门</b>控制游戏内车辆前进，<b>刹车</b>控制游戏内车辆减速与后退。</p>
+    <div class="fit">适用车型：<b>全新理想 L9 Livis、全新理想 L8 Livis 和新一代理想 MEGA</b></div>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据理想汽车 OTA 8.6 及 OTA 9.1.1 官方推送内容整理，含辅助驾驶、座舱、续航等全部升级项；具体功能与适配车型以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数（飞书安全区，勿往上调） ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点)，并保证能联网加载一次 CDN，再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'lixiang-ota-86-91-20260914.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="lixiang-ota-86-91-20260914.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点)，并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 特斯拉 OTA 2026.26.200.11</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(120deg,#FFFFFF 8%,var(--main-2) 58%,var(--main) 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .tip{display:block; margin-top:10px; font-size:14px; color:var(--text-dim); background:rgba(255,255,255,.02); border-radius:8px; padding:10px 14px; line-height:1.6;}
+.ota-card .tip b{color:var(--text-dim); font-weight:700;}
+
+/* 功能要点列表 */
+.feat-list{list-style:none; margin:10px 0 4px; padding:0;}
+.feat-list li{position:relative; padding:8px 0 8px 22px; font-size:16px; color:var(--text-dim); line-height:1.6; border-top:1px solid rgba(255,255,255,.04);}
+.feat-list li:first-child{border-top:none;}
+.feat-list li::before{content:''; position:absolute; left:0; top:16px; width:8px; height:8px; border-radius:2px; background:var(--main);}
+.ota-card.critical .feat-list li::before{background:var(--gold);}
+.feat-list li b{color:var(--text); font-weight:700;}
+
+/* ===== 更多升级 ===== */
+.more{background:var(--card); border:1px dashed var(--border); border-radius:16px; padding:22px 24px; margin-bottom:18px;}
+.more h4{font-size:18px; font-weight:800; margin-bottom:8px; color:var(--main-2);}
+.more p{font-size:16px; color:var(--text-dim); line-height:1.7;}
+.more p b{color:var(--text); font-weight:700;}
+.more .mlabel{display:inline-block; font-size:12px; font-weight:800; padding:2px 8px; border-radius:5px; margin-right:6px; vertical-align:1px;}
+.more .mlabel.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.more .mlabel.up{color:#fff; background:var(--main);}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月20日 · 内部速递</span>
+    </div>
+    <h1 class="headline">特斯拉最新 OTA 推送 28项升级<br>豆包大模型上车/三模式牵引力控制</h1>
+    <div class="version-note"><b>软件版本 2026.26.200.11 · 分批次推送 · 覆盖 Model 3 / Model Y / Model S / Model X 全系</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 特斯拉 OTA 2026.26.200.11</span>
+    <h2>豆包大模型上车，<em>安全/导航/影音/座舱/车辆动态</em>全面升级</h2>
+    <p>本次更新覆盖<b> Model 3 / Model Y / Model S / Model X 全系</b>车型，新增车载<b>豆包大模型</b>语音助手，支持自然流畅对话与实时信息问答；同时新增<em>三模式牵引力控制</em>、<em>盲点警报氛围灯</em>、<em>驻车开门盲点预警</em>等安全功能，并在导航、影音、座舱体验、系统应用等方面带来大量新增与优化，共计 <b>28 项</b>升级。</p>
+  </div>
+
+  <!-- ====== 01 智能语音 ====== -->
+  <div class="section-title">智能语音 · <span class="accent">新增</span></div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>豆包大模型智能语音助手 · <span class="hl">自然流畅对话与实时问答</span></h4>
+    <p>特斯拉车机搭载豆包大模型智能语音助手，不仅能提供实时信息，还能与您<b>自然流畅地对话</b>。可帮您解答问题、推荐音乐、查询天气、控制车辆等。</p>
+    <ul class="feat-list">
+      <li><b>多音色选择</b>：可选薇薇（灵动女声）、云舟（沉稳男声）等音色</li>
+      <li><b>个性化角色</b>：可切换"万事通""音乐爱好者""故事会"等角色</li>
+      <li><b>方言识别</b>：支持粤语、四川话等方言识别</li>
+      <li><b>多轮对话</b>：理解上下文，支持连续对话</li>
+      <li><b>声纹识别</b>：识别不同乘客的声音，为不同用户创建专属偏好设置</li>
+    </ul>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>语音控制车窗</h4>
+    <p>语音指令新增<b>"车窗"</b>控制功能。例如说"打开车窗""关闭车窗""车窗打开一半"等指令即可控制。</p>
+  </div>
+
+  <!-- ====== 02 安全辅助 ====== -->
+  <div class="section-title">安全辅助 · <span class="accent">新增</span></div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>盲点警报氛围灯 · <span class="hl">转向与驻车双重预警</span></h4>
+    <p>开启<b>转向灯</b>，或是<b>驻车时探测到物体靠近</b>，氛围灯自动<b>变红预警</b>。</p>
+    <div class="tip"><b>关闭路径：</b>可在「控制 > 车灯」菜单关闭。</div>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>驻车开门盲点预警 · <span class="hl">后方来车开门保护</span></h4>
+    <p>后方有<b>非机动车持续靠近</b>时尝试开门，车门<b>首次按下不会开启</b>，盲点指示灯闪烁并伴随蜂鸣提醒；再次按下按钮可忽略警告。</p>
+  </div>
+
+  <!-- ====== 03 导航行程 ====== -->
+  <div class="section-title">导航行程 · <span class="accent">优化</span></div>
+  <div class="sys-note">位置数据对特斯拉是完全匿名的，并且<b>不与车辆关联</b>。特斯拉使用位置数据来改进产品，包括导航、路线规划、交通状况、充电桩可用性等。</div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>行程规划 · <span class="hl">续航估算更精准</span></h4>
+    <p>预估电量和续航里程现在会考虑更多因素，包括<b>海拔变化、风速和气温</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>智能导航 · <span class="hl">学习日常驾驶习惯</span></h4>
+    <p>智能导航现在可适应您的日常习惯。除了"住宅""公司"之外，在<b>"目的地建议"</b>启用的情况下，系统会学习您的日常驾驶模式，并在导航时提供建议并规划路线，例如<b>上班途中的充电站</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>在线路线规划 · <span class="hl">优先显示规划路线</span></h4>
+    <p>在「控制 > 导航」中开启<b>"在线路线规划"</b>。当规划路线时，将优先考虑显示路线规划。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>导航地图缩放保持</h4>
+    <p>导航地图升级时，将<b>保持缩放级别</b>，不会因更新重置视角。</p>
+  </div>
+
+  <!-- ====== 04 影音娱乐 ====== -->
+  <div class="section-title">影音娱乐 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>媒体应用扩容 · <span class="hl">QQ音乐 / 酷狗音乐 / 网易云音乐 / 喜马拉雅</span></h4>
+    <p>可通过 Tesla 应用程序访问<b>QQ音乐、酷狗音乐、网易云音乐与喜马拉雅</b>。</p>
+    <div class="tip"><b>要求：</b>需要高级车载娱乐服务包或 Wi-Fi 连接。</div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>Apple Music 上线</h4>
+    <p>在 Apple Music 中浏览<b>歌曲、专辑和播放列表</b>。</p>
+    <div class="tip"><b>要求：</b>需要高级车载娱乐服务包或 Wi-Fi 连接。</div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>沉浸式空间音频 · <span class="hl">全流媒体来源支持</span></h4>
+    <p>通过优化音频处理算法和新增音频技术，新增并扩展了<b>沉浸式空间音频</b>。丰富了音频体验，新增功能适用于<b>所有流媒体来源</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>Apple Music 播放队列 · <span class="hl">快捷添加与收藏</span></h4>
+    <p>将歌曲从搜索建议和"艺人"页面直接添加到您的 Apple Music 播放队列。<b>长按</b>一首歌曲，然后选择"添加到播放列表"或"播放下一首"。保存到音乐库标记为收藏。</p>
+    <div class="tip"><b>要求：</b>需要有效的 Apple Music 订阅。</div>
+  </div>
+
+  <!-- ====== 05 座舱体验 ====== -->
+  <div class="section-title">座舱体验 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>欢迎动画</h4>
+    <p>特斯拉开机时会显示<b>欢迎动画</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>驻车 3D 显示</h4>
+    <p>驻车时车辆现在将以 <b>3D 形式</b>显示。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>可视化驾驶 · <span class="hl">定制化辅助驾驶动画</span></h4>
+    <p>定制化的辅助驾驶动画与后视视频，可在「控制 > 辅助驾驶」中<b>定制化摄像头视角</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>键盘增强 · <span class="hl">扩展布局与表情符号</span></h4>
+    <p>键盘现在支持<b>扩展和表情符号</b>的增强键盘布局。</p>
+  </div>
+
+  <!-- ====== 06 车辆动态控制 ====== -->
+  <div class="section-title">车辆动态控制 · <span class="accent">新增</span></div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>三模式牵引力控制 · <span class="hl">标准 / 湿地 / 越野</span></h4>
+    <p>三种新的牵引力控制模式可供选择：</p>
+    <ul class="feat-list">
+      <li><b>标准模式</b>：适用于正常驾驶条件</li>
+      <li><b>湿地模式</b>：适用于湿滑路面</li>
+      <li><b>越野模式</b>：适用于沙地、泥地、雪地或碎石路面</li>
+    </ul>
+    <div class="tip"><b>说明：</b>模式在开始和初次驾驶时重置为自动。选择路径：「控制 > 安全 > 牵引力控制模式」。</div>
+  </div>
+
+  <!-- ====== 07 系统与应用 ====== -->
+  <div class="section-title">系统与应用 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>家长控制 · <span class="hl">禁用浏览器 / 剧场 / 游戏</span></h4>
+    <p>可以在车辆状态下启用<b>"家长控制"</b>，以禁用特斯拉上的浏览器、剧场和游戏。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>自动软件更新 · <span class="hl">夜间自动安装</span></h4>
+    <p>您的特斯拉可以在<b>夜间自动安装</b>软件更新。启用此功能，请点选「控制 > 软件」来查看最新的功能并改进。</p>
+    <div class="tip"><b>前提：</b>启用前请确保已连接 Wi-Fi。</div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>行车记录仪查看器 · <span class="hl">车机直接预览循环播放</span></h4>
+    <p>可以查看和<b>循环播放</b>行车记录仪视频片段。视频片段将保存在车辆的 USB 设备中，在车辆上永久保存，不会与特斯拉分享。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>摄像头预览 · <span class="hl">非驻车状态亦可查看</span></h4>
+    <p>可以随时打开摄像头预览，即使您的特斯拉<b>未处于驻车状态</b>。前往「控制 > 服务」菜单查看，轻点网格按钮以选择所需摄像头。</p>
+  </div>
+
+  <!-- ====== 08 更多升级 ====== -->
+  <div class="section-title">更多 <span class="accent">升级</span></div>
+
+  <div class="more">
+    <h4>系统与互联</h4>
+    <p><span class="mlabel new">新增 +</span><b>彩蛋更新</b>：中控屏锁屏时可显示特斯拉签名。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>手机应用程序</b>：使用手机应用程序可以查看车辆状态、控制车辆、以及使用其他功能。要求使用手机应用程序 4.5.6 或更高版本。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>网页浏览器</b>：可以在网页浏览器中使用您的特斯拉车内网络账号和驾驶模式来访问网站。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>Tesla 应用程序</b>：前往"应用程序"启动器来访问 Tesla 应用程序。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>Wi-Fi 连接</b>：屏幕底部可使用新功能，滑动以切换网络。需要开通高级车载娱乐服务包或者连接 Wi-Fi 以使用此功能。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据特斯拉官方 2026.26.200.11 软件更新说明整理，共计 28 项新增与优化功能，具体以官方推送为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'tesla-ota-20260920.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="tesla-ota-20260920.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 东风猛士M817 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.tm{font-size:0.4em; vertical-align:super; font-weight:700; margin:0 1px; color:var(--gold);}
+.headline .tm{-webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim); line-height:1.72;}
+.version-note b{color:var(--text); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.section-title .tm{font-size:0.4em; vertical-align:super; font-weight:700; margin:0 1px; color:var(--gold);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card h4 .tm{font-size:0.4em; vertical-align:super; font-weight:700; margin:0 1px; color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card .sub-list{list-style:none; margin-top:12px;}
+.ota-card .sub-list li{font-size:16px; color:var(--text-dim); line-height:1.72; padding-left:18px; position:relative; margin-bottom:8px;}
+.ota-card .sub-list li:last-child{margin-bottom:0;}
+.ota-card .sub-list li::before{content:''; position:absolute; left:0; top:10px; width:7px; height:7px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#E8960C);}
+.ota-card .sub-list li b{color:var(--text); font-weight:700;}
+
+/* ===== ADS 5 三维度概览 ===== */
+.dim-row{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0 24px;}
+.dim-item{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px 18px; position:relative; overflow:hidden;}
+.dim-item::before{content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--grad);}
+.dim-name{font-size:17px; font-weight:800; color:var(--gold); margin-bottom:8px; letter-spacing:.5px;}
+.dim-desc{font-size:15px; color:var(--text-dim); line-height:1.65;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:30px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .dim-row{grid-template-columns:1fr;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月20日 · 内部速递</span>
+    </div>
+    <h1 class="headline">猛士M817 OTA升级<br>搭载 <span class="ver">华为乾崑智驾ADS<sup class="tm">™</sup> 5</span></h1>
+    <div class="version-note"><b>9月19日晚20点</b>起陆续推送 · 全新猛士M817先行升级 · 2025款M817座舱功能先行优化，<b>ADS 5预计2026年10月下旬推送</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 猛士M817 OTA</span>
+    <h2>搭载 <em>华为乾崑智驾ADS™ 5</em>，智驾能力全面进化</h2>
+    <p>通行效率、驾乘舒适、主动安全三大维度提升；新增<em>城区漫游巡航RCA</em>、<em>自动防追尾辅助</em>、<em>守位泊车</em>、<em>领航NCA直达充电车位</em>及<em>园区途经点</em>等功能；座舱同步升级HUD显示、全时四驱开关、智慧场景等。</p>
+  </div>
+
+  <!-- ===== 华为乾崑智驾ADS™ 5 · 智驾升级 ===== -->
+  <div class="section-title">华为乾崑智驾ADS<sup class="tm">™</sup> 5 <span class="accent">智驾升级</span></div>
+
+  <div class="dim-row">
+    <div class="dim-item">
+      <div class="dim-name">通行更高效</div>
+      <div class="dim-desc">面对复杂路况，系统决策更加聪明，变道更精准，超车更丝滑。</div>
+    </div>
+    <div class="dim-item">
+      <div class="dim-name">驾乘更舒适</div>
+      <div class="dim-desc">系统更有预见性地识别、判断前方路况，更早避开障碍物，启停更加柔和。</div>
+    </div>
+    <div class="dim-item">
+      <div class="dim-name">出行更安全</div>
+      <div class="dim-desc">防御性驾驶增强，面对盲区提前减速观察；遇到它车近距离紧急切入，可更快减速和避让。</div>
+    </div>
+  </div>
+
+  <div class="sys-note">以下智驾功能随<b>华为乾崑智驾ADS 5</b>推送，<b>全新猛士M817</b>先行升级；<b>2025款猛士M817</b>预计<em>2026年10月下旬</em>推送。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>城区漫游巡航辅助RCA · <span class="hl">无目的地也能轻松漫游</span></h4>
+    <p>无需设置导航，或导航偏航、到达终点未接管车辆时即可开启城区漫游巡航。漫游过程中支持<b>红绿灯识别</b>、<b>路口连续通行</b>、<b>自主超车变道</b>；驶入地面园区可无导航漫游，支持<b>就近泊车</b>、<b>沿途车位快速泊入</b>。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>自动防追尾辅助 · <span class="hl">后车逼近主动加速避让</span></h4>
+    <p>城区快速路、高速路段，当系统侦测后方车辆快速逼近、存在追尾风险且前方拥有安全避让空间时，在<b>0-70km/h</b>车速区间内（NCA/LCC激活状态），车辆将<b>主动加速拉开安全距离</b>，降低被追尾风险。恶劣雨雪大雾天气暂不生效。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>守位泊车 · <span class="hl">后方来车抢位时自动调整轨迹</span></h4>
+    <p>泊车辅助开启状态下，后方有车辆靠近抢位时，系统<b>自动调整泊车轨迹</b>，优先贴近目标车位，守护心仪车位不被抢占。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>领航NCA直达充电车位 · <span class="hl">根据充电桩忙闲自动匹配</span></h4>
+    <p>驶入园区后，系统可根据充电桩<b>忙闲状态自动匹配充电车位</b>；合作场站支持终点就近泊车，也可手动选定充电车位，<b>NCA领航一键直达</b>，减少找桩绕路。仅支持星星充电、特来电等合作运营商部分车场，后续持续拓展。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>领航NCA支持园区内部途经点 · <span class="hl">车位、电梯口可设途经点</span></h4>
+    <p>领航辅助行驶途中，可把<b>园区车位、电梯口</b>等点位设置为途经点，买咖啡、临时停车送人等短途场景更加便捷。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>花瓣地图组队出行 · <span class="hl">实时位置共享 · 语音群聊</span></h4>
+    <p>花瓣地图新增组队功能，创建/加入队伍即可<b>实时查看队友位置</b>，导航路线互相共享；车机内置<b>语音群聊</b>，多车结伴出行位置互通、沟通高效。</p>
+    <div class="fit">适配：<b>全新猛士M817先行升级；2025款M817预计2026年10月下旬推送</b></div>
+  </div>
+
+
+
+  <!-- ===== 座舱体验升级 ===== -->
+  <div class="section-title">座舱体验 <span class="accent">全面升级</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>全时四驱开关 · <span class="hl">驾控中心新增全时四驱模式切换</span></h4>
+    <p>驾控中心界面新增全时四驱开关。开启后车辆进入<b>全时四驱模式</b>，动力输出更强、行驶稳定性提升，能耗相应增高；关闭则切换至<b>适时四驱模式</b>，进一步延长续航里程。</p>
+    <div class="fit">适配：<b>2025款M817升级后支持；全新M817可通过车内AWD机械按钮实现</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>智慧场景 · <span class="hl">自定义多套个性化用车方案</span></h4>
+    <p>用户可自定义多套个性化用车方案，支持<b>自动触发或手动执行</b>，匹配上下班、出游、低电量提醒等各类日常用车场景，常用设置一键自动完成。</p>
+    <div class="fit">适配：<b>2025款M817升级后可用；全新M817原生搭载</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>主驾解锁保护 · <span class="hl">仅解锁主驾车门，单人出行更安全</span></h4>
+    <p>开启之后，按下车辆解锁按键，<b>仅解锁主驾车门</b>，其余车门保持锁止状态，单人出行进一步提升安全系数。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>HUD抬头显示升级 · <span class="hl">越野参数 · 转向倒车影像投射</span></h4>
+    <p>HUD右侧卡片支持切换<b>「无/辅助驾驶/车身姿态/越野参数」</b>，其中越野参数为猛士专属显示内容；同时新增<b>转向影像</b>、<b>倒车影像</b>投射，转向、倒车时画面直接抬头可见；雪地模式下可开启<b>雪地增强显示</b>，优化冰雪环境显示效果。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据猛士M817 OTA官方资料整理，含座舱、车控等非驾驶辅助项；全新猛士M817先行升级，2025款座舱功能先行推送、ADS 5预计2026年10月下旬推送。配置以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'mengshi-m817-ota-20260920.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="mengshi-m817-ota-20260920.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

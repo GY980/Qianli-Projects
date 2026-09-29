@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 腾势「迪迪虾」AI智能体 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+
+/* ===== 更多升级 ===== */
+.more{background:var(--card); border:1px dashed var(--border); border-radius:16px; padding:22px 24px; margin-bottom:18px;}
+.more h4{font-size:18px; font-weight:800; margin-bottom:10px; color:var(--main-2);}
+.more ul{list-style:none; margin:0; padding:0;}
+.more ul li{position:relative; padding:8px 0 8px 20px; font-size:16px; color:var(--text-dim); line-height:1.6; border-top:1px solid rgba(255,255,255,.04);}
+.more ul li:first-child{border-top:none;}
+.more ul li::before{content:'↑'; position:absolute; left:0; top:8px; font-size:14px; color:var(--main-2); font-weight:800;}
+.more ul li b{color:var(--text); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月17日 · 内部速递</span>
+    </div>
+    <h1 class="headline">「迪迪虾」AI超级智能体上线<br>腾势 Z9GT / N9闪充版 / 第二代D9 OTA升级</h1>
+    <div class="version-note"><b>腾势Z9GT 9月16日推送 · N9闪充版 V1.2.0 · 第二代D9 OTA升级</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 迪迪虾 AI智能体</span>
+    <h2>比亚迪整车AI超级智能体<em>「迪迪虾」</em>正式推送，三车型OTA核心升级</h2>
+    <p><b>腾势Z9GT</b>、<b>N9闪充版</b>、<b>第二代D9</b> 三款车型本轮OTA核心均为「迪迪虾」AI超级智能体上线，支持<em>陪聊、点单、订酒店</em>、AI个性化设置、AI技能库、导航智能体等功能，深度接入AI生态，覆盖语音交互、人设定制、技能扩展、记忆学习、生态服务全场景。三车均增用车问答/车控智能体，N9闪充版另增<em>底盘调校大师</em>。</p>
+  </div>
+
+  <!-- ===== 迪迪虾 AI超级智能体 ===== -->
+  <div class="section-title">迪迪虾 AI超级智能体 · <span class="accent">核心功能</span></div>
+  <div class="sys-note">「迪迪虾」是比亚迪整车AI超级智能体，定位车端AI级助理。以下<b>三款车型均适配</b>全部9项功能；N9闪充版与第二代D9以不同功能名表述（如「陪聊」对应AI空间、「点单/订酒店」对应生态智能体服务），功能实质一致。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迪迪虾 · <span class="hl">整车AI超级智能体</span></h4>
+    <p>比亚迪整车AI超级智能体，智能搭子焕新上线，一站式解锁五大新功能，支持<b>7分屏和全屏设置</b>，让智能交互有温度、更懂你。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>生态智能体服务 · <span class="hl">听音乐 · 点外卖 · 订酒店</span></h4>
+    <p>听音乐、看视频、点外卖、订酒店，一句话搞定吃喝玩乐，通过<b>语音即可完成</b>全流程操作；更多生态智能体持续接入中。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迪迪虾「AI空间」 · <span class="hl">沉浸式AI对话</span></h4>
+    <p>语音唤醒即刻交互，<b>百变闲聊风格随心切换</b>，让每一段旅途有回应、也有陪伴。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迪迪虾「人设」 · <span class="hl">形象 · 性格 · 音色 · 回复风格</span></h4>
+    <p>形象、性格、音色、回复风格自由定制，千人千面，打造<b>专属AI助理</b>。对应N9/D9的「AI智能体个性化设置」。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迪迪虾「技能」 · <span class="hl">技能推荐 · 场景模式 · IoT联动</span></h4>
+    <p>推荐技能、场景模式、智慧物联自由搭配，各项技能<b>丝滑协同</b>，创建「我的技能」库，打造个性化座舱智慧空间。对应N9/D9的「AI技能库」。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>迪迪虾「记忆」 · <span class="hl">声纹注册 · 偏好学习</span></h4>
+    <p>声纹注册后，记住你的<b>偏好、习惯和重要事项</b>，越聊越懂你，让每一次互动都更熟悉、更默契。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>导航智能体服务 · <span class="hl">多点行程 · 多途经点规划</span></h4>
+    <p>多地点复杂路线轻松规划，路线攻略查询<b>直达导航</b>，你负责交代，它负责安排。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>用车问答智能体服务 · <span class="hl">随车顾问 · 有问必答</span></h4>
+    <p>车辆配置、车况状态、故障图标、功能用法均可<b>语音问询迪迪虾</b>，无需翻阅手册，快速获取用车解答。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车控智能体服务 · <span class="hl">复杂指令 · 模糊语义识别</span></h4>
+    <p>支持复杂指令与生活化模糊语义识别，摆脱固定话术束缚，<b>口语即可完成多项车辆控制</b>，操作更简单。</p>
+    <div class="fit">适配：<b>腾势Z9GT · N9闪充版 · 第二代D9</b></div>
+  </div>
+
+  <!-- ===== 更多新增功能 ===== -->
+  <div class="section-title">更多 <span class="accent">新增功能</span></div>
+  <div class="sys-note">以下为除迪迪虾核心功能外的其他新增功能，部分功能仅特定车型/版本适配，右下角已标注。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>底盘调校大师 · <span class="hl">云辇底盘自定义调校</span></h4>
+    <p>进入云辇底盘调校工坊，<b>阻尼、刚度、高度一键调节</b>，实时评分调校效果；支持智能防晕车、转向助力等自定义设置，可保存3组调校预设，人人都是调校大师。</p>
+    <div class="fit">适配：<b>腾势N9闪充版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>氛围灯联动空调温度调节仪式感 · <span class="hl">PM2.5净化仪式感</span></h4>
+    <p>氛围灯联动空调温度调节，新增<b>仪式感功能</b>；同步新增PM2.5净化仪式感功能，提升座舱氛围体验。</p>
+    <div class="fit">适配：<b>腾势Z9GT</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>行车能耗分布显示 · <span class="hl">能量流向可视化</span></h4>
+    <p>新增行车能耗分布显示功能，直观呈现<b>各环节能量流向</b>，帮助用户了解实时能耗构成。</p>
+    <div class="fit">适配：<b>腾势Z9GT</b>（闪充尊荣型 / 闪充旗舰型 / 易三方闪充全系）</div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>帝瓦雷音效「气势如宏」模式 · <span class="hl">全新音响模式</span></h4>
+    <p>帝瓦雷音效新增<b>「气势如宏」模式</b>，扩展音响体验，带来更澎湃的声场表现。</p>
+    <div class="fit">适配：<b>腾势Z9GT</b></div>
+  </div>
+
+  <!-- ===== 体验升级 ===== -->
+  <div class="section-title">体验 <span class="accent">升级优化</span></div>
+  <div class="sys-note">以下为三车型<b>升级优化项</b>。Z9GT项来自官方OTA功能清单，N9闪充版项来自官方「更多焕新功能」，D9依据官方资讯。</div>
+
+  <div class="more">
+    <h4>驾乘与底盘</h4>
+    <ul>
+      <li><b>驾乘体验提升</b> · 适配：腾势Z9GT</li>
+      <li><b>驾驶稳定性提升</b> · 适配：腾势Z9GT（易三方闪充全系）</li>
+      <li><b>易三方功能平顺性提升</b> · 调校动力输出与能量回收逻辑，优化起步/跟车/加减速工况 · 适配：腾势Z9GT · N9闪充版</li>
+      <li><b>高速超车工况体验提升</b> · 适配：腾势Z9GT（易三方闪充超越型/性能型/尊荣型/旗舰型）</li>
+    </ul>
+  </div>
+
+  <div class="more">
+    <h4>充电与能源</h4>
+    <ul>
+      <li><b>闪充体验提升</b> · 适配：腾势Z9GT（闪充尊荣型/闪充旗舰型/易三方闪充全系）· N9闪充版</li>
+    </ul>
+  </div>
+
+  <div class="more">
+    <h4>座舱与互联</h4>
+    <ul>
+      <li><b>整车使用体验改善</b> · 优化座舱交互与后台多应用协同，提升系统流畅度与稳定性 · 适配：腾势Z9GT · N9闪充版</li>
+      <li><b>HUD自适应功能体验提升</b> · 优化亮度/位置自适应算法，适配昼夜/隧道等多变光线环境 · 适配：腾势Z9GT · N9闪充版</li>
+      <li><b>数字钥匙使用体验提升</b> · 优化蓝牙识别连接策略，改善靠近解锁/离车闭锁灵敏度 · 适配：腾势Z9GT · N9闪充版</li>
+      <li><b>空调压缩机工作稳定性提升</b> · 适配：腾势Z9GT（易三方闪充超越型/性能型/尊荣型/旗舰型）</li>
+      <li><b>空调体验及系统稳定性提升</b> · 适配：腾势Z9GT（易三方闪充尊荣型/旗舰型）</li>
+      <li><b>闭锁升窗逻辑调整</b> · 适配：腾势Z9GT</li>
+    </ul>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据腾势官方OTA升级资讯及功能截图整理，具体推送详情以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'dengsi-didixia-ota-20260917.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="dengsi-didixia-ota-20260917.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新车要闻 — 深蓝G318 / 新款红旗HS5 智驾配置</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --main-soft-bg:rgba(45,127,249,.10);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 12% -10%, rgba(45,127,249,.18), transparent 60%),
+    radial-gradient(900px 520px at 108% 2%, rgba(91,157,255,.10), transparent 55%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:28px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.hero .brand{color:var(--text-dim); font-size:17px; font-weight:700; letter-spacing:3px; margin-bottom:10px; line-height:1.6;}
+.hero h1{
+  font-size:60px; font-weight:900; line-height:1.1; letter-spacing:1px;
+  background:linear-gradient(120deg,#FFFFFF 8%,var(--main-2) 58%,var(--main) 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero .lead{margin-top:20px; font-size:18px; color:var(--text-dim); line-height:1.75;}
+.hero .lead em{color:var(--gold); font-style:normal; font-weight:800;}
+.hero .lead b{color:var(--text); font-weight:700;}
+
+/* ===== digest-panel ===== */
+.digest-panel{margin:34px 0 56px;}
+.banner{
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner .title{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner .title em{color:var(--gold); font-style:normal;}
+.banner .desc{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner .desc b{color:var(--text); font-weight:700;}
+.banner .desc em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 车分区 ===== */
+.car-divider{height:1px; background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent); margin:0 0 40px;}
+.car-section{margin-bottom:36px; padding-top:20px;}
+.car-header{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:34px 36px; margin-bottom:30px; position:relative; overflow:hidden;}
+.car-header::before{content:''; position:absolute; top:-80px; right:-60px; width:320px; height:320px; background:radial-gradient(circle,var(--main-glow) 0%,transparent 70%); pointer-events:none;}
+.car-header .idx{display:inline-block; font-size:15px; font-weight:700; letter-spacing:2px; color:var(--main-2); margin-bottom:10px;}
+.car-header .cname{font-size:38px; font-weight:900; line-height:1.2; margin-bottom:6px; position:relative; z-index:1;}
+.car-header .cbrand{font-size:17px; color:var(--text-dim); font-weight:400;}
+.car-header .price-line{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:20px; position:relative; z-index:1;}
+.car-header .pbadge{font-size:15px; font-weight:700; padding:8px 16px; border-radius:8px;}
+.pbadge.date{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2)); box-shadow:0 6px 18px rgba(45,127,249,.35);}
+.pbadge.year{color:#1a1400; font-weight:800; background:linear-gradient(120deg,#F5C860,#E8960C); box-shadow:0 6px 18px rgba(240,180,41,.32);}
+.pbadge.price{color:var(--gold); background:rgba(240,180,41,.10); border:1px solid rgba(240,180,41,.35);}
+.pbadge.trims{color:var(--text-dim); background:rgba(255,255,255,.03); border:1px solid var(--border);}
+.car-header .ch-notes{margin-top:20px; display:flex; flex-direction:column; gap:12px; position:relative; z-index:1;}
+.car-header .ch-note{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.car-header .ch-note .ch-k{flex-shrink:0; font-size:14px; font-weight:800; color:var(--gold); background:rgba(240,180,41,.10); border:1px solid rgba(240,180,41,.32); padding:5px 13px; border-radius:8px;}
+.car-header .ch-note .ch-v{font-size:16px; color:var(--text-dim); line-height:1.6;}
+
+/* ===== feature-headline ===== */
+.feature-headline{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px 30px; margin-bottom:24px;}
+.feature-headline .fh-titlerow{display:flex; align-items:center; gap:16px; margin-bottom:8px;}
+.feature-headline .fh-icon{width:48px; height:48px; flex-shrink:0; border-radius:12px; background:var(--grad); display:flex; align-items:center; justify-content:center;}
+.feature-headline .fh-titlerow h3{font-size:24px; font-weight:800; line-height:1.3;}
+.feature-headline .fh-titlerow h3 .hl{color:var(--main-2);}
+.fh-points{list-style:none; margin:14px 0 0; padding:0;}
+.fh-points li{position:relative; padding-left:22px; margin-top:12px; font-size:17px; color:var(--text-dim); line-height:1.6;}
+.fh-points li:first-child{margin-top:0;}
+.fh-points li::before{content:""; position:absolute; left:0; top:10px; width:9px; height:9px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#F5C860);}
+.fh-points li b{color:var(--text); font-weight:700;}
+.fh-points li em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== section / 硬件 ===== */
+.sub-title{font-size:27px; font-weight:900; letter-spacing:.5px; margin:0 0 20px; text-align:center;}
+.hw-block{margin-bottom:30px;}
+.hw-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+.hw-grid.cols3{grid-template-columns:repeat(3,1fr);}
+.hw-item{text-align:center; padding:24px 12px; background:var(--card); border:1px solid var(--border); border-radius:14px;}
+.hw-item.key{border-color:rgba(240,180,41,.4); background:rgba(240,180,41,.05);}
+.hw-item .hw-num{font-size:40px; font-weight:900; line-height:1; margin-bottom:10px; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.hw-item.key .hw-num{background:linear-gradient(135deg,var(--gold),#E8960C); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.hw-item .hw-num.small{font-size:26px;}
+.hw-item .hw-label{font-size:14px; color:var(--text-dim); line-height:1.5; font-weight:600;}
+.sub-desc{font-size:15px; color:var(--text-dim); margin-top:14px; text-align:center; line-height:1.7;}
+.pill-gold{display:inline-block; font-size:14.5px; font-weight:800; color:var(--gold); background:rgba(240,180,41,.10); border:1px solid rgba(240,180,41,.35); padding:5px 13px; border-radius:8px; margin-top:16px;}
+.sub-desc em{color:var(--gold); font-style:normal; font-weight:700;}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.03); border:1px solid var(--border); border-left:3px solid var(--main-line); border-radius:10px; padding:13px 17px; margin:0 0 18px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 功能网格 ===== */
+.feature-block{margin-bottom:12px;}
+.grp-title{font-size:18px; font-weight:800; margin:24px 0 14px; color:var(--gold);}
+.grp-title.blue{color:var(--main-2);}
+.safety-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
+.safety-item{display:flex; align-items:center; gap:12px; padding:14px 18px; background:var(--card); border:1px solid var(--border); border-radius:12px; font-size:16px;}
+.safety-item .abbr{flex-shrink:0; font-weight:700; font-size:13px; color:var(--main-2); min-width:62px; text-align:center; padding:6px 8px; line-height:1.3; background:rgba(45,127,249,.12); border-radius:8px; letter-spacing:.3px;}
+.safety-item .abbr svg{display:block; margin:0 auto; width:22px; height:22px; stroke:var(--main-2);}
+.safety-item .desc{color:var(--text);}
+.safety-item.critical{border-color:rgba(240,180,41,.4); background:rgba(240,180,41,.05);}
+.safety-item.critical .abbr{background:rgba(240,180,41,.14); color:var(--gold);}
+.safety-item.critical .abbr svg{stroke:var(--gold);}
+/* 主功能 + 细分能力 */
+.func-group{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:12px;}
+.func-group.critical{border-color:rgba(240,180,41,.4); background:rgba(240,180,41,.05);}
+.func-group .fg-head{display:flex; align-items:center; gap:12px; font-size:16px;}
+.func-group .fg-head .abbr{flex-shrink:0; font-weight:700; font-size:13px; color:var(--main-2); min-width:62px; text-align:center; padding:6px 8px; line-height:1.3; background:rgba(45,127,249,.12); border-radius:8px; letter-spacing:.3px;}
+.func-group .fg-head .abbr svg{display:block; margin:0 auto; width:24px; height:24px; stroke:var(--main-2);}
+.func-group.critical .fg-head .abbr svg{stroke:var(--gold);}
+.func-group.critical .fg-head .abbr{background:rgba(240,180,41,.14); color:var(--gold);}
+.func-group .fg-head .fg-name{font-weight:700; color:var(--text);}
+.func-group .fg-sub{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);}
+.func-group .fg-sub .scap{font-size:14.5px; font-weight:600; color:var(--text); background:rgba(91,157,255,.10); border:1px solid rgba(91,157,255,.28); padding:6px 12px; border-radius:8px; line-height:1.45;}
+.func-group.critical .fg-sub .scap{color:var(--text); background:rgba(240,180,41,.10); border-color:rgba(240,180,41,.32);}
+/* 待 OTA 解锁标记 */
+.ota-tag{margin-left:auto; flex-shrink:0; font-size:13px; font-weight:800; letter-spacing:.3px; color:var(--main-2); background:rgba(45,127,249,.12); border:1px solid var(--main-line); border-radius:7px; padding:3px 10px; white-space:nowrap;}
+/* 无细分能力的功能卡:两卡一行 */
+.func-row{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:12px;}
+.func-row .func-group{margin-bottom:0;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .hero h1{font-size:36px;}
+  .hero .brand{font-size:14px; letter-spacing:2px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner .title{font-size:22px;}
+  .sub-title{font-size:22px;}
+  .car-header{padding:26px 22px;}
+  .car-header .cname{font-size:28px;}
+  .feature-headline .fh-titlerow h3{font-size:20px;}
+  .hw-grid{grid-template-columns:repeat(2,1fr);}
+  .safety-grid{grid-template-columns:1fr;}
+  .func-row{grid-template-columns:1fr;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新车要闻</span>
+      <span class="line"></span>
+      <span class="meta">2026年8月24日 · 内部速递</span>
+    </div>
+    <div class="brand">长安深蓝 · 一汽红旗</div>
+    <h1>深蓝G318 · 新款红旗HS5</h1>
+    <div class="lead">2026 成都车展 <b>8月21日</b> 开幕,<b>深蓝G318</b> 与 <b>新款红旗HS5</b> 当日上市,两车智驾能力均按车型版本区分。</div>
+  </div>
+
+  <!-- ===== digest-panel:本期重点 ===== -->
+  <div class="digest-panel">
+    <div class="banner">
+      <span class="tag"><span class="dot"></span>本期重点 · 智驾看点</span>
+      <div class="title"><em>深蓝G318</em> 搭 华为乾崑ADS 5 Pro,<em>新款红旗HS5</em> 搭 红旗司南智驾</div>
+      <div class="desc"><b>深蓝G318</b> 以<em>舱内激光雷达</em>实现城区无图 NCA,园区领航泊车、跨楼层无记忆泊车与离车泊入齐备,高速平均接管里程 <em>&gt;1500 公里</em>;<b>新款红旗HS5</b> 给到高速领航辅助与记忆泊车,按车型版本适配。</div>
+    </div>
+  </div>
+
+  <!-- ============ 01 深蓝G318 ============ -->
+  <div class="car-divider"></div>
+  <section class="car-section">
+    <div class="car-header">
+      <div class="idx">01 / 长安深蓝 DEEPAL</div>
+      <div class="cname">深蓝G318 <span class="cbrand">/ 方盒子 SUV · 华为乾崑ADS 5 Pro</span></div>
+      <div class="price-line">
+        <span class="pbadge date">8月21日上市</span>
+        <span class="pbadge price">¥19.98–23.98万</span>
+        <span class="pbadge trims">3款车型</span>
+      </div>
+      <div class="ch-notes">
+        <div class="ch-note"><span class="ch-k">智驾方案</span><span class="ch-v">乾崑版(21.98 / 23.98万)搭载 华为乾崑ADS 5 Pro · 天枢版(19.98万)搭载 天枢领航</span></div>
+        <div class="ch-note"><span class="ch-k">辅助驾驶等级</span><span class="ch-v">全系 L2 级组合驾驶辅助</span></div>
+      </div>
+    </div>
+
+    <!-- 卖点头部卡:官方品宣 -->
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 7h10c0-2 2-4 2-7a7 7 0 0 0-7-7z"/><path d="M9 20h6"/></svg></div>
+        <h3>华为乾崑ADS 5 Pro · <span class="hl">WEWA 2.0 架构 + CAS 5.0 全维防碰撞</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>WEWA 2.0 架构</b>:云端世界引擎 + 车端世界行为模型,可覆盖更多长尾场景的连续决策</li>
+        <li><b>CAS 5.0 全维防碰撞系统</b>:覆盖前向、侧向、后向的全方向主动安全,并向低速与异形障碍物场景延伸</li>
+      </ul>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l5-3v15"/><path d="M9 21V6l6-3v18"/><path d="M15 21V8l5 3v10"/><path d="M2 21h20"/></svg></div>
+        <h3>城区领航辅助 NCA · <span class="hl">路口与拥堵场景</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>智能避障及变道辅助</b>:可识别多类型障碍物,减速避让并绕行;路口能识别行人与车辆后自主决策通行</li>
+        <li><b>智能窄道通行</b>:窄道场景下控制横向间距、减少剐蹭风险</li>
+        <li><b>多车道汇流防加塞</b>:预判邻道车辆加塞意图,主动调速控制车距</li>
+        <li><b>无保护右转</b>:无信号灯保护的右转路口识别人车后自主决策通行</li>
+      </ul>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21 9 3"/><path d="M20 21 15 3"/><path d="M12 6v3"/><path d="M12 13v3"/></svg></div>
+        <h3>高速领航辅助 NCA · <span class="hl">平均接管里程 &gt;1500 公里</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>智能上下匝道辅助</b>:匝道汇入与切出的全程速度与轨迹控制</li>
+        <li><b>智能过弯辅助</b>:弯道内控制转向与车身姿态,减少侧倾感</li>
+      </ul>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V8h3.5a2.75 2.75 0 0 1 0 5.5H9"/></svg></div>
+        <h3>全域智能泊车辅助 · <span class="hl">不受标线束缚、可见即可泊</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>车位到车位 3.0</b>:从起点车位到目的地车位的连续辅助</li>
+        <li><b>常规车位</b>:垂直、平行、斜列车位全覆盖</li>
+        <li><b>高难度场景</b>:<em>极窄车位</em>、<em>窄通道</em>、<em>靠墙车位</em>、<em>断头路</em>、<em>嵌草砖</em> 等无标线或极限空间场景</li>
+        <li><b>园区领航辅助 NCA</b>:园区内部道路也能用智能辅助驾驶,还可<em>跨楼层停车</em></li>
+        <li><b>离车泊入辅助 EPA</b>:下车即走,车辆自主停进车位</li>
+        <li><b>遥控泊车辅助 RPA</b>:极窄车位遥控进出,上下车更便捷</li>
+        <li><b>循迹倒车辅助</b>:一键循迹返回,<em>≤30km/h 自动记录 120 米轨迹</em>,窄巷与弯道进得去也出得来</li>
+      </ul>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.2-2.9 7.4-7 8.5-4.1-1.1-7-4.3-7-8.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></div>
+        <h3>核心安全场景 · <span class="hl">侧向防碰撞 与 防误踩加速踏板</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>障碍物避让</b>:识别路面障碍物后灵活避让,通行更平稳</li>
+        <li><b>侧向防碰撞 · 主动避障修正</b>:实时监控车身左右两侧通行环境,两侧有障碍物时主动预警并辅助控车,避免碰擦</li>
+        <li><b>防误踩加速踏板 UAP</b>:油门误触智能识别,<em>语音警示 / 动力约束 / 紧急制动</em> 同步启动三重防护</li>
+      </ul>
+    </div>
+
+    <div class="hw-block">
+      <h3 class="sub-title">华为乾崑ADS 5 Pro · 传感器配置</h3>
+      <div class="hw-grid">
+        <div class="hw-item key">
+          <div class="hw-num">1</div>
+          <div class="hw-label">舱内<br>激光雷达</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-num">3</div>
+          <div class="hw-label">4D 毫米波<br>雷达</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-num">11</div>
+          <div class="hw-label">高清<br>摄像头</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-num">12</div>
+          <div class="hw-label">超声波<br>雷达</div>
+        </div>
+      </div>
+      <div class="sub-desc">乾崑版共 <em>27 颗</em> 感知硬件。天枢版(19.98万)为 <em>5 毫米波雷达 + 5 摄像头 + 12 超声波雷达</em>,不含激光雷达。</div>
+    </div>
+
+    <div class="feature-block">
+      <h3 class="sub-title">华为乾崑ADS 5 Pro · 智驾功能</h3>
+      <h4 class="grp-title">领航</h4>
+      <div class="func-row">
+        <div class="func-group critical">
+          <div class="fg-head"><span class="abbr">城区<br>NCA</span><span class="fg-name">城区智驾领航辅助</span></div>
+        </div>
+        <div class="func-group critical">
+          <div class="fg-head"><span class="abbr">高速<br>NCA</span><span class="fg-name">高速智驾领航辅助</span></div>
+        </div>
+      </div>
+      <div class="func-row">
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">城区<br>LCC</span><span class="fg-name">城区巡航辅助</span></div>
+        </div>
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">LCC<br>Plus</span><span class="fg-name">城区巡航辅助增强版</span></div>
+        </div>
+      </div>
+      <div class="func-row">
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">高速<br>LCC</span><span class="fg-name">高速巡航辅助</span></div>
+        </div>
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">ACC</span><span class="fg-name">自适应巡航</span></div>
+        </div>
+      </div>
+
+      <h4 class="grp-title blue">泊车</h4>
+      <div class="func-group critical">
+        <div class="fg-head"><span class="abbr">园区<br>NCA</span><span class="fg-name">园区领航泊车</span></div>
+      </div>
+      <div class="func-row">
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">APA</span><span class="fg-name">自动泊车辅助</span></div>
+        </div>
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">RPA</span><span class="fg-name">遥控泊车辅助</span></div>
+        </div>
+      </div>
+      <div class="func-row">
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr">EPA</span><span class="fg-name">车外泊车辅助</span></div>
+        </div>
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" stroke-dasharray="3 2"/><path d="M12 9v6M9 12h6"/></svg></span><span class="fg-name">自定义车位泊车</span></div>
+        </div>
+      </div>
+      <div class="func-row">
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5c-6 0-6 7-12 7" stroke-dasharray="3 2"/><path d="M8 8l-4 4 4 4"/></svg></span><span class="fg-name">循迹倒车</span></div>
+        </div>
+        <div class="func-group">
+          <div class="fg-head"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 12h4M15 12h2"/></svg></span><span class="fg-name">停车缴费</span></div>
+        </div>
+      </div>
+
+      <h4 class="grp-title">主动安全</h4>
+      <div class="safety-grid">
+        <div class="safety-item critical"><span class="abbr">GAEB</span><span class="desc">通用障碍物自动紧急制动(后续OTA)</span></div>
+        <div class="safety-item critical"><span class="abbr">AEB</span><span class="desc">自动紧急制动</span></div>
+        <div class="safety-item critical"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l4-14h10l4 14"/><path d="M12 8v3M12 14v2"/></svg></span><span class="desc">路面自适应紧急制动(后续OTA)</span></div>
+        <div class="safety-item critical"><span class="abbr">RAEB</span><span class="desc">后向自动紧急制动</span></div>
+        <div class="safety-item critical"><span class="abbr">LAEB</span><span class="desc">侧向自动紧急制动</span></div>
+        <div class="safety-item critical"><span class="abbr">ESA</span><span class="desc">紧急转向辅助(后续OTA)</span></div>
+        <div class="safety-item critical"><span class="abbr">FCTB</span><span class="desc">前向横穿制动辅助</span></div>
+        <div class="safety-item critical"><span class="abbr">RCTB</span><span class="desc">后向横穿制动辅助</span></div>
+        <div class="safety-item critical"><span class="abbr">LOCP</span><span class="desc">前向车辆偏离碰撞预防</span></div>
+        <div class="safety-item critical"><span class="abbr">UAP</span><span class="desc">意外加速抑制</span></div>
+        <div class="safety-item"><span class="abbr">FCW</span><span class="desc">前向碰撞预警</span></div>
+        <div class="safety-item"><span class="abbr">RCW</span><span class="desc">后向碰撞预警</span></div>
+        <div class="safety-item"><span class="abbr">FCTA</span><span class="desc">前向横穿预警</span></div>
+        <div class="safety-item"><span class="abbr">RCTA</span><span class="desc">后向横穿预警</span></div>
+        <div class="safety-item"><span class="abbr">LDW</span><span class="desc">车道偏离预警</span></div>
+        <div class="safety-item"><span class="abbr">BSD</span><span class="desc">盲区监测预警</span></div>
+        <div class="safety-item"><span class="abbr">DOW</span><span class="desc">开门预警</span></div>
+        <div class="safety-item"><span class="abbr">LKA</span><span class="desc">车道保持辅助</span></div>
+        <div class="safety-item"><span class="abbr">ELKA</span><span class="desc">紧急车道保持辅助</span></div>
+        <div class="safety-item"><span class="abbr">TSR</span><span class="desc">交通标志识别</span></div>
+        <div class="safety-item"><span class="abbr">TSA</span><span class="desc">交通标志辅助</span></div>
+        <div class="safety-item"><span class="abbr">TLR</span><span class="desc">红绿灯识别</span></div>
+        <div class="safety-item"><span class="abbr">TLA</span><span class="desc">红绿灯辅助</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h1"/><path d="M17 14v4M17 21h.01"/></svg></span><span class="desc">驾驶员失能辅助(后续OTA)</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></span><span class="desc">360° 全景环视</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 12l3-5h12l3 5M6 17h.01M18 17h.01"/></svg></span><span class="desc">透明底盘</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="3"/></svg></span><span class="desc">哨兵模式</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 新款红旗HS5 ============ -->
+  <div class="car-divider"></div>
+  <section class="car-section">
+    <div class="car-header">
+      <div class="idx">02 / 一汽红旗 HONGQI</div>
+      <div class="cname">新款红旗HS5 <span class="cbrand">/ 中型 SUV · 司南智驾</span></div>
+      <div class="price-line">
+        <span class="pbadge date">8月21日上市</span>
+        <span class="pbadge price">权益后 ¥13.48–20.08万</span>
+      </div>
+      <div class="ch-notes">
+        <div class="ch-note"><span class="ch-k">智驾方案</span><span class="ch-v">司南智驾系统</span></div>
+        <div class="ch-note"><span class="ch-k">驱动形式</span><span class="ch-v">两驱与四驱版本并行,智驾功能按版本适配</span></div>
+      </div>
+    </div>
+
+    <!-- 卖点头部卡:官方品宣 -->
+    <div class="feature-headline">
+      <div class="fh-titlerow">
+        <div class="fh-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2.5 5.5L7 17l2.5-5.5z"/></svg></div>
+        <h3>司南智驾 · <span class="hl">泊车无忧 / 行车自在 / 安全主动性</span></h3>
+      </div>
+      <ul class="fh-points">
+        <li><b>泊车无忧</b>:覆盖全景环视、泊车领航、遥控泊车、记忆泊车与循迹倒车</li>
+        <li><b>行车自在</b>:高快领航辅助可实现智能调速、自动转弯、绕行、会车与避让行人</li>
+        <li><b>安全主动性</b>:<em>LKA 车道保持</em>、<em>ELK 紧急车道保持</em>、<em>AEB 自动紧急制动</em>、<em>LDW 车道偏离预警</em> 提供主动介入</li>
+      </ul>
+    </div>
+
+    <div class="feature-block">
+      <h3 class="sub-title">司南智驾 · 智驾功能</h3>
+      <div class="safety-grid">
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h3M9 8a6 6 0 0 1 0 8M13 5a10 10 0 0 1 0 14"/></svg></span><span class="desc">前驻车雷达</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12h-3M15 8a6 6 0 0 0 0 8M11 5a10 10 0 0 0 0 14"/></svg></span><span class="desc">后驻车雷达</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></span><span class="desc">360° 全景影像 + 透明构造</span></div>
+        <div class="safety-item"><span class="abbr">TSR</span><span class="desc">道路交通标识识别</span></div>
+      </div>
+
+      <div class="func-row">
+        <div class="func-group critical">
+          <div class="fg-head"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18a9 9 0 1 1 18 0"/><path d="M12 18l4.5-5.5"/></svg></span><span class="fg-name">巡航系统 · 高速领航辅助</span></div>
+        </div>
+        <div class="func-group critical">
+          <div class="fg-head"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v10a5 5 0 0 0 5 5h7M18 14l4 4-4 4"/></svg></span><span class="fg-name">匝道自动驶出(入)辅助</span></div>
+        </div>
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 6l3-3M4 6l3 3M20 18H10M20 18l-3-3M20 18l-3 3"/></svg></span><span class="desc">拨杆换道</span></div>
+        <div class="safety-item"><span class="abbr">APA</span><span class="desc">自动泊车入位辅助</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6"/><path d="M10 12h9M19 12l-3-3M19 12l-3 3"/></svg></span><span class="desc">离车停车</span></div>
+        <div class="safety-item"><span class="abbr">RPA</span><span class="desc">手机遥控停车</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="desc">记忆泊车辅助</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5c-6 0-6 7-12 7" stroke-dasharray="3 2"/><path d="M8 8l-4 4 4 4"/></svg></span><span class="desc">循迹倒车辅助</span></div>
+        <div class="safety-item"><span class="abbr">FCW</span><span class="desc">前碰撞预警系统</span></div>
+        <div class="safety-item"><span class="abbr">BSD</span><span class="desc">盲区监测系统</span></div>
+        <div class="safety-item"><span class="abbr">DOW</span><span class="desc">开门预警</span></div>
+        <div class="safety-item"><span class="abbr">RCW</span><span class="desc">后碰撞预警</span></div>
+        <div class="safety-item"><span class="abbr">RCTA</span><span class="desc">倒车横向预警系统</span></div>
+        <div class="safety-item"><span class="abbr"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></svg></span><span class="desc">重点注意预警系统</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据长安深蓝、一汽红旗官方资料整理;深蓝G318 标注「后续OTA」的 4 项为后续开放,新款红旗HS5 未公布传感器数量。价格与配置以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'deepal-hongqi-20260824.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="deepal-hongqi-20260824.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

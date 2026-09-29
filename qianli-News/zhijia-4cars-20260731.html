@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新车卖点资讯 — 2款新车 · 2026-07-31</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F4F1EC;
+    --card: #FFFFFF;
+    --border: #E6DFD4;
+    --ink: #1A1712;         /* 深色强调块底 */
+    --ink2: #2A2620;
+    --text: #211E18;
+    --text-dim: #726B5F;
+    --gold: #E0A200;
+    --gold-bright: #F0B429;
+    --gold-glow: rgba(240,180,41,0.22);
+    /* per-car accent */
+    --acc: #B02436;
+    --acc-2: #7A1826;
+    --acc-soft: rgba(176,36,54,0.10);
+    --acc-line: rgba(176,36,54,0.28);
+    --shadow: 0 20px 46px -22px rgba(50,40,20,0.34);
+    --shadow-sm: 0 10px 26px -16px rgba(50,40,20,0.28);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 17px;
+    overflow-x: hidden;
+    background:
+      radial-gradient(1000px 560px at 10% -8%, rgba(176,36,54,0.10), transparent 62%),
+      radial-gradient(1000px 600px at 94% 2%, rgba(14,110,122,0.10), transparent 62%),
+      linear-gradient(180deg, #FBF9F5 0%, #F1ECE3 100%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* === HERO === */
+  .hero {
+    padding: 60px 0 34px;
+    text-align: center;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 12px 34px;
+    border: 1.5px solid var(--gold);
+    border-radius: 24px;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+    background: rgba(240,180,41,0.07);
+  }
+  .hero h1 {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1.28;
+    background: linear-gradient(120deg, #B02436 0%, #7A1826 44%, #0E6E7A 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    margin-top: 14px;
+    font-size: 20px;
+    color: var(--text-dim);
+  }
+  .hero-date {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 7px 20px;
+    background: rgba(26,23,18,0.06);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 15px;
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* === QUICK NAV === */
+  .quicknav { margin: 42px 0 8px; }
+  .nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .nav-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 28px;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--nc), var(--gold-bright));
+  }
+  .nav-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .nav-card-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 14px; gap: 12px;
+  }
+  .nav-card .car-brand { font-size: 15px; color: var(--text-dim); font-weight: 500; }
+  .nav-card .car-name { font-size: 27px; font-weight: 900; line-height: 1.25; color: var(--nc); }
+  .nav-card .num-tag {
+    font-size: 15px; font-weight: 800; color: #fff;
+    background: var(--nc);
+    padding: 3px 13px; border-radius: 20px; flex-shrink: 0;
+  }
+  .nav-card .meta-row {
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .nav-card .price {
+    font-size: 27px; font-weight: 900;
+    background: linear-gradient(90deg, var(--nc), var(--gold));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-card .status {
+    font-size: 14px; color: var(--gold); font-weight: 700;
+    border: 1px solid rgba(224,162,0,0.35);
+    background: rgba(240,180,41,0.10);
+    padding: 3px 12px; border-radius: 6px;
+  }
+  .nav-card .zhijia-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav-card .ztag {
+    font-size: 14px; color: var(--text-dim);
+    background: rgba(26,23,18,0.03);
+    border: 1px solid var(--border);
+    padding: 4px 12px; border-radius: 8px;
+  }
+  .nav-card .ztag.hot { color: var(--gold); border-color: rgba(224,162,0,0.35); background: rgba(240,180,41,0.08); font-weight: 700; }
+
+  /* === CAR SECTION === */
+  .car-section { margin-bottom: 40px; padding-top: 40px; scroll-margin-top: 20px; }
+  .car-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+    margin: 8px 0 0;
+  }
+
+  /* 深色冲击 car-header */
+  .car-header {
+    border-radius: 20px;
+    padding: 38px 42px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background:
+      radial-gradient(420px 320px at 88% -20%, var(--acc-soft-strong, rgba(255,255,255,0.10)) 0%, transparent 70%),
+      linear-gradient(135deg, var(--acc) 0%, var(--acc-2) 55%, var(--ink) 120%);
+    box-shadow: var(--shadow);
+  }
+  .car-header::after {
+    content: '';
+    position: absolute;
+    top: -90px; right: -70px;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(240,180,41,0.18) 0%, transparent 68%);
+    pointer-events: none;
+  }
+  .car-header .idx {
+    display: inline-block;
+    font-size: 14px; font-weight: 800; letter-spacing: 3px;
+    color: var(--gold-bright);
+    margin-bottom: 10px;
+  }
+  .car-header .cname { font-size: 40px; font-weight: 900; line-height: 1.2; position: relative; z-index: 1; }
+  .car-header .cbrand { font-size: 18px; color: rgba(255,255,255,0.72); font-weight: 400; }
+  .car-header .price-line {
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    margin-top: 24px; position: relative; z-index: 1;
+  }
+  .car-header .big-price {
+    font-size: 54px; font-weight: 900; line-height: 1;
+    background: linear-gradient(90deg, #fff, var(--gold-bright));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .car-header .price-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .car-header .pbadge {
+    font-size: 15px; font-weight: 700;
+    padding: 7px 16px; border-radius: 8px;
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
+  }
+  .car-header .pbadge.gold { color: var(--ink); background: var(--gold-bright); border-color: transparent; }
+
+  /* === feature-headline 通透块(无底色) === */
+  .feature-headline {
+    background: transparent;
+    border-radius: 16px;
+    padding: 8px 4px 22px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    position: relative;
+  }
+  .feature-headline .fh-icon {
+    flex-shrink: 0;
+    width: 58px; height: 58px;
+    background: linear-gradient(135deg, var(--acc), var(--gold));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; position: relative; z-index: 1;
+    box-shadow: var(--shadow-sm);
+  }
+  .feature-headline .fh-text { position: relative; z-index: 1; }
+  .feature-headline .fh-text h3 { font-size: 25px; font-weight: 800; line-height: 1.35; color: var(--text); }
+  .feature-headline .fh-text h3 .hl { color: var(--acc); }
+  .feature-headline .fh-text p { font-size: 16px; color: var(--text-dim); margin-top: 6px; }
+
+  /* === sub-title === */
+  .sub-title {
+    font-size: 22px; font-weight: 800; letter-spacing: 0.5px;
+    margin: 0 0 20px; padding-left: 14px;
+    border-left: 4px solid var(--acc);
+  }
+  .group-title {
+    font-size: 18px; font-weight: 800; margin: 6px 0 14px; color: var(--gold);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .group-title::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  /* === hardware chips === */
+  .hw-block { margin-bottom: 32px; }
+  .hw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+  }
+  .hw-item {
+    text-align: center;
+    padding: 24px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .hw-item.key { border-color: rgba(224,162,0,0.4); background: linear-gradient(180deg, #FFFDF6, #FFF7E6); }
+  .hw-item .hw-label { font-size: 15px; color: var(--text-dim); font-weight: 600; margin-bottom: 8px; }
+  .hw-item .hw-num {
+    font-size: 24px; font-weight: 900; line-height: 1.2;
+    background: linear-gradient(120deg, var(--acc), var(--gold));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hw-item .hw-num small { font-size: 13px; font-weight: 600; color: var(--text-dim); -webkit-text-fill-color: var(--text-dim); }
+
+  /* === feature grid === */
+  .feature-block { margin-bottom: 14px; }
+  .safety-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .safety-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 15px 18px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s;
+  }
+  .safety-item:hover { transform: translateY(-2px); }
+  .safety-item .abbr {
+    flex-shrink: 0; font-weight: 800; font-size: 13.5px; line-height: 1.15;
+    color: var(--acc); min-width: 58px; text-align: center;
+    padding: 7px 8px; background: var(--acc-soft); border-radius: 8px;
+  }
+  .safety-item .abbr.sym { font-size: 20px; line-height: 1; padding: 6px 8px; }
+  .safety-item .desc { color: var(--text); }
+  .safety-item.critical { border-color: rgba(224,162,0,0.42); background: linear-gradient(180deg, #FFFDF6, #FFF7E6); }
+  .safety-item.critical .abbr { background: rgba(240,180,41,0.16); color: var(--gold); }
+
+  .sys-note {
+    font-size: 15.5px; color: var(--text-dim);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--acc);
+    border-radius: 10px;
+    padding: 15px 18px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+  }
+  .sys-note b { color: var(--text); font-weight: 800; }
+
+  /* === T6 简洁布局 === */
+  .t6-brief {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 32px;
+    box-shadow: var(--shadow-sm);
+  }
+  .t6-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .t6-chip {
+    text-align: center;
+    padding: 22px 12px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #FBF9F5, #F3EEE4);
+    border: 1px solid var(--border);
+  }
+  .t6-chip .v {
+    font-size: 30px; font-weight: 900; line-height: 1.1;
+    background: linear-gradient(120deg, var(--acc), var(--gold));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .t6-chip .v small { font-size: 15px; font-weight: 700; -webkit-text-fill-color: var(--gold); margin-left: 2px; }
+  .t6-chip .k { font-size: 14.5px; color: var(--text-dim); margin-top: 8px; }
+  .t6-text {
+    font-size: 19px; line-height: 1.9; color: var(--text);
+    padding-top: 22px; border-top: 1px dashed var(--border);
+  }
+  .t6-text b { color: var(--acc); font-weight: 800; }
+
+  .source-line { margin-top: 20px; font-size: 14px; color: var(--text-dim); text-align: right; }
+
+  /* === FOOTER === */
+  .footer {
+    padding: 34px 0 20px;
+    margin-top: 44px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .footer .frow { display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px; }
+  .footer .sign { font-weight: 800; color: var(--acc); }
+
+  /* === 导出按钮 === */
+  #exportBtn {
+    position: fixed; right: 22px; bottom: 22px; z-index: 50;
+    font-family: inherit; font-size: 15px; font-weight: 800; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg, #B02436, #0E6E7A); border: none; border-radius: 999px;
+    padding: 14px 22px; box-shadow: 0 12px 28px -8px rgba(0,0,0,0.4);
+  }
+  #exportBtn:active { transform: translateY(1px); }
+  @media print { #exportBtn { display: none; } }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    body { font-size: 16px; }
+    .hero-badge { font-size: 24px; padding: 8px 20px; letter-spacing: 2px; }
+    .hero h1 { font-size: 27px; }
+    .nav-grid { grid-template-columns: 1fr; }
+    .car-header { padding: 28px 24px; }
+    .car-header .cname { font-size: 30px; }
+    .car-header .big-price { font-size: 40px; }
+    .feature-headline { flex-direction: column; text-align: center; }
+    .feature-headline .fh-text h3 { font-size: 21px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="capture">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">智驾新车卖点资讯</div>
+    <h1>本期 2 款新车 · 智驾一手速览</h1>
+    <p class="hero-sub">红旗天工08 · 一汽-大众 ID. AURA T6</p>
+    <div class="hero-date">2026年7月31日 · 内部速递</div>
+  </section>
+
+  <!-- ============ 快速导览 ============ -->
+  <section class="quicknav">
+    <div class="nav-grid">
+      <a class="nav-card" href="#car1" style="--nc:#B02436;">
+        <div class="nav-card-head">
+          <div>
+            <span class="car-brand">红旗</span>
+            <div class="car-name">天工08</div>
+          </div>
+          <span class="num-tag">01</span>
+        </div>
+        <div class="meta-row">
+          <span class="status">8月1日上市</span>
+        </div>
+        <div class="zhijia-tags">
+          <span class="ztag hot">红旗司南 L2</span>
+          <span class="ztag hot">惯导立体三目</span>
+          <span class="ztag">骁龙8650P · 200TOPS</span>
+          <span class="ztag">无图城市NOA</span>
+          <span class="ztag">全场景泊车</span>
+        </div>
+      </a>
+
+      <a class="nav-card" href="#car2" style="--nc:#0E6E7A;">
+        <div class="nav-card-head">
+          <div>
+            <span class="car-brand">一汽-大众</span>
+            <div class="car-name">ID. AURA T6</div>
+          </div>
+          <span class="num-tag">02</span>
+        </div>
+        <div class="meta-row">
+          <span class="status">7月30日开启盲订</span>
+        </div>
+        <div class="zhijia-tags">
+          <span class="ztag hot">192线激光雷达</span>
+          <span class="ztag hot">酷睿程 行云智行</span>
+          <span class="ztag">征程6H · 420TOPS</span>
+          <span class="ztag">高速NOA</span>
+          <span class="ztag">城区领航</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 01 红旗天工08 ============ -->
+  <div class="car-divider"></div>
+  <section class="car-section" id="car1" style="--acc:#B02436; --acc-2:#7A1826; --acc-soft:rgba(176,36,54,0.10);">
+    <div class="car-header">
+      <span class="idx">NO.01</span>
+      <div class="cname">天工08 <span class="cbrand">/ 红旗 · 2026款</span></div>
+      <div class="price-line">
+        <span class="big-price">¥17.98万</span>
+        <div class="price-badges">
+          <span class="pbadge gold">8月1日上市</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+      <div class="fh-text">
+        <h3>纯视觉方案 · <span class="hl">全场景能停,全路况会开</span></h3>
+        <p>惯导立体三目 + 高悟性端到端 4.1 模型,3D 点云密度达激光雷达的 50 倍</p>
+      </div>
+    </div>
+
+    <div class="hw-block">
+      <h3 class="sub-title">智驾硬件</h3>
+      <div class="hw-grid">
+        <div class="hw-item">
+          <div class="hw-label">摄像头数量</div>
+          <div class="hw-num">10颗</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-label">毫米波雷达</div>
+          <div class="hw-num">1颗</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-label">超声波雷达</div>
+          <div class="hw-num">12颗</div>
+        </div>
+        <div class="hw-item">
+          <div class="hw-label">车内摄像头</div>
+          <div class="hw-num">2颗</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <h3 class="sub-title">智驾功能</h3>
+      <div class="sys-note">
+        <b>红旗司南 L2 级驾驶辅助:</b>多传感器融合感知方案,感知规划一体直出,三层安全推理防线,无非预期加减速;可适配城市、高速全路况辅助驾驶场景。
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-item critical"><span class="abbr">城市<br>NOA</span><span class="desc">无图城市组合驾驶辅助</span></div>
+        <div class="safety-item critical"><span class="abbr">高速<br>NOA</span><span class="desc">高速组合驾驶辅助</span></div>
+        <div class="safety-item critical"><span class="abbr sym">🅿</span><span class="desc">全场景智能泊车辅助</span></div>
+        <div class="safety-item critical"><span class="abbr sym">⇕</span><span class="desc">跨楼层泊车辅助</span></div>
+        <div class="safety-item"><span class="abbr">ACC</span><span class="desc">全速自适应巡航</span></div>
+        <div class="safety-item"><span class="abbr">LCC</span><span class="desc">车道居中保持 · 车道保持辅助</span></div>
+        <div class="safety-item"><span class="abbr sym">⇄</span><span class="desc">辅助变道 · 并线辅助</span></div>
+        <div class="safety-item"><span class="abbr sym">⤴</span><span class="desc">辅助匝道自动驶出(入)</span></div>
+        <div class="safety-item"><span class="abbr">RPA</span><span class="desc">一键遥控泊车辅助</span></div>
+        <div class="safety-item"><span class="abbr sym">▭</span><span class="desc">狭窄车位泊车辅助</span></div>
+        <div class="safety-item"><span class="abbr">HPA</span><span class="desc">记忆泊车 · 辅助泊车入位</span></div>
+        <div class="safety-item"><span class="abbr sym">↩</span><span class="desc">循迹倒车 · 原路自动倒回 100m · 遇障制动</span></div>
+        <div class="safety-item"><span class="abbr">TLR</span><span class="desc">信号灯识别</span></div>
+        <div class="safety-item"><span class="abbr">TSR</span><span class="desc">道路交通标识识别</span></div>
+        <div class="safety-item"><span class="abbr">AR</span><span class="desc">AR 实景导航 · 高德地图</span></div>
+        <div class="safety-item"><span class="abbr sym">✋</span><span class="desc">方向盘离手检测</span></div>
+        <div class="safety-item"><span class="abbr sym">🔔</span><span class="desc">前车起步提醒</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ 02 ID. AURA T6 ============ -->
+  <div class="car-divider"></div>
+  <section class="car-section" id="car2" style="--acc:#0E6E7A; --acc-2:#0A4E57; --acc-soft:rgba(14,110,122,0.12);">
+    <div class="car-header">
+      <span class="idx">NO.02</span>
+      <div class="cname">ID. AURA T6 <span class="cbrand">/ 一汽-大众</span></div>
+      <div class="price-line">
+        <div class="price-badges">
+          <span class="pbadge gold">7月30日开启盲订</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-headline">
+      <div class="fh-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+      <div class="fh-text">
+        <h3>大众全球量产车型 <span class="hl">首次搭载激光雷达</span></h3>
+        <p>车顶 192 线激光雷达 + 酷睿程「行云智行」,以地平线 HSD 全场景方案为技术底座</p>
+      </div>
+    </div>
+
+    <div class="t6-brief">
+      <div class="t6-chips">
+        <div class="t6-chip"><div class="v">192线</div><div class="k">车顶激光雷达</div></div>
+        <div class="t6-chip"><div class="v">征程6H</div><div class="k">地平线智驾芯片</div></div>
+        <div class="t6-chip"><div class="v">420<small>TOPS</small></div><div class="k">智驾总算力</div></div>
+      </div>
+      <p class="t6-text">
+        T6 搭载车顶 <b>192 线激光雷达</b>,地平线 <b>征程 6H</b> 芯片,算力达 <b>420 TOPS</b>,支持<b>高速 NOA</b> 与<b>城区领航辅助</b>、<b>记忆泊车</b>等。
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="frow">
+      <span>以上信息基于预售 / 盲订 / 申报阶段公开数据整理,最终配置以官方发布为准。</span>
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </footer>
+
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true;"></script>
+<script>
+/* ===== 可调参数(换平台改这三个即可) ===== */
+const EXPORT_WIDTH  = 1040;      // 固定导出宽度 px
+const PIXEL_BUDGET  = 10000000;  // 平台像素上限(宽×高),常见 1000 万
+const MAX_SCALE     = 2;         // 最高清晰度倍数
+
+const btn = document.getElementById('exportBtn');
+
+function showPreview(dataUrl, w, h){
+  const mask = document.createElement('div');
+  mask.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(20,16,12,.88);'
+    + 'display:flex;flex-direction:column;align-items:center;overflow:auto;padding:20px;';
+  const info = document.createElement('div');
+  info.style.cssText='color:#fff;font-size:14px;margin-bottom:12px;text-align:center;line-height:1.8;';
+  info.innerHTML = `长图已生成 · ${w}×${h}px(${(w*h/1e6).toFixed(1)} 百万像素,上限 10)<br>`
+    + `若未自动下载,点下方按钮保存`;
+  const a = document.createElement('a');
+  a.href = dataUrl; a.download = 'zhijia-4cars-20260731.png';
+  a.textContent = '⬇ 下载 PNG';
+  a.style.cssText='display:inline-block;margin-bottom:14px;background:#F0B429;color:#211E18;'
+    + 'font-weight:800;padding:12px 26px;border-radius:999px;text-decoration:none;font-size:16px;';
+  const close = document.createElement('div');
+  close.textContent='点此关闭预览';
+  close.style.cssText='color:#bbb;font-size:13px;margin-bottom:14px;cursor:pointer;';
+  close.onclick=()=>mask.remove();
+  const img = document.createElement('img');
+  img.src = dataUrl; img.style.cssText='max-width:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);';
+  mask.appendChild(info); mask.appendChild(a); mask.appendChild(close); mask.appendChild(img);
+  mask.onclick=(e)=>{ if(e.target===mask) mask.remove(); };
+  document.body.appendChild(mask);
+}
+
+async function doExport(){
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载成功。请用真正的浏览器双击打开本 HTML(不要在预览窗格内点),并保持联网加载一次 CDN。');
+    return;
+  }
+  btn.textContent = '生成中…'; btn.disabled = true;
+  try{
+    const src = document.getElementById('capture');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = `position:fixed; top:0; left:0; width:${EXPORT_WIDTH}px; z-index:-1; `
+      + `background:#F1ECE3; padding:0;`;
+    clone.style.maxWidth = EXPORT_WIDTH + 'px';
+    clone.style.width = EXPORT_WIDTH + 'px';
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.scrollHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = { width:EXPORT_WIDTH, height:H, pixelRatio:ratio, style:{ background:'#F1ECE3' } };
+
+    await htmlToImage.toPng(holder, opts).catch(()=>{});
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(holder, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+
+    const outW = Math.round(EXPORT_WIDTH*ratio), outH = Math.round(H*ratio);
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'zhijia-4cars-20260731.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    showPreview(dataUrl, outW, outH);
+  }catch(err){
+    alert('导出失败:' + err.message + '\n可改用真正浏览器打开后重试。');
+  }finally{
+    btn.textContent = '导出长图'; btn.disabled = false;
+  }
+}
+btn.addEventListener('click', doExport);
+</script>
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 小鹏 XOS 6.3.0 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:42px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+.banner .hl-sub{margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); font-size:15px; color:var(--text-dim); line-height:1.72; position:relative; z-index:1;}
+.banner .hl-sub em{color:var(--gold); font-style:normal; font-weight:700;}
+.banner .hl-sub b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== 维度小标题 ===== */
+.grp-title{font-size:20px; font-weight:800; margin:34px 0 16px; padding-left:14px; border-left:4px solid var(--main-2); letter-spacing:.5px;}
+.grp-title.safe{border-left-color:var(--gold);}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .fit{display:inline-block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:5px 11px;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card.critical .fit b{color:var(--gold); font-weight:700;}
+.ota-card .tip{display:block; margin-top:10px; font-size:14px; color:var(--text-dim); background:rgba(255,255,255,.02); border-radius:8px; padding:10px 14px; line-height:1.6;}
+.ota-card .tip b{color:var(--text-dim); font-weight:700;}
+
+/* 功能要点列表 */
+.feat-list{list-style:none; margin:10px 0 4px; padding:0;}
+.feat-list li{position:relative; padding:8px 0 8px 22px; font-size:16px; color:var(--text-dim); line-height:1.6; border-top:1px solid rgba(255,255,255,.04);}
+.feat-list li:first-child{border-top:none;}
+.feat-list li::before{content:''; position:absolute; left:0; top:16px; width:8px; height:8px; border-radius:2px; background:var(--main); }
+.ota-card.critical .feat-list li::before{background:var(--gold);}
+.feat-list li b{color:var(--text); font-weight:700;}
+
+/* ===== 更多升级 ===== */
+.more{background:var(--card); border:1px dashed var(--border); border-radius:16px; padding:22px 24px; margin-bottom:18px;}
+.more h4{font-size:18px; font-weight:800; margin-bottom:8px; color:var(--main-2);}
+.more p{font-size:16px; color:var(--text-dim); line-height:1.7;}
+.more p b{color:var(--text); font-weight:700;}
+.more .mlabel{display:inline-block; font-size:12px; font-weight:800; padding:2px 8px; border-radius:5px; margin-right:6px; vertical-align:1px;}
+.more .mlabel.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.more .mlabel.up{color:#fff; background:var(--main);}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .grp-title{font-size:18px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年9月18日 · 内部速递</span>
+    </div>
+    <h1 class="headline">小鹏 XOS <span class="ver">6.3.0</span> 开启推送<br>图灵 Max 迎来 VLA 2.0 Lite</h1>
+    <div class="version-note"><b>XOS 6.3.0 · 9月17日起陆续推送 · 覆盖 Ultra / Ultra SE 及单图灵 Max 车型</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · XOS 6.3.0 OTA</span>
+    <h2>VLA 2.0 底层架构焕新，模型开始理解<em>时间</em></h2>
+    <p>第二代 VLA 引入 <b>Infini-VLA 长时序架构</b>，具备 <em>30 秒时序记忆</em>与 <em>6 秒未来推演</em>，端到端时延提升 <em>3 倍</em>；VLA 2.0 Lite 蒸馏版首次量产下放图灵 Max；语音控车联动 NGP 实现<b>靠边停车</b>与<b>就近泊入</b>。</p>
+    <div class="hl-sub">模型升级核心：让 AI 从静态 3D 空间理解跃迁至动态 <em>4D 时空</em>理解，把「时间」纳入模型。座舱侧，<b>Master Agent</b> 超级智能体正式上车，基于 Omni 多模态基座实现 VLA + VLM 驾舱融合，语音控车联动 NGP 完成靠边停车与就近泊入。</div>
+  </div>
+
+  <!-- ====== 01 智驾架构 ====== -->
+  <div class="section-title">智驾架构 · <span class="accent">底层焕新</span></div>
+  <div class="sys-note">本次 XOS 6.3.0 为第二代 VLA 与座舱语音架构的底层升级。<b>VLA 2.0</b> 搭载于 <b>Ultra / Ultra SE</b> 车型，<b>VLA 2.0 Lite</b> 蒸馏版面向<b>单图灵 Max</b> 车型推送。双 Orin Max 车型 VLA 2.0 正在推进跨平台迁移，暂未搭载。</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>VLA 2.0 底层架构焕新 · <span class="hl">第二代 VLA 量产上车</span></h4>
+    <p>给辅助驾驶换了一个更聪明的「大脑」。底层架构升级后的模型，具备<b>长时序、可预测、低时延、强泛化</b>的能力，具体体现在四个方面：</p>
+    <ul class="feat-list">
+      <li><b>「记忆」变得更长了</b>：全新的 Infini-VLA 长时序架构，将最长有效时序提升至 <b>30 秒</b>。处理汇入、变道、施工路段等复杂场景时，车辆可以持续理解行车场景，结合前后信息作出更连续、更合理的判断</li>
+      <li><b>不同场景之间切换更稳</b>：全新的 MoT 混合架构，按驾驶任务和场景动态调度专用子模型，隔离不同场景之间的任务干扰。无论从主路进入辅路、从城区驶入园区，模型都能从容应对</li>
+      <li><b>学会了「预判」未来</b>：全新的 X-Foresight 预测世界模型，可以推演周边交通参与者未来可能的动向，并从多个轨迹方案中选择更安全、自然、拟人的决策</li>
+      <li><b>反应更快了</b>：通过对流式自回归推理链路的优化，端到端响应速度提升约 <b>3 倍</b>，可以做到边看、边想、边行动，车辆动作更连贯</li>
+    </ul>
+    <div class="tip"><b>官方总结：</b>落实到辅助驾驶体验上——反应更快了，根据交通环境变化，NGP 能够及时做出调整，经过施工路段、汇入口或突然有行人横穿时，处理也更从容。</div>
+    <div class="fit">适配：<b>Ultra / Ultra SE</b></div>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>VLA 2.0 Lite 蒸馏版 · <span class="hl">模型蒸馏下沉量产</span></h4>
+    <p>630 版本将首次向单图灵 Max 车型量产推送 VLA 2.0 Lite 模型。VLA 2.0 Lite 由图灵 VLA 2.0 同源蒸馏而来，把已经学习到的能力进行提炼和压缩，使其能够在算力规模相对有限的平台上运行。</p>
+    <ul class="feat-list">
+      <li>升级后单图灵 Max 车型的 NGP 底层模型将从前代架构<b>跃迁至第二代 VLA 架构</b></li>
+      <li>NGP 舒适性方面，体验会进一步提升；复杂场景处理也会更加果断，行驶轨迹更加自然</li>
+      <li>整体辅助驾驶体感进一步向完整版靠拢</li>
+      <li>首次验证「模型蒸馏下沉」这条技术路线能够真正量产落地，第二代 VLA 可以部署到覆盖面更广的 Max 车型</li>
+    </ul>
+    <div class="tip"><b>蒸馏版本仍需时间，敬请期待！</b></div>
+    <div class="fit">适配：<b>单图灵 Max 车型</b>（G9L Max 首发搭载，部分车型推送时间可能有先后）</div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>Omni 多模态座舱模型 · <span class="hl">Master Agent 上车</span></h4>
+    <p>630 版本中，AI 小P 的底层架构升级为 <b>Omni 多模态模型</b>。基于这一多模态基座、采用端云同源部署的车端 <b>Master Agent 超级智能体</b>正式上车。</p>
+    <ul class="feat-list">
+      <li>过去的小P 更像车辆功能的集合入口；升级以后，它开始向一个更聪明、更自然的用车助手演化</li>
+      <li>一句话可以交代更复杂的事情，聊天和用车指令也能自然衔接</li>
+      <li>不用再记固定句式，面对更模糊、更复杂、甚至比较随意的表达，小P 也能理解真实需求并转化为具体指令</li>
+      <li>小P 的英文能力也加强了，开车过程中可以用英语和小P 一起聊聊天</li>
+    </ul>
+    <div class="tip"><b>官方提示：</b>这是座舱架构焕新的第一个版本，功能体验可能还有不足，后续会尽快基于全新架构带来更好的智能体验。</div>
+    <div class="fit">适配：<b>Ultra / Ultra SE</b></div>
+  </div>
+
+  <!-- ====== 02 辅助驾驶 ====== -->
+  <div class="section-title">辅助驾驶 · <span class="accent">NGP 与泊车</span></div>
+
+  <!-- 行车辅助 -->
+  <div class="grp-title">行车辅助</div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>城区 NGP 体验升级 · <span class="hl">更丝滑拟人</span></h4>
+    <p>进一步升级场景理解能力，对于简单场景处理更果断、复杂场景处理更丝滑拟人，全面提升行驶效率；同时优化全场景舒适性，让智驾体验更接近人类老司机。</p>
+    <div class="fit">适配：<b>Ultra / Ultra SE / 单图灵 Max</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>NGP 漫游体验升级 · <span class="hl">路口稳定性 + 拨杆转向</span></h4>
+    <p>在城区强化路口行驶稳定性，复合箭头路口智能优先直行，优化变道决策逻辑，减少不合理变道行为，驾驶体验更平顺。</p>
+    <ul class="feat-list">
+      <li>城区路口：复合箭头路口智能优先直行，变道决策逻辑优化</li>
+      <li>园区拨杆转向：拨动转向灯控制杆，控制车辆在园区和地库环境进行路口左转、右转</li>
+    </ul>
+    <div class="fit">适配：<b>Ultra SE / Ultra</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>车位到车位体验升级 · <span class="hl">衔接更流畅</span></h4>
+    <p>优化沿导航行驶准确性与障碍物避让安全性，闸机通行与路口转向更加流畅。</p>
+    <ul class="feat-list">
+      <li>优化园区车位收藏交互，支持泊车全场景下通过 SR 界面更便捷收藏车位，并自动记忆临时车位，NGP 直达车位体验更省心</li>
+    </ul>
+    <div class="fit">适配：<b>Ultra SE / Ultra</b></div>
+  </div>
+
+  <!-- 语音控车 -->
+  <div class="grp-title">语音控车</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>语音控车 · <span class="hl">靠边停车 / 就近泊入</span></h4>
+    <p>一句话控车：NGP 联动，语音控车更随心。<b>Robotaxi 同源技术下放</b>，语音交互与辅助驾驶衔接。</p>
+    <ul class="feat-list">
+      <li><b>靠边停车</b>：「在前面找个地方靠边停车」「过路口后靠边停一下」，使用 NGP 时一句话即可让车辆寻找合适位置自动停靠</li>
+      <li><b>就近泊入</b>：「找个车位就近泊入」「就在附近找个车位停」，园区内使用 NGP 时一句话让车辆寻找合适车位并完成泊入</li>
+      <li><b>终点场景</b>：未学习的园区或城区终点，系统默认执行「靠边停车」，从领航辅助行驶自然衔接至车辆停妥；已学习且收藏过车位的园区终点，可选择前往收藏车位、靠边停车或切换漫游</li>
+      <li><b>途经点场景</b>：车机弹出停靠确认，可根据中途上下客、临时办事等需求自主选择是否靠边停车</li>
+    </ul>
+    <div class="tip"><b>温馨提示：</b>靠边停车功能仅在道路环境及安全条件满足时执行；如暂不具备安全停靠条件，系统将继续向前寻找合适位置，必要时请及时接管车辆。</div>
+    <div class="fit">适配：<b>Ultra SE / Ultra</b></div>
+  </div>
+
+  <!-- 泊车辅助 -->
+  <div class="grp-title">泊车辅助</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车头泊入与车尾泊出 · <span class="hl">泊车方向自由选</span></h4>
+    <p>用户选择目标车位时，可通过点击车位框中的旋转按钮，切换车头泊入/车尾泊入，满足更个性化的泊入需求；同时，智驾/人驾状态车头泊入的车位，均支持车尾的辅助泊出，以及更轻松的手机端智能出库。</p>
+    <div class="tip"><b>温馨提示：</b>该版本的车头泊入暂不支持「离车泊入」「遥控泊入」。</div>
+    <div class="fit">适配：<b>图灵架构车型（Max / Ultra）</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>辅助泊车过程中切换离车泊入</h4>
+    <p>支持用户在自动泊入的过程中，点击屏幕中「离车泊入」按钮，随时切换为离车泊入。让离车泊入更安心、使用方式更灵活。</p>
+    <div class="fit">适配：<b>图灵架构车型（Max / Ultra）</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>线控转向泊车偏好 · <span class="hl">方向盘微动模式</span></h4>
+    <p>新增「线控转向泊车偏好」设置选项，支持「经典」和「微动」两种模式。「微动」模式下通过舱内大屏或舱内语音进入泊车功能，方向盘微动，减少打手风险，带来具有未来感的体验。</p>
+    <div class="tip"><b>温馨提示：</b>仅适配 GX 四驱 Ultra 旗舰版。</div>
+    <div class="fit">适配：<b>GX 四驱 Ultra 旗舰版</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>闸机场景窄路辅助影像 · <span class="hl">通行更安心</span></h4>
+    <p>在辅助驾驶过程中，通行闸机时，当车辆近距离接近闸机，主动拉起窄路辅助影像，并同步显示与障碍物的距离，清晰呈现周边环境，近距离通行闸机更安心。</p>
+    <div class="tip"><b>设置路径：</b>「智能影像」-「窄道激活全景影像」</div>
+    <div class="fit">适配：<b>Ultra SE / Ultra</b></div>
+  </div>
+
+  <!-- 安全辅助 -->
+  <div class="grp-title safe">安全辅助</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>远端安全 · 鹏友守望 · <span class="hl">驾驶员失能辅助</span></h4>
+    <p>当驾驶员失能辅助系统启动并完成靠边停车时，系统将向车后 <b>1 公里</b>范围内的同导航路线下的小鹏车主推送救援通知，在车机大屏进行弹窗提示，实现了从<b>预警、接管、靠边停车到呼叫救援</b>的全链路自主操作。</p>
+    <ul class="feat-list">
+      <li>完整链路：<b>异常报警 → 辅助接管 → 靠边停车 → 协同救援</b></li>
+      <li>为专业救援服务争取时间，让技术拥有温暖底色</li>
+    </ul>
+    <div class="fit">适配：<b>GX / G9 / MONA L03 Max 及 Ultra</b></div>
+  </div>
+
+  <!-- 泊车优化 -->
+  <div class="more">
+    <h4>泊车体验优化</h4>
+    <p><span class="mlabel up">优化 ↑</span><b>泊车场景优先选中收藏车位</b>：当周围可泊车位中存在用户收藏车位时，泊车功能将优先选中收藏车位，并选中收藏车位记忆的便利下车偏移姿态，用户点击一次「开始泊车」即可进入泊车流程。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>泊车功能交互更新</b>：优化泊车操作界面的显示区域，查找更快，操作更顺手；增强辅助泊入/泊出开始时的激活提示音，明确功能开启边界，让使用更安心。</p>
+  </div>
+
+  <!-- ====== 03 AI智能座舱 ====== -->
+  <div class="section-title">AI 智能座舱 · <span class="accent">交互升级</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>模糊导航 · <span class="hl">一句话导航随心说</span></h4>
+    <p>一句话导航：出行导航随心说，复杂需求都搞定。小P 可以理解需求，基于当前位置和偏好，搜索、推荐目的地。</p>
+    <ul class="feat-list">
+      <li><b>模糊导航搜索</b>：「带我去个适合遛弯的公园」「中关村那家很多人排队的面包店」「那个像莲花的体育场」，小P 同样可以精准找到</li>
+      <li><b>复杂行程规划</b>：「先去公司接人，再找家评分高的川菜馆，顺路充个电」，小P 自动拆解顺序、串联路线</li>
+      <li><b>行程语音调整</b>：「川菜馆不去了，改成超市」，语音控制增删途经点、更换目的地、暂停或恢复行程，只改您想改的，其他保持不变</li>
+      <li><b>出行偏好理解</b>：「走最便宜的」「避开高速」「别走小路」，小P 将按需规划路线</li>
+    </ul>
+    <div class="fit">适配：<b>Ultra / Ultra SE</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>Apple CarPlay 上线</h4>
+    <p>支持通过有线或无线方式连接苹果手机，在车机大屏使用手机应用，互联体验再升级。</p>
+    <div class="tip"><b>温馨提示：</b>首次有线连接配对后，再次有线连接时将自动接入 CarPlay，若需关闭自动连接，可在状态栏或 CarPlay 顶部点击「断开」。</div>
+    <div class="fit">适配：<b>Ultra / Ultra SE（8295 芯片 Max 车型年内支持，8155 仍在评估）</b></div>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>AI 数字投影大灯场景拓展 · <span class="hl">充电 / 影音 / 救援三场景</span></h4>
+    <p>AI 数字投影大灯三大场景拓展，让大灯成为车外的信息交互界面。</p>
+    <ul class="feat-list">
+      <li><b>充电进度投影</b>：充电时自动在车前地面投影当前电量百分比，一眼掌握充电进度</li>
+      <li><b>影音车外投影</b>：连接 Switch、电脑等有线设备后可将画面投影至车外，露营、户外聚会共享大屏娱乐</li>
+      <li><b>应急救援投影</b>：辅助驾驶过程中若检测到驾驶员失能并触发靠边停车，将自动在车前地面投射 SOS 求救图标，向过往车辆、巡逻交警等发出求助信号</li>
+    </ul>
+    <div class="tip"><b>温馨提示：</b>仅支持配置有 AI 数字投影大灯的车辆。</div>
+    <div class="fit">适配：<b>配备 AI 数字投影大灯的车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>AI 小P 底层模型架构全新升级 · <span class="hl">更懂共情有温度</span></h4>
+    <p>Omni 多模态模型基座上车，AI 小P 从指令执行者进化为智能体副驾。</p>
+    <ul class="feat-list">
+      <li><b>听得懂感受</b>：支持感受类表达，如「腰有点酸」「车里好闷」「前面玻璃看不清楚」，小P 理解你的需求，提供建议、帮你执行</li>
+      <li><b>跟得上节奏</b>：支持口语化表达和连续对话，换种说法、打断重说，小P 都跟得上</li>
+      <li><b>会共情有温度</b>：更会接话、更懂共情，堵车解闷、深夜陪伴，像一个真坐在副驾的朋友</li>
+    </ul>
+    <div class="fit">适配：<b>Ultra / Ultra SE</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>分屏交互 · <span class="hl">三模式 + 三指手势</span></h4>
+    <p>用户呼声很高的分屏功能回归，现支持全屏地图、分屏桌面、全屏 SR 三种模式。</p>
+    <ul class="feat-list">
+      <li>支持 1/3、2/3 尺寸应用同屏展示，如地图/SR 可与音乐、浏览器等应用同屏运行</li>
+      <li>系统记住每个应用上次使用的窗口尺寸，再次打开时按记忆尺寸呈现</li>
+      <li><b>三指手势</b>：三指下滑关闭当前应用；三指左右横滑互换应用位置</li>
+    </ul>
+    <div class="fit">适配：<b>Ultra / Ultra SE（8295 芯片 Max 车型年内支持，8155 仍在评估）</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>控制中心界面改版 · <span class="hl">全屏下拉 + 自定义编辑</span></h4>
+    <p>控制中心由原 1/3 屏的浮层面板改版为<b>全屏下拉界面</b>，操作空间更大、层级更少；新增屏幕亮度、哨兵模式、等人模式等高频开关。「常用」Tab 支持自定义编辑，可拖拽排序、增删功能入口。</p>
+    <div class="tip"><b>操作指引：</b>屏幕上边缘单指下滑，或点击 Dock 栏控制中心按钮即可呼出；上滑、点击空白处、再次点击 Dock 栏按钮、长时间无操作，均可关闭。</div>
+    <div class="fit">适配：<b>Ultra / Ultra SE（8295 芯片 Max 车型年内支持，8155 仍在评估）</b></div>
+  </div>
+
+  <!-- ====== 04 更多升级 ====== -->
+  <div class="section-title">更多 <span class="accent">升级</span></div>
+
+  <div class="more">
+    <h4>数字钥匙与互联</h4>
+    <p><span class="mlabel new">新增 +</span><b>OPPO 手机数字钥匙</b>：接入 OPPO 系统级 ICCOA 车钥匙，支持无感蓝牙钥匙（靠近自动解锁、远离自动闭锁）、手机 NFC 钥匙（手机没电时也可解闭锁、启动车辆）、ICCOA 品牌（OPPO、vivo、小米）跨品牌手机钥匙分享。OPPO ColorOS 需升级至 16.0.10.500 及以上版本。</p>
+    <p style="margin-top:10px;"><span class="mlabel up">优化 ↑</span><b>数字钥匙使用体验优化</b>：未检测到钥匙导致挂挡失败时新增大屏弹窗提示音；优化车内存在实体钥匙导致手机数字钥匙自动闭锁失效问题；提升苹果手机钱包钥匙连接稳定性。</p>
+  </div>
+
+  <div class="more">
+    <h4>座舱功能新增</h4>
+    <p><span class="mlabel new">新增 +</span><b>车机语言</b>：车机显示语言支持英文。设置路径：「通用」-「语言与时间」</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>HUD 显示内容拓展</b>：HUD 新增当前时间显示，及目的地超出续航范围的提醒。</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>锁车自动关闭遮阳帘</b>：功能开启时，在下车闭锁之后，车辆会自动根据光照强度/温度智能判断关闭遮阳帘。</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>后排座椅儿童锁</b>：在儿童锁面板内新增后排座椅物理按键儿童锁功能，开启后座椅加热通风按摩、电动轴向调节等将被禁用。设置路径：「控制中心」-「儿童锁」</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>快捷车控</b>：挂入 P 挡后自动弹出快捷车控弹窗，支持对后备箱等功能一键操作。功能默认开启，可前往「车辆」-「门窗」-「快捷车控弹窗」进行开关设置。</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>副驾电动门关门快捷弹窗</b>：当副驾车门打开时，会出现快捷弹窗，提供便捷高效的关门方式。</p>
+    <p style="margin-top:8px;"><span class="mlabel new">新增 +</span><b>水晶星河灯带开关</b>：在氛围灯设置中通过「水晶星河灯带」开关，单独控制车内的星河氛围灯。</p>
+  </div>
+
+  <div class="more">
+    <h4>场景与体验优化</h4>
+    <p><span class="mlabel new">新增 +</span><b>智慧场景新增原子能力</b>：触发条件新增工作日/节假日/指定日期、每天一次/每次用车一次、行驶时长监测；执行动作新增行车录像开关、WiFi 开关、AI 数字投影大灯开关，支持选择具体灯光类型。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>场景模式体验优化</b>：新增「场景模式」独立应用，将宠物、冥想、等人等模式聚合；小憩、露营、洗车、离车舒享模式运行中可切至后台，状态栏同步显示当前模式图标。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>Dock 支持全位置自定义</b>：车机大屏底部 Dock 栏全位置均支持自定义，长按即可根据操作习惯自由编辑。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>状态栏显示对外供电信息</b>：对外供电信息及状态迁移至状态栏显示，聚合供电、能耗、里程等信息。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>地图导航交互体验优化</b>：地图全览显示逻辑优化，点击全览后默认进入临时全览，无操作时自动返回原比例尺；地图中增加设置、充电、播报等常用功能快捷入口。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>小鹏音乐体验优化</b>：歌词页支持滑动调整歌曲进度；播放页面布局支持记忆，再次打开时将回到上次布局。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>系统架构优化</b>：语音架构全新升级，系统资源调度更高效，核心交互响应更快、更稳定；由于新架构适配原因，同步下线了部分小P语音对话场景，vivo 手车互联智能体功能不再提供。</p>
+    <p style="margin-top:8px;"><span class="mlabel up">优化 ↑</span><b>超充充电速度提升</b>：持续进化 AI 充电算法，电池电量从 10% 充到 80% 超充时间最快可缩短 1 分钟。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据小鹏汽车官方 XOS 6.3.0 升级资料及用户 OTA 明细截图整理，各功能适配车型与推送时间以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'xpeng-xos630-ota-20260918.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="xpeng-xos630-ota-20260918.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>
