@@ -489,6 +489,73 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
   .gap-arrow { padding: 4px; font-size: 13px; transform: rotate(90deg); }
   .gap-headrow { display: none; }
 }
+
+/* ============ 理想 · 三代际 + 技术纵深 + o1（信源分层）============ */
+.src-legend { font-size: 12px; color: var(--muted); margin: 4px 0 26px; padding: 11px 15px; background: #f7f9fb; border: 1px solid var(--border); border-radius: 8px; line-height: 2.1; }
+.src-tag { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 5px; margin: 0 3px; vertical-align: middle; letter-spacing: 0.02em; white-space: nowrap; }
+.src-tag.ship { color: #2f7a55; background: #e3f5ea; border: 1px solid #bfe6cf; }
+.src-tag.official { color: #3f609c; background: #edf4ff; border: 1px solid #cfe0f7; }
+.src-tag.future { color: #9a6a1c; background: #fbf1dd; border: 1px solid #efdcb0; }
+.src-tag.check { color: #66758a; background: #eef1f4; border: 1px solid #dde3ea; }
+
+/* 三代际总览 */
+.li-era-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 18px 0 8px; }
+@media (max-width: 860px) { .li-era-grid { grid-template-columns: 1fr; } }
+.li-era { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--accent-li); border-radius: 12px; box-shadow: var(--shadow); padding: 18px 18px 16px; }
+.li-era .era-k { font-size: 12px; font-weight: 700; color: var(--accent-li); letter-spacing: 0.05em; }
+.li-era .era-bio { font-size: 19px; font-weight: 800; color: var(--ink); margin: 3px 0 1px; }
+.li-era .era-time { font-size: 11px; color: var(--muted); margin-bottom: 11px; }
+.li-era .era-arch { font-size: 13px; font-weight: 700; color: #33465e; margin-bottom: 6px; }
+.li-era .era-body { font-size: 12.5px; color: #4b5563; line-height: 1.62; }
+
+/* 技术纵深卡：动机 / 架构 / 暴露的问题 / 催生下一代 */
+.deep { background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); margin: 0 0 18px; overflow: hidden; }
+.deep-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 14px 20px; background: linear-gradient(90deg, #f2f7ff 0%, #ffffff 72%); border-bottom: 1px solid var(--border); }
+.deep-head .dh-gen { font-size: 12px; font-weight: 800; color: var(--accent-li); background: color-mix(in srgb, var(--accent-li) 12%, transparent); padding: 2px 9px; border-radius: 20px; }
+.deep-head .dh-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+.deep-head .dh-time { font-size: 12px; color: var(--muted); }
+.deep-grid { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 768px) { .deep-grid { grid-template-columns: 1fr; } }
+.deep-block { padding: 15px 20px; border-right: 1px dashed var(--border); border-top: 1px dashed var(--border); }
+.deep-block:nth-child(2n) { border-right: none; }
+.deep-block .db-k { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; margin-bottom: 7px; }
+.deep-block.motive .db-k { color: #9a6a1c; }
+.deep-block.arch .db-k { color: #2b7a8c; }
+.deep-block.limit .db-k { color: #a0506a; }
+.deep-block.next .db-k { color: #5a52a8; }
+.deep-block .db-body { font-size: 12.5px; color: #42505f; line-height: 1.62; }
+.deep-block .db-body b { color: var(--ink); }
+.deep-block ul { list-style: none; margin: 4px 0 0; padding: 0; }
+.deep-block li { font-size: 12.5px; color: #42505f; line-height: 1.55; padding-left: 14px; position: relative; margin-bottom: 5px; }
+.deep-block li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent-li); opacity: 0.5; }
+
+/* 理想配色变体：复用 .cap-dim 全部结构，仅换强调色 */
+.cap-dim.li .cap-head { background: linear-gradient(90deg, #eef4ff 0%, #ffffff 70%); }
+.cap-dim.li .cap-head .cap-icon { background: color-mix(in srgb, var(--accent-li) 14%, transparent); }
+.cap-dim.li .cap-subhead { color: #33517f; background: #eff4fc; }
+.cap-dim.li .cap-subhead .csh-scene { background: var(--accent-li); }
+.cap-dim.li .cap-step::before { color: var(--accent-li); background: color-mix(in srgb, var(--accent-li) 10%, transparent); }
+.cap-dim.li .cap-step .cs-list li::before { background: var(--accent-li); }
+.cap-dim.li .cap-step .cs-delta { color: #33517f; background: #eff4fc; }
+.cap-dim.li .cap-step .cs-delta b { color: var(--accent-li); }
+.cap-dim.li .cap-step.is-first .cs-delta { color: var(--muted); background: #f7f9fb; }
+.cap-legend.li .lg-delta { color: var(--accent-li); }
+
+/* MindVLA-o1 展望面板 */
+.o1-panel { border: 1.5px solid var(--accent-li); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; margin: 6px 0 20px; }
+.o1-top { padding: 18px 22px; background: linear-gradient(135deg, #eef4ff 0%, #f4f9ff 60%, #ffffff 100%); border-bottom: 1px solid var(--border); }
+.o1-top .o1-name { font-size: 20px; font-weight: 800; color: var(--ink); line-height: 1.4; }
+.o1-top .o1-sub { font-size: 12.5px; color: #526070; margin-top: 6px; line-height: 1.65; }
+.o1-five { display: grid; grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 860px) { .o1-five { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .o1-five { grid-template-columns: 1fr; } }
+.o1-cell { padding: 15px 16px 16px; border-right: 1px dashed var(--border); border-top: 1px dashed var(--border); }
+.o1-cell:last-child { border-right: none; }
+.o1-cell .oc-goal { font-size: 13px; font-weight: 800; color: var(--accent-li); margin-bottom: 5px; }
+.o1-cell .oc-title { font-size: 12px; font-weight: 700; color: #33465e; margin-bottom: 5px; }
+.o1-cell .oc-body { font-size: 11.5px; color: #4b5563; line-height: 1.55; }
+.o1-frame { padding: 14px 22px 16px; background: #f7f9fb; font-size: 12.5px; color: #4b5563; line-height: 1.75; }
+.o1-frame b { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -1364,8 +1431,37 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
 <!-- ==================== 理想 AD ==================== -->
 <section id="lixiang">
 <div class="container">
-  <h2>理想智驾 (AD Max / AD Pro) 技术发展路线</h2>
-  <p class="section-desc">理想智驾在约两年时间内完成了从NPN规则架构到端到端+VLM双系统再到VLA司机大模型的三次代际跃迁，迭代速度在三家中最为密集。</p>
+  <h2>理想智驾 (AD → VLA 司机大模型) 技术发展路线</h2>
+  <p class="section-desc">理想以"生物智能三级跳"为主线，约四年内完成从规则驱动、到端到端+VLM 双系统、再到 VLA 司机大模型的三次代际跃迁。</p>
+
+  <!-- ===== 一、三代际总览 ===== -->
+  <h3 style="margin-top:8px;">一、演进主线：从"昆虫"到"人类"的三次智能跃迁</h3>
+  <div class="li-era-grid">
+    <div class="li-era">
+      <div class="era-k">第一代 · 昆虫动物智能</div>
+      <div class="era-bio">规则驱动 + 高精地图</div>
+      <div class="era-time">2021 起（AD 2.0 高速 NOA）</div>
+      <div class="era-arch">靠"固化本能"行动</div>
+      <div class="era-body">感知-定位-预测-规划-控制解耦的模块化架构，依赖高精地图先验。只能在地图覆盖、预设场景内稳定工作，面对图外长尾缺乏自主推理与泛化。</div>
+    </div>
+    <div class="li-era">
+      <div class="era-k">第二代 · 哺乳动物智能</div>
+      <div class="era-bio">端到端 E2E + VLM 双系统</div>
+      <div class="era-time">2023 研发 · 2024 落地（OTA 6.4）</div>
+      <div class="era-arch">靠"直觉 + 有限推理"行动</div>
+      <div class="era-body">摆脱高精地图强依赖，用模型学习实现场景泛化；借"快慢双系统"引入初步逻辑分析，但不具备完整思维链推理，对没见过的复杂场景容错有限。</div>
+    </div>
+    <div class="li-era">
+      <div class="era-k">第三代 · 人类智能</div>
+      <div class="era-bio">VLA 司机大模型</div>
+      <div class="era-time">2025 MindVLA · 2026 MindVLA-o1</div>
+      <div class="era-arch">靠"推演 + 强化学习"行动</div>
+      <div class="era-body">空间/语言/行为统一于一个模型，具备长时程规划与 System-2 显式推理；在模仿学习基础上引入强化学习，从"被动适应"迈向"主动推演场景演化"。</div>
+    </div>
+  </div>
+
+  <!-- ===== 二、版本演进时间轴（保留蛇形轴）===== -->
+  <h3>二、版本演进时间轴</h3>
 
   <div class="snake-road" style="--c: var(--accent-li);">
     <!-- Row 1: V1-V4 → OTA 5.0 → OTA 6.0 → OTA 6.4 -->
@@ -1480,12 +1576,271 @@ footer { padding: 32px 0; text-align: center; font-size: 12px; color: var(--mute
   </div>
 
   <div class="insight">
-    <div class="insight-title">理想智驾路线小结</div>
-    <strong>行车：</strong>高速NOA → 全场景NOA(110城) → 无图NOA → 全场景端到端 → VLA任意车位到车位。迭代最密集，两年内三次代际跃迁。<br>
-    <strong>泊车：</strong>视觉泊车 → 离车泊入 → 跨10层代客泊车 → 车位到车位 → 手机遥控泊出。行业首发"车位到车位"功能。<br>
+    <div class="insight-title">四条能力线小结</div>
+    <strong>行车：</strong>高速NOA → 全场景NOA(110城) → 无图NOA → 全场景端到端 → VLA任意车位到车位。迭代最密集，约两年内三次代际跃迁。<br>
+    <strong>泊车：</strong>视觉泊车 → 离车泊入 → 跨10层代客泊车 → 车位到车位 → 手机遥控泊出。行业首发"车位到车位"。<br>
     <strong>安全：</strong>AEB(4-135km/h) → LS-AEB低速制动 → R-AEB后向制动/R-MAI误加速抑制 → AES增强型避让。三家中后向安全体系最完备。<br>
-    <strong>架构：</strong>NPN多模块 → 端到端+VLM双系统 → VLA司机大模型。"快慢双系统"为行业首创；AD Pro能力持续下放，三家中OTA向后兼容性最强。
+    <strong>架构：</strong>规则+高精地图 → 端到端+VLM双系统 → VLA司机大模型。"快慢双系统"为行业首创；AD Pro 能力持续下放，OTA 向后兼容性强。
   </div>
+
+  <!-- ===== 三、能力维度演进矩阵（功能主轴） ===== -->
+  <h3>三、能力维度演进矩阵：行车 / 泊车 / 安全</h3>
+
+  <!-- 能力线 1：行车 -->
+  <div class="cap-dim li">
+    <div class="cap-head">
+      <div class="cap-icon">🛣️</div>
+      <div>
+        <div class="cap-title">行车能力 (NOA 导航辅助驾驶)</div>
+        <div class="cap-sub">点到点导航辅助——AD Max 为能力主线，AD Pro 承接下放，两条线分别演进</div>
+      </div>
+    </div>
+
+    <div class="cap-subhead"><span class="csh-scene">AD Max 主线</span>高速 + 城区全场景</div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="V1.x–4.x">
+        <div class="cs-title">基础 L2 与高速 NOA</div>
+        <ul class="cs-list">
+          <li>ACC / LKA / 导航辅助驾驶</li>
+          <li>直线召唤</li>
+          <li>高速 NOA 依赖高精地图（AD 2.0）</li>
+        </ul>
+        <div class="cs-delta">起点：仅高速可用，且驶出高精地图覆盖范围即退化为基础 L2；城区不可用</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 5.0">
+        <div class="cs-title">全场景 NOA 开城（110 城）</div>
+        <ul class="cs-list">
+          <li>高速 NOA + 城市 NOA 覆盖 110 城</li>
+          <li>城市道路红绿灯、路口通行</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>BEV 大模型 + Occupancy 占用网络替代高精地图先验，城区从"不可用"变为覆盖 110 城；但仍受"开城"节奏约束</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 6.0">
+        <div class="cs-title">无图 NOA 全量，不再开城</div>
+        <ul class="cs-list">
+          <li>全国可导航道路均可 NOA</li>
+          <li>不再按城市逐个开放</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>端到端大模型把感知-预测-规划-控制压缩为"感知+规划"两模块，泛化能力取代地图覆盖，"开城"这个概念被消灭</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 6.4">
+        <div class="cs-title">复杂场景语义理解</div>
+        <ul class="cs-list">
+          <li>路边起步 / U 形掉头 / 环岛</li>
+          <li>潮汐车道、中文文字标牌识别</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>快慢双系统上车——快系统管常规场景，22 亿参数 VLM 慢系统读懂潮汐车道、施工提示等中文语义，长尾场景首次具备"理解"而非"躲避"能力</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 7.0">
+        <div class="cs-title">高速与城市统一策略</div>
+        <ul class="cs-list">
+          <li>高速 + 城市 NOA 统一为全场景端到端</li>
+          <li>全量推送</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>不再是"两套策略切换"，高速与城区行为一致性提升，场景过渡处的顿挫与接管减少</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.0">
+        <div class="cs-title">全程贯通 + 语音指令控车</div>
+        <ul class="cs-list">
+          <li>任意车位到任意车位全程贯通</li>
+          <li>支持自然语言指令干预驾驶</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>VLA 司机大模型上车，训练范式从模仿学习转向强化学习，从"学人怎么开"到"自己推演更优解"；语言能力使"靠边停""走左边"等口语指令可直接控车</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.1–8.5">
+        <div class="cs-title">行为质量精修（非新增功能）</div>
+        <ul class="cs-list">
+          <li>8.1 强化学习变道 / 绕行</li>
+          <li>8.2 VLA 行为强化</li>
+          <li>8.3 VLA 路口记忆能力</li>
+          <li>8.5 车道偏航重规划</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>迭代重心从"加功能"转向"用强化学习打磨既有行为"——变道时机、绕行决策、路口通行质量。这是 VLA 架构最直接的收益体现</div>
+      </div>
+    </div>
+
+    <div class="cap-subhead"><span class="csh-scene">AD Pro 下放</span>低配平台的能力承接节奏 <span class="csh-note">三家中 OTA 向后兼容性最强的一条线</span></div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="OTA 5.x 及以前">
+        <div class="cs-title">Pro 仅基础 L2</div>
+        <ul class="cs-list">
+          <li>ACC / LCC / AEB</li>
+          <li>高阶功能为 AD Max 专属</li>
+        </ul>
+        <div class="cs-delta">起点：Pro 与 Max 之间是"功能有无"的差距，而非体验上限的差距</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 6.0">
+        <div class="cs-title">城市 LCC 下放</div>
+        <ul class="cs-list">
+          <li>红绿灯识别与启停</li>
+          <li>路口通行、行人避让</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>无图化让高阶感知不再绑定昂贵算力与地图，Pro 首次从"高速可用"扩展到"城市可用"</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.0">
+        <div class="cs-title">记忆泊车下放</div>
+        <ul class="cs-list">
+          <li>Pro 平台获得记忆泊车</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>泊车类高阶功能下放，Pro 用户获得跨场景泊车能力</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.2">
+        <div class="cs-title">城市 NOA 下放 <span class="src-tag check">待核实</span></div>
+        <ul class="cs-list">
+          <li>AD Pro 支持城市 NOA</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>Pro 与 Max 的边界收窄为"体验上限"而非"功能有无"，老车主感知到的保值感最强</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 能力线 2：泊车 -->
+  <div class="cap-dim li">
+    <div class="cap-head">
+      <div class="cap-icon">🅿️</div>
+      <div>
+        <div class="cap-title">泊车能力</div>
+        <div class="cap-sub">从"车位级"到"楼层级"再到"车位到车位"全链路贯通——理想在这条线上拿到行业首发</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="V1.x–4.x">
+        <div class="cs-title">基础视觉泊车</div>
+        <ul class="cs-list">
+          <li>APA 自动泊车</li>
+          <li>直线召唤</li>
+        </ul>
+        <div class="cs-delta">起点：需人在车内、车位在视野范围内，属"车位级"能力</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 5.0">
+        <div class="cs-title">跨 10 层地库代客泊车</div>
+        <ul class="cs-list">
+          <li>离车泊入</li>
+          <li>跨 10 层地库自主寻位</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从"车位级"跃到"楼层级"。Occupancy 占用网络提供地库这类无图、无 GNSS 环境下的三维环境理解</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 6.5">
+        <div class="cs-title">行业首发车位到车位</div>
+        <ul class="cs-list">
+          <li>自主泊出 → 闸机 → 城区 → 目的地车位</li>
+          <li>全国高速 ETC 自主通行</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b><b>行业首发</b>。泊车与行车首次串成无断点链路，闸机、地库、城区三类异质场景打通——这是"无图端到端"泛化能力的直接变现</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.0">
+        <div class="cs-title">任意车位到任意车位</div>
+        <ul class="cs-list">
+          <li>不再依赖预先记忆的固定路线</li>
+          <li>记忆泊车下放 AD Pro</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从"记忆路线"到"任意车位"，VLA 的空间理解让系统无需"走过一遍"即可规划，可用范围从常去车库扩展到陌生车库</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.5">
+        <div class="cs-title">手机遥控泊出</div>
+        <ul class="cs-list">
+          <li>人在车外遥控泊出</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>补齐人车分离场景——极窄车位可先把车挪出再上人，属体验补全而非能力跃迁</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 能力线 3：安全 -->
+  <div class="cap-dim li">
+    <div class="cap-head">
+      <div class="cap-icon">🛡️</div>
+      <div>
+        <div class="cap-title">安全体系</div>
+        <div class="cap-sub">从"前向刹得住"到"全向 + 绕得开"——后向安全矩阵是理想相对两家的差异化优势</div>
+      </div>
+    </div>
+    <div class="cap-flow">
+      <div class="cap-step is-first" data-ver="V1.x–4.x">
+        <div class="cs-title">前向 AEB / FCW</div>
+        <ul class="cs-list">
+          <li>前向碰撞预警与自动紧急制动</li>
+        </ul>
+        <div class="cs-delta">起点：仅前向，触发速域窄，属法规基线能力</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 5.0">
+        <div class="cs-title">AEB 速域拉宽 4–135km/h</div>
+        <ul class="cs-list">
+          <li>AEB 覆盖 4–135km/h</li>
+          <li>LS-AEB 低速制动</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>BEV + Occupancy 提升远距与低矮目标的稳定检出，使触发速域上下两端同时拉宽</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 6.5">
+        <div class="cs-title">后向安全体系补齐</div>
+        <ul class="cs-list">
+          <li>R-AEB 后向自动紧急制动</li>
+          <li>R-MAI 误加速抑制</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>安全从前向扩展到后向，倒车碰撞与误踩油门两类高频事故场景纳入覆盖——<b>三家中后向体系最完备</b></div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.0">
+        <div class="cs-title">AES 增强型自动紧急避让</div>
+        <ul class="cs-list">
+          <li>制动不足时主动转向避让</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>从"刹得住"到"绕得开"。避让需要在毫秒级内评估相邻车道可行性，依赖统一模型对周边多目标的联合轨迹预测</div>
+      </div>
+      <div class="cap-step" data-ver="OTA 8.5">
+        <div class="cs-title">偏离类风险闭环</div>
+        <ul class="cs-list">
+          <li>车道偏航重规划</li>
+          <li>ELK 紧急车道保持</li>
+        </ul>
+        <div class="cs-delta"><b>▸ 本代改进：</b>偏离与压线场景由被动报警转为主动纠回，安全能力从"碰撞前介入"前移到"风险形成前介入"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 四、下一代方向：MindVLA-o1 ===== -->
+  <h3>四、下一代方向：MindVLA-o1（能力储备，尚未转化为功能）</h3>
+  <p style="font-size:14px;color:#4b5563;margin-bottom:14px;">判断理想下一步<b>可能解锁什么功能、以及大概什么节奏</b>。因此每项技术只记"它对功能意味着什么"，不展开算法细节。</p>
+  <div class="o1-panel">
+    <div class="o1-top">
+      <div class="o1-name">MindVLA-o1 <span class="src-tag future">已发布·未量产</span></div>
+      <div class="o1-sub">2026 年 3 月 17 日，理想基座模型负责人詹锟在 NVIDIA GTC 2026 发布的<b>下一代自动驾驶基础模型</b>（来源：央视网 2026-03-18）。以<b>原生多模态 MoE Transformer</b> 为核心，五项技术分别解决"看、想、行、进化、部署"。<b>关键提示：这是基础模型发布，尚无量产 OTA 版本号</b>，与已上车的 MindVLA（OTA 8.x）不是同一落地状态，做功能对标时不应计入理想当前能力。</div>
+    </div>
+<div class="o1-five">
+      <div class="o1-cell">
+        <div class="oc-goal">远距 / 恶劣天气识别</div>
+        <div class="oc-title">算法手段：3D ViT + 前馈 3DGS</div>
+        <div class="oc-body">编码阶段原生构建三维表征，静态/动态场景解耦建模。<b>对功能的含义：</b>远距小目标、散落障碍物的稳定检出，以及雨雾等退化条件下的鲁棒性，是 AEB 速域与 NOA 可用天气边界的前提。</div>
+      </div>
+      <div class="o1-cell">
+        <div class="oc-goal">复杂博弈预判</div>
+        <div class="oc-title">算法手段：预测式隐式世界模型</div>
+        <div class="oc-body">在隐空间推演未来数秒场景演化。<b>对功能的含义：</b>无保护左转、加塞、鬼探头这类需要"预判对方意图"的场景通过率，是城区 NOA 接管率的主要来源。</div>
+      </div>
+      <div class="o1-cell">
+        <div class="oc-goal">乘坐舒适性</div>
+        <div class="oc-title">算法手段：VLA-MoE + Action Expert</div>
+        <div class="oc-body">并行解码整条轨迹 + 离散扩散精修，满足动力学约束。<b>对功能的含义：</b>直接对应"顿挫感/晕车感"这类高频用户抱怨，属体验分而非功能分，但影响智驾使用率。</div>
+      </div>
+      <div class="o1-cell">
+        <div class="oc-goal">长尾修复速度</div>
+        <div class="oc-title">算法手段：World Simulator 闭环强化学习</div>
+        <div class="oc-body">仿真中自我探索，前馈重建瞬时生成场景；官方称渲染提速近 2 倍、训练成本降约 75% <span class="src-tag official">官方称</span>。<b>对功能的含义：</b>决定单个长尾问题从上报到 OTA 修复的周期，是 OTA 迭代节奏的上游变量。</div>
+      </div>
+      <div class="o1-cell">
+        <div class="oc-goal">能力下放空间</div>
+        <div class="oc-title">算法手段：Roofline 软硬协同</div>
+        <div class="oc-body">用 Roofline 刻画算力与内存带宽约束，找精度/延迟帕累托前沿。<b>对功能的含义：</b>决定同等能力能否塞进更低算力平台——直接关系到 AD Pro 还能接住多少 Max 功能。</div>
+      </div>
+    </div>
+    <div class="o1-frame">
+      <b>面向物理世界的 AI 框架（四大模块闭环）：</b>MindData（统一 VLA 数据引擎，采集/清洗/自动标注）→ MindVLA-o1（原生多模态 VLA 模型，理解+推理+生成行为）→ MindSim（可控多模态世界模型，生成场景并支撑闭环训练）→ RL Infra（奖励模型 + 策略学习，在仿真与真实中自我进化）。理想表态：同一套 VLA 不止控制车辆，也能扩展到机器人——"车是最大号的机器人"，自动驾驶只是物理 AI 的起点。 <span class="src-tag official">官方称</span>
+    </div>
+  </div>
+
+  <!-- ===== 客观判断 ===== -->
+  <div class="insight">
+    <div class="insight-title">客观判断与待观察项</div>
+    </div>
 </div>
 </section>
 

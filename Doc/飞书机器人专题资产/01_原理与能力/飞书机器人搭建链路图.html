@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>飞书机器人搭建链路 · 千里速闻</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #1a2233;
+    --ink-soft: #45506b;
+    --paper: #f5f6f8;
+    --card: #ffffff;
+    --line: #d9dee8;
+    --feishu: #2b5cd9;      /* 飞书侧 · 墨蓝 */
+    --feishu-soft: #eaf0fd;
+    --company: #0f766e;     /* 公司侧 · 深青 */
+    --company-soft: #e3f3f1;
+    --amber: #c77d1a;       /* 点缀 · 琥珀 */
+    --amber-soft: #fbf1de;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    padding: 40px 20px 64px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+
+  header.top { margin-bottom: 8px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--amber); font-weight: 700; margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .sub { color: var(--ink-soft); font-size: 15px; max-width: 640px; }
+
+  .thesis {
+    margin: 28px 0 36px; padding: 18px 22px;
+    background: var(--card); border: 1px solid var(--line);
+    border-left: 4px solid var(--amber); border-radius: 10px;
+    font-size: 15.5px; color: var(--ink);
+  }
+  .thesis b { color: var(--company); }
+  .thesis .x { color: var(--feishu); }
+
+  /* 两半分区 */
+  .halves { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 8px; }
+  @media (max-width: 720px) { .halves { grid-template-columns: 1fr; } }
+  .half-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
+    padding: 8px 0; margin-bottom: 4px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .half-feishu .half-label { color: var(--feishu); }
+  .half-feishu .dot { background: var(--feishu); }
+  .half-company .half-label { color: var(--company); }
+  .half-company .dot { background: var(--company); }
+
+  /* 步骤卡片 */
+  .step {
+    position: relative; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px 16px 18px; margin-bottom: 14px;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 7px;
+    font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 10px;
+  }
+  .half-feishu .step-num { background: var(--feishu); }
+  .half-company .step-num { background: var(--company); }
+  .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
+  .step p { font-size: 14px; color: var(--ink-soft); }
+  .step .key {
+    display: inline-block; margin-top: 10px; padding: 3px 9px;
+    background: var(--amber-soft); color: var(--amber);
+    border-radius: 6px; font-size: 12px; font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+  .layer-tag {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 11px; font-weight: 700; padding: 3px 8px;
+    border-radius: 20px; background: var(--paper); color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+
+  /* 连接箭头 */
+  .arrow-down {
+    text-align: center; color: var(--line); font-size: 20px;
+    line-height: 1; margin: -4px 0 10px;
+  }
+  .bridge {
+    display: flex; align-items: center; gap: 12px;
+    margin: 20px 0; padding: 14px 18px;
+    background: linear-gradient(90deg, var(--feishu-soft), var(--company-soft));
+    border-radius: 10px; font-size: 14px; color: var(--ink);
+  }
+  .bridge b { font-weight: 700; }
+
+  /* 最终链路条 */
+  .flow {
+    margin-top: 40px; padding: 24px;
+    background: var(--ink); border-radius: 14px; color: #fff;
+  }
+  .flow h2 { font-size: 15px; font-weight: 700; margin-bottom: 18px; color: #fff; letter-spacing: 0.5px; }
+  .flow-track { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .node {
+    padding: 9px 13px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+    white-space: nowrap;
+  }
+  .node.f { border-color: rgba(90,140,240,0.6); }
+  .node.c { border-color: rgba(45,180,160,0.6); }
+  .node.a { border-color: rgba(220,160,60,0.7); background: rgba(220,160,60,0.12); }
+  .sep { color: rgba(255,255,255,0.4); font-size: 14px; }
+
+  footer.note {
+    margin-top: 32px; padding: 18px 22px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  footer.note b { color: var(--ink); }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 18px; font-size: 12.5px; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">机器人搭建链路 · 拆解</div>
+    <h1>「千里速闻」这个飞书机器人是怎么搭出来的</h1>
+    <p class="sub">你在用的发消息后台,背后是两半拼起来的:飞书那边注册的一个"机器人身份",加上公司自己写的一个后台服务。分开看就清楚了。</p>
+  </header>
+
+  <div class="thesis">
+    核心:这套东西<span class="x">跟公众号没有任何关系</span>。「千里速闻」是一个<b>企业自建应用</b>——消息以这个应用的身份直接发到员工会话里,中间没有公众号那一层。
+  </div>
+
+  <div class="halves">
+    <!-- 飞书侧 -->
+    <div class="half-feishu">
+      <div class="half-label"><span class="dot"></span>第一半 · 飞书侧:注册机器人身份</div>
+
+      <div class="step">
+        <div class="layer-tag">能力地图 第一层</div>
+        <div class="step-num">1</div>
+        <h3>在飞书开放平台建应用</h3>
+        <p>公司研发/IT 登录飞书开放平台,创建企业自建应用,取名「千里速闻」,开启"机器人"能力。</p>
+      </div>
+      <div class="arrow-down">↓</div>
+
+      <div class="step">
+        <div class="layer-tag">能力地图 第一层</div>
+        <div class="step-num">2</div>
+        <h3>申请权限 + 发布上线</h3>
+        <p>申请发消息权限,走公司内部审批发布。发布后,这个应用就在每位员工的飞书里变成一个能收消息的会话联系人。</p>
+        <span class="key">im:message</span>
+      </div>
+      <div class="arrow-down">↓</div>
+
+      <div class="step">
+        <div class="layer-tag">凭证</div>
+        <div class="step-num">3</div>
+        <h3>拿到两把钥匙</h3>
+        <p>飞书发给这个应用 App ID 和 App Secret——相当于机器人的账号密码。身份到此建成,但它自己不会动,得有人拿钥匙去指挥。</p>
+        <span class="key">App ID / App Secret</span>
+      </div>
+    </div>
+
+    <!-- 公司侧 -->
+    <div class="half-company">
+      <div class="half-label"><span class="dot"></span>第二半 · 公司侧:写后台服务指挥它</div>
+
+      <div class="step">
+        <div class="layer-tag">能力地图 第二层</div>
+        <div class="step-num">4</div>
+        <h3>后台服务:换临时通行证</h3>
+        <p>公司写的程序拿 App ID/Secret 去飞书换一个临时通行证。它两小时过期,程序会自己偷偷刷新,你完全感觉不到。</p>
+        <span class="key">tenant_access_token</span>
+      </div>
+      <div class="arrow-down">↓</div>
+
+      <div class="step">
+        <div class="layer-tag">能力地图 第二·三层</div>
+        <div class="step-num">5</div>
+        <h3>拼 JSON + 调接口</h3>
+        <p>把你在界面上填的内容拼成飞书要的 JSON 格式,POST 给飞书的发消息接口。你贴的"消息模板正文"就是这里的卡片 JSON。</p>
+        <span class="key">POST im/v1/messages</span>
+      </div>
+      <div class="arrow-down">↓</div>
+
+      <div class="step">
+        <div class="layer-tag">你在这里</div>
+        <div class="step-num">6</div>
+        <h3>配一个网页界面</h3>
+        <p>给这个后台服务套一个可视化界面——就是你天天用的"新增消息"页。你选应用、填收件人、贴模板、点发送,每一下都是在给后台喂参数。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bridge">
+    <b>两半怎么接上:</b>后台服务(第二半)拿着应用(第一半)的钥匙,去调飞书接口——身份是飞书给的,动手的是公司的程序。
+  </div>
+
+  <!-- 完整链路条 -->
+  <div class="flow">
+    <h2>一条线看完:从建应用到消息送达</h2>
+    <div class="flow-track">
+      <span class="node f">建应用「千里速闻」</span>
+      <span class="sep">→</span>
+      <span class="node f">拿 App ID/Secret</span>
+      <span class="sep">→</span>
+      <span class="node c">后台服务换 token</span>
+      <span class="sep">→</span>
+      <span class="node c">拼卡片 JSON</span>
+      <span class="sep">→</span>
+      <span class="node a">你填表点发送</span>
+      <span class="sep">→</span>
+      <span class="node c">调飞书发消息接口</span>
+      <span class="sep">→</span>
+      <span class="node f">消息直达员工会话</span>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--feishu)"></span>飞书侧(身份)</span>
+      <span><span class="dot" style="background:var(--company)"></span>公司侧(后台服务)</span>
+      <span><span class="dot" style="background:var(--amber)"></span>你的操作</span>
+    </div>
+  </div>
+
+  <footer class="note">
+    <b>对你的意义:</b>你现在站在这条链路最上游的界面上;搭建它的人,主要工作量花在"后台服务"那块——也就是能力地图的<b>第二层</b>。第一层(建应用/批权限)是配置活,第三层(卡片 JSON)你贴"消息模板正文"时其实已经天天在碰了。你那个练手脚本走的是群 webhook,连换 token 都省了,但"拼 JSON → 发出去"的内核跟公司这套是同一回事——吃透它,就等于摸到了这套系统的发动机。
+  </footer>
+
+</div>
+</body>
+</html>

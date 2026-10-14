@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 智界R7/S7国庆OTA升级</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 12% -10%, rgba(45,127,249,.18), transparent 60%),
+    radial-gradient(900px 520px at 108% 2%, rgba(91,157,255,.10), transparent 55%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== tm ===== */
+.tm{font-size:.34em; vertical-align:super; font-weight:700; margin:0 1px; color:var(--gold); -webkit-text-fill-color:var(--gold);}
+
+/* ===== Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.24; letter-spacing:.5px;
+  background:linear-gradient(120deg,#FFFFFF 0%,#F5C860 30%,#F0B429 65%,#E8960C 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== banner ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:48px 0 6px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota card ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72; margin-bottom:0;}
+.ota-card p + p{margin-top:10px;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .path{font-size:14px; color:var(--text-dim); line-height:1.6; margin-top:10px;}
+.ota-card .path b{color:var(--main-2); font-weight:700; font-size:13px;}
+.ota-card .note{font-size:13px; color:var(--gold); font-weight:600; line-height:1.5; margin-top:10px;}
+.ota-card .fit{display:block; margin-top:14px; font-size:12px; font-weight:700; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:6px 12px; line-height:1.6;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:31px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年10月8日 · 内部速递</span>
+    </div>
+    <h1 class="headline">辅助驾驶高阶版车型升级项目多！<br>智界R7/S7推出国庆OTA升级！</h1>
+    <div class="version-note"><b>本次OTA升级内容非常丰富，涵盖充电导航、领航辅助、行车影像等多个方面</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 智界R7/S7国庆OTA</span>
+    <h2>7项新增 + 7项优化，充电导航与领航辅助全面升级</h2>
+    <p>新增<em>充电站分时电价</em>、<em>园区导航充电车位</em>、<em>领航者勋章</em>等；优化<em>NCA途经点设置</em>、<em>组队出行实时对讲</em>、<em>行车记录仪清晰度</em>等。大部分功能面向<b>辅助驾驶高阶版车型</b>，<em>领航者勋章</em>面向R7 24/25款Pro车型，<em>汽水音乐</em>面向全系车型。</p>
+  </div>
+
+  <!-- ====== 新增功能 ====== -->
+  <div class="section-title">新增功能 <span class="accent">7项</span></div>
+  <div class="sys-note">本次OTA大部分功能面向<b>智界R7/S7辅助驾驶高阶版车型</b>，<em>领航者勋章</em>面向智界R7 24/25款Pro车型，<em>汽水音乐</em>面向智界R7/S7全系车型。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>充电站分时电价显示功能</h4>
+    <p>用户可直观查看不同时段电价，合理规划充电时间，降低用车成本，充电更经济、更透明</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>可编辑已添加的途经点功能</h4>
+    <p>在全览页面点击已添加的途经点，或在详情页打开途经点编辑页面，均可跳转至沿途搜页面进行二次编辑与修改，途经点调整更灵活，路线规划更高效</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>同园区导航至充电车位功能</h4>
+    <p>在园区内选择充电车位并支持导航</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>中控转向灯激活影像支持大小设置</h4>
+    <p>点击转向灯浮窗左下角按钮即可放大或缩小视图，提供一档、二档、三档尺寸调节，其中二档、三档分别为一档的<b>1.2倍</b>与<b>1.4倍</b>，满足不同场景下的视野需求</p>
+    <p class="path"><b>路径：</b>ADS App &gt; 设置 &gt; 辅助驾驶 &gt; 全景环视 &gt; 转向灯激活影像</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>支持在导航中按"沿途、周边、目的地"分类搜索</h4>
+    <p>导航过程中搜索途经点，支持充电桩、洗车、维修站、卫生间、服务区、餐饮等多品类，并可按沿途、周边、目的地三种范围分类筛选，路线规划更高效，途中补给更从容</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>领航者勋章页签，展示累计勋章详情</h4>
+    <p>辅助驾驶设置项增加领航者勋章，使用ADS即可解锁并收集专属电子勋章，提升辅助驾驶使用的趣味性</p>
+    <p class="path"><b>路径：</b>打开HUAWEI ADS &gt; 设置 &gt; 辅助驾驶 &gt; 领航者勋章</p>
+    <div class="fit">支持车型：<b>智界R7 24/25款 Pro车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>应用市场的汽水音乐功能</h4>
+    <p>支持应用市场下载汽水音乐（HIMA版）</p>
+    <p class="path"><b>路径：</b>中控点击应用与服务 &gt; 应用中心 &gt; 应用市场 &gt; 搜索"汽水音乐" &gt; 下载并安装</p>
+    <div class="fit">支持车型：<b>智界R7/S7全系</b></div>
+  </div>
+
+  <!-- ====== 优化升级 ====== -->
+  <div class="section-title">优化升级 <span class="accent">7项</span></div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>组队出行体验，支持实时对讲等功能</h4>
+    <p>支持创建或加入出行队伍，实时共享位置与导航路线，让多车同游不掉队。内置导航界面语音实时对讲，一键即可与队友实时畅聊</p>
+    <p class="note">仅支持同版本车型组队</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>沿途搜功能，支持联想搜索</h4>
+    <p>沿途搜新增联想搜索能力，途经点搜索不再依赖精准关键词，用户输入部分内容即可获得联想结果，搜索效率与使用体验同步提升</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>领航辅助（NCA）途经点设置更灵活</h4>
+    <p>支持将园区内楼栋、餐饮店等设为途经点，系统自动规划途经点周边临停，送人到楼、顺路消费，灵活停靠，操作省心</p>
+    <p class="note">途径园区需是支持车位到车位的停车场</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>充电车位闲忙信息显示功能</h4>
+    <p>在充电站详情页，点击任一充电站类型，进入充电车位忙闲信息页，点击有车位名的标签，进入充电车位详情页</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>充电站收费信息显示，新增充电停车减免提示</h4>
+    <p>选择充电站后，显示目前P停车费用收费提示信息和减免详情</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>高速服务区卡片信息，显示充电站品牌及对应充电桩数量</h4>
+    <p>充电站信息新增品牌与对应空闲数据展示，在原有空闲信息基础上进一步丰富内容维度，帮助用户更精准地选择充电站，提升充电效率</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>行车记录仪清晰度</h4>
+    <p>优化行车记录仪录像帧处理策略，自动识别并剔除长曝光产生的模糊帧，有效提升画面细节清晰度，保障行车关键画面清晰可辨</p>
+    <div class="fit">支持车型：<b>智界R7/S7辅助驾驶高阶版车型</b></div>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">依据智界官方国庆OTA升级资料整理，各功能支持车型以官方说明为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'zhijie-r7-s7-guoqing-ota-20261008.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="zhijie-r7-s7-guoqing-ota-20261008.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

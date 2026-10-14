@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 享界S9/S9T国庆OTA升级</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 12% -10%, rgba(45,127,249,.18), transparent 60%),
+    radial-gradient(900px 520px at 108% 2%, rgba(91,157,255,.10), transparent 55%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.brand{font-size:20px; font-weight:700; color:var(--text-dim); letter-spacing:4px; margin-bottom:14px;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.24; letter-spacing:.5px;
+  background:linear-gradient(120deg,#FFFFFF 0%,#F5C860 35%,#F0B429 70%,#D99400 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.sub-title{margin-top:18px; font-size:19px; color:var(--text-dim); font-weight:600; line-height:1.6;}
+.sub-title b{color:var(--text); font-weight:700;}
+.version-note{margin-top:16px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--gold); font-weight:700;}
+
+/* ===== banner ===== */
+.banner{
+  margin:34px 0 40px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner h2{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner p{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner b{color:var(--text); font-weight:700;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:48px 0 6px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.section-sub{text-align:center; font-size:18px; color:var(--text-dim); font-weight:600; margin:0 0 24px; letter-spacing:2px;}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:0 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+
+/* ===== grp-title ===== */
+.grp-title{font-size:22px; font-weight:800; color:var(--gold); margin:36px 0 18px; padding-left:14px; border-left:3px solid var(--gold); line-height:1.4;}
+.grp-title .sub{font-size:15px; font-weight:600; color:var(--text-dim); margin-left:10px; letter-spacing:1px;}
+
+/* ===== ota card ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:10px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72; margin-bottom:0;}
+.ota-card p + p{margin-top:10px;}
+.ota-card p b{color:var(--text); font-weight:700;}
+.ota-card .path{font-size:14px; color:var(--text-dim); line-height:1.6; margin-top:10px;}
+.ota-card .path b{color:var(--main-2); font-weight:700; font-size:13px;}
+.ota-card .req{font-size:13px; color:var(--gold); font-weight:600; line-height:1.5; margin-top:8px;}
+.ota-card .fit{display:block; margin-top:14px; font-size:12px; font-weight:600; color:var(--text-dim); background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:7px; padding:6px 12px; line-height:1.6;}
+.ota-card .fit b{color:var(--main-2); font-weight:700;}
+.ota-card .note{font-size:13px; color:var(--text-dim); font-weight:600; margin-top:10px; line-height:1.5;}
+.ota-card .note b{color:var(--text); font-weight:700;}
+
+/* ===== 6大能力标签 ===== */
+.cap-tags{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; position:relative; z-index:1;}
+.cap-tags span{font-size:14px; font-weight:700; color:var(--text); background:rgba(255,255,255,.06); border:1px solid var(--border); padding:6px 14px; border-radius:999px;}
+.cap-tags span em{color:var(--gold); font-style:normal; font-weight:800; margin-right:4px;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:31px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner h2{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+  .cap-tags span{font-size:13px; padding:5px 12px;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年10月8日 · 内部速递</span>
+    </div>
+    <div class="brand">华为智选 · 享界</div>
+    <h1 class="headline">新增手势泊出功能！<br>享界 S9 / S9T 国庆 OTA 升级</h1>
+    <div class="sub-title">6 大核心能力全面升级，覆盖 2024–2026 款多个年款车型</div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 享界国庆 OTA</span>
+    <h2>6 大核心能力全面升级，<em>假期出游享轻松</em></h2>
+    <p>本次 OTA 升级内容丰富，重磅升级包括<em>新增手势泊出功能</em>、<em>新增充电站分时电价显示</em>、<em>新增调音魔方</em>、<em>新增汽水音乐</em>、<em>新增车外扬声器/车外喊话</em>、<em>新增智慧生活应用</em>、<em>优化组队出行</em>等。</p>
+  </div>
+
+  <!-- ====== 01 组队出行 ====== -->
+  <h3 class="grp-title">01 · 组队出行 <span class="sub">全员随时开麦，多车同游不掉队</span></h3>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>优化入队及队伍切换全流程</h4>
+    <p>输完口令秒入队；支持全员实时语音对讲，单次最长时限至 <b>60s</b>；全新交互界面配备视图缩放，实时共享位置与导航路线。</p>
+    <p class="path"><b>开启路径：</b>HUAWEI ADS App &gt; 更多 &gt; 组队出行</p>
+  </div>
+
+  <!-- ====== 02 补能有数 ====== -->
+  <h3 class="grp-title">02 · 补能有数 <span class="sub">分时电价全透明，充电车位不白跑</span></h3>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>充电站分时电价显示功能</h4>
+    <p>用户可直观查看不同时段电价，合理规划充电时间，降低用车成本。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>充电车位忙闲状态实时查看</h4>
+    <p>支持充电车位忙闲可视化，随时掌握充电车位状态。</p>
+  </div>
+
+  <!-- ====== 03 座舱欢歌 ====== -->
+  <h3 class="grp-title">03 · 座舱欢歌 <span class="sub">秒变百万调音师，旅途 BGM 随心切</span></h3>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>调音魔方功能</h4>
+    <p>带来超高可玩性的专业调音工具：混音台、均衡器、混响效果、通道延时、通道增益五大调节功能，<b>200+ 参数可调</b>；内置官方精品音效推荐，覆盖听音乐、观影等多场景。</p>
+    <p class="path"><b>开启路径：</b>设置 &gt; 声音 &gt; 调音魔方，或应用与服务 &gt; 调音魔方 App</p>
+    <p class="req">调音魔方音效与现有音效互斥</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>汽水音乐 (HIMA) 上车</h4>
+    <p>旅途歌单再多一个选择。</p>
+    <p class="path"><b>开启路径：</b>应用与服务 &gt; 应用中心 &gt; 应用市场 &gt; 搜索"汽水音乐" &gt; 下载并安装</p>
+  </div>
+
+  <!-- ====== 04 露营有声 ====== -->
+  <h3 class="grp-title">04 · 露营有声 <span class="sub">迎着山野晚风，把开心的歌放给自然听</span></h3>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车外扬声器功能</h4>
+    <p>露营放歌不用自备蓝牙音箱，把车内媒体音频投到车外播放；支持<b>车外播放</b>与<b>内外同播</b>两种模式，车外音量可调——篝火旁的 BGM，随心播放。</p>
+    <p class="path"><b>开启路径：</b>设置 &gt; 声音 &gt; 车外扬声器</p>
+    <p class="req">仅 P 挡下使用</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>车外喊话功能</h4>
+    <p>变身社交显眼包，有话车内直接说。恶劣天气无需开窗，即可与车外清晰对话。日常进出提醒、礼让行人、感谢他车、让车外家人快速寻车，安全便捷更保护车内隐私。</p>
+    <p class="path"><b>开启路径：</b>设置 &gt; 声音 &gt; 车外喊话；还可通过下拉控制中心或方向盘自定义按键进行设置</p>
+    <p class="req">车外喊话功能与无麦 K 歌互斥，车速超 20km/h 自动关闭</p>
+    <div class="fit">支持车型：<b>享界 S9 纯电 2024 款｜享界 S9 增程 2025 款｜享界 S9 增程/纯电 2026 款｜享界 S9T 增程/纯电</b></div>
+  </div>
+
+  <!-- ====== 05 全程安心 ====== -->
+  <h3 class="grp-title">05 · 全程安心 <span class="sub">挥挥手就泊出，盲区视野秒拿捏</span></h3>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>手势泊出功能</h4>
+    <p>挥挥手就泊出，解锁你的专属"召唤术"。告别狭窄车位的上车尴尬。面向车头 <b>2~4m</b> 范围内站立，身体和面部正对车头，保持静止 <b>2s</b>，手臂向前伸平，连续 <b>2 次或以上</b>匀速挥动到肩膀位置，即可激活手势泊出功能。</p>
+    <p class="note">* 请注意周边环境安全，勿站在车辆泊出路径范围内，泊车过程中可通过拉开车门的方式退出泊出</p>
+    <div class="fit">支持车型：<b>享界 S9 增程 2025 款｜享界 S9 增程/纯电 2026 款｜享界 S9T 增程/纯电</b></div>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>中控转向灯激活影像支持大小设置</h4>
+    <p>影像浮窗随心调，盲区视野秒拿捏。点击转向灯浮窗左下角按钮即可放大或缩小视图，提供<b>三档尺寸调节</b>，满足不同场景下的视野需求。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>哨兵存储空间自定义调节</h4>
+    <p>告别存储焦虑，哨兵空间你说了算。优化存储分配策略，支持行车记录仪设置页自定义调节哨兵存储空间占比，<b>4%–42%</b> 灵活分配哨兵可用存储空间。</p>
+  </div>
+
+  <!-- ====== 06 喜好上车 ====== -->
+  <h3 class="grp-title">06 · 喜好上车 <span class="sub">把"家"装进车机，座舱秒变摄影展</span></h3>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>智慧生活 App 上车</h4>
+    <p>把"家"装进车机，还在路上空调先一步就位。进入智慧生活 App，可以进入家庭空间，查看并控制家里的设备。</p>
+    <p class="path"><b>入口：</b>应用与服务 &gt; 应用中心 &gt; 智慧生活</p>
+    <p class="req">需登陆车主账号</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>手机图库图片设为车机壁纸</h4>
+    <p>手机大片一键"霸屏"，座舱秒变摄影展。通过超级桌面把手机图库静态图片设为车机壁纸，实现手机与车机视觉内容的无缝流转。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">依据享界官方国庆 OTA 升级资料整理，覆盖 2024–2026 款多个年款车型，不同年款或不同动力系统车型升级功能有一定差异，以官方说明为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'xiangjie-s9-s9t-guoqing-ota-20261008.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="xiangjie-s9-s9t-guoqing-ota-20261008.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8B94A3;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',(e)=>{if(e.target===ov) document.body.removeChild(ov);});
+    document.body.appendChild(ov);
+  }catch(e){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('导出失败：' + e.message);
+  }
+});
+</script>
+</body>
+</html>

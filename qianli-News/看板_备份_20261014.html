@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>千里速闻 · 已推送车型与资讯看板</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f2f5fa; --card:#ffffff; --border:#e6ebf3; --border-2:#eef2f7;
+  --text:#1c2534; --dim:#69768a; --faint:#98a3b5;
+  --main:#2D7FF9; --main-2:#5B9DFF; --main-soft:#eaf2fe;
+  --gold:#F0B429; --gold-soft:#fef6e2;
+  --green:#10B981;
+  --shadow:0 1px 2px rgba(16,32,64,.04), 0 8px 24px -12px rgba(16,32,64,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background:
+    radial-gradient(900px 320px at 12% -8%, rgba(45,127,249,.10), transparent 60%),
+    radial-gradient(800px 300px at 92% -6%, rgba(240,180,41,.10), transparent 60%),
+    var(--bg);
+  color:var(--text); padding:28px 22px 40px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1480px;margin:0 auto}
+
+/* ---------- header ---------- */
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brandrow{display:flex;align-items:center;gap:12px}
+.logo{
+  width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--main),#1e5fd0);color:#fff;font-size:20px;font-weight:800;
+  box-shadow:0 6px 16px -6px rgba(45,127,249,.65);
+}
+h1{font-size:25px;font-weight:800;letter-spacing:.3px;line-height:1.25}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--main),var(--main-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:var(--dim);font-size:13px;margin-top:5px}
+.sub b{color:var(--text);font-weight:600}
+.updated{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;
+  background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);
+  font-size:12.5px;color:var(--dim);white-space:nowrap;
+}
+.updated i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(16,185,129,.16)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:14px;margin:22px 0 18px}
+.stat{
+  position:relative;overflow:hidden;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:15px 18px 14px;box-shadow:var(--shadow);
+}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c,var(--main));opacity:.9}
+.stat .num{font-size:28px;font-weight:800;letter-spacing:.5px;color:var(--c,var(--main));line-height:1.15;font-variant-numeric:tabular-nums}
+.stat .lbl{font-size:12px;color:var(--dim);margin-top:3px;letter-spacing:.4px}
+.stat .ic{position:absolute;right:12px;top:12px;font-size:15px;opacity:.30}
+
+/* ---------- controls ---------- */
+.controls{
+  position:sticky;top:0;z-index:30;
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(10px);
+  border:1px solid var(--border);border-radius:14px;
+  padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow);
+}
+.searchbox{position:relative;flex:1;min-width:260px}
+.searchbox svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--faint);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none}
+#search{
+  width:100%;padding:10px 12px 10px 36px;border:1px solid #d7deea;border-radius:10px;
+  font-size:13.5px;background:#fbfcfe;color:var(--text);outline:none;transition:.15s;
+}
+#search:focus{border-color:var(--main-2);background:#fff;box-shadow:0 0 0 3px rgba(45,127,249,.14)}
+.controls select{
+  padding:9px 30px 9px 12px;border:1px solid #d7deea;border-radius:10px;font-size:13px;
+  background:#fbfcfe url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a3b5' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>") no-repeat right 9px center/13px;
+  color:var(--text);outline:none;max-width:190px;cursor:pointer;appearance:none;-webkit-appearance:none;
+}
+.controls select:focus{border-color:var(--main-2);background-color:#fff}
+.reset{
+  padding:9px 16px;border:1px solid var(--border);border-radius:10px;background:#f3f6fb;
+  color:#4b576b;font-size:13px;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.reset:hover{background:#e8edf6;border-color:#d7deea}
+.resultinfo{font-size:12.5px;color:var(--dim);white-space:nowrap;padding-left:2px}
+.resultinfo b{color:var(--main);font-weight:700}
+
+/* ---------- table ---------- */
+.tablecard{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.scrollzone{max-height:72vh;overflow:auto}
+table{width:100%;min-width:1560px;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:13px}
+thead th{
+  position:sticky;top:0;z-index:5;background:#f4f7fc;text-align:left;
+  padding:11px 13px;font-weight:700;font-size:12.5px;color:#414c60;white-space:nowrap;
+  border-bottom:1px solid var(--border);cursor:pointer;user-select:none;
+}
+thead th:hover{background:#eaf0f9;color:var(--main)}
+thead th .arrow{color:var(--faint);font-size:10px;margin-left:4px}
+thead th.sorted .arrow{color:var(--main)}
+tbody td{padding:12px 13px;border-bottom:1px solid var(--border-2);vertical-align:top;overflow-wrap:anywhere;word-break:break-word}
+tbody tr:nth-child(even) td{background:#fcfdff}
+tbody tr:hover td{background:#f4f8ff}
+td.date{font-variant-numeric:tabular-nums;color:#33405a;font-weight:600;white-space:nowrap}
+.tag{display:inline-block;padding:2.5px 10px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.tag.car{background:var(--main-soft);color:#1a5fd0;border:1px solid rgba(45,127,249,.22)}
+.tag.news{background:var(--gold-soft);color:#b07a06;border:1px solid rgba(240,180,41,.28)}
+.brand{font-weight:700}
+.model{font-weight:700;color:#0f1a2e}
+.dim{color:var(--dim)}
+.todo{color:#aeb7c6;font-style:italic;font-size:12px}
+.clamp{position:relative}
+.clamp.c5{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.clamp.c3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.morebtn{
+  display:inline-block;margin-top:5px;padding:1px 9px;border-radius:999px;cursor:pointer;
+  font-size:11.5px;font-weight:600;color:var(--main);background:var(--main-soft);
+  border:1px solid rgba(45,127,249,.20);user-select:none;white-space:nowrap;
+}
+.morebtn:hover{background:#dbe9fe}
+.hl-tag{color:#a9760a;font-weight:700}
+a.link{
+  display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:var(--main);font-size:12px;text-decoration:none;font-family:ui-monospace,Consolas,monospace;
+}
+a.link:hover{text-decoration:underline;color:#1a5fd0}
+a.link .gh{font-family:inherit}
+.empty{text-align:center;padding:60px 20px;color:var(--faint)}
+.empty .big{font-size:34px;display:block;margin-bottom:8px;opacity:.55}
+
+/* ---------- pager ---------- */
+.pager{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 16px;background:#fbfcfe;border-top:1px solid var(--border);
+}
+.pager .pl{font-size:12.5px;color:var(--dim)}
+.pager .pl b{color:var(--text);font-weight:700}
+.pbtns{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pg{
+  min-width:32px;height:32px;padding:0 9px;border:1px solid var(--border);border-radius:9px;
+  background:#fff;color:#4b576b;font-size:12.5px;font-weight:600;cursor:pointer;
+  display:grid;place-items:center;transition:.13s;font-variant-numeric:tabular-nums;
+}
+.pg:hover:not(:disabled){border-color:var(--main-2);color:var(--main)}
+.pg.on{background:linear-gradient(135deg,var(--main),#1e5fd0);border-color:transparent;color:#fff;box-shadow:0 4px 12px -4px rgba(45,127,249,.6)}
+.pg:disabled{opacity:.4;cursor:not-allowed}
+.pg.gap{border:none;background:none;cursor:default;color:var(--faint)}
+.psize{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim)}
+.psize select{padding:5px 24px 5px 9px;border:1px solid #d7deea;border-radius:8px;font-size:12px;background-color:#fff;cursor:pointer;appearance:none;-webkit-appearance:none}
+
+footer{margin-top:20px;color:#8791a2;font-size:12px;line-height:1.9}
+footer code{background:#e9eef6;padding:1px 6px;border-radius:4px;font-size:11px;color:#4b576b}
+footer b{color:#5d6879}
+
+@media (max-width:760px){
+  body{padding:18px 12px 30px}
+  h1{font-size:20px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .updated{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brandrow">
+        <div class="logo">迅</div>
+        <div>
+          <h1>千里速闻 · <em>已推送车型与资讯看板</em></h1>
+          <div class="sub">记录订阅号已推送的新车智驾要闻与行业资讯 · 共 <b id="totalTop">0</b> 条记录</div>
+        </div>
+      </div>
+    </div>
+    <div class="updated"><i></i>最近更新 <b id="lastUpd">—</b></div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="search" placeholder="搜索车型 / 品牌 / 智驾方案 / 卖点 / 关键词…" autocomplete="off">
+    </div>
+    <select id="fType"><option value="">全部类型</option></select>
+    <select id="fBrand"><option value="">全部品牌</option></select>
+    <select id="fSupplier"><option value="">全部智驾方案</option></select>
+    <button class="reset" id="reset">重置</button>
+    <span class="resultinfo">命中 <b id="hit">0</b> 条</span>
+  </div>
+
+  <div class="tablecard">
+    <div class="scrollzone">
+      <table>
+        <colgroup>
+          <col style="width:96px"><col style="width:84px"><col style="width:150px"><col style="width:158px">
+          <col style="width:170px"><col style="width:140px"><col><col style="width:186px">
+          <col style="width:160px"><col style="width:180px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th data-k="date">上市/版本日期<span class="arrow">↕</span></th>
+            <th data-k="type">类型<span class="arrow">↕</span></th>
+            <th data-k="brand">品牌/车企<span class="arrow">↕</span></th>
+            <th data-k="model">车型<span class="arrow">↕</span></th>
+            <th data-k="supplier">智驾方案/供应商<span class="arrow">↕</span></th>
+            <th data-k="chip">芯片·算力<span class="arrow">↕</span></th>
+            <th>核心卖点</th>
+            <th data-k="status">上市/价格<span class="arrow">↕</span></th>
+            <th data-k="link">git 地址<span class="arrow">↕</span></th>
+            <th data-k="note">备注</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <div class="pl">共 <b id="pTotal">0</b> 条 · 第 <b id="pNow">1</b> / <b id="pMax">1</b> 页</div>
+      <div class="pbtns" id="pbtns"></div>
+      <div class="psize">每页
+        <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select>
+        条
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <b>维护说明：</b>每天把当天推送内容发给助手，助手会向下方 <code>DATA</code> 数组最前面追加新行并回传更新后的文件。<br>
+    维度含义：<code>type</code> 新车要闻 / 新闻资讯 · <code>supplier</code> 智驾方案（华为乾崑 / 自研 / 供应商名）· <code>chip</code> 芯片与算力 · <code>status</code> 上市状态或价格 · <code>link</code> 页面文件（git 地址）。<br>
+    未确认字段填 <code>""</code>（显示"待补充"）。点击表头排序，顶部可筛选 / 搜索，「核心卖点」与「备注」可展开全文。
+  </footer>
+</div>
+
+<script>
+// ====== 数据区：每日新增一行对象即可（最新的放最上面）======
+// 字段：date 上市/版本日期(车企事件日,非资讯推送日) | type 类型 | brand 品牌/车企 | model 车型
+//       supplier 智驾方案/供应商 | chip 芯片·算力 | highlight 核心卖点
+//       status 上市/价格 | link 页面链接 | note 备注
+const DATA = [
+{
+  date: '2026-10-12',
+  type: '新车要闻',
+  brand: '上汽大众 SAIC VOLKSWAGEN',
+  model: 'ID.ERA 8X',
+  supplier: '行云智能辅助驾驶 · Momenta R7 世界大模型智驾方案（全系标配）',
+  chip: '',
+  highlight: '【本期重点】中大型大五座增程SUV，10月12日上市，共4款车型；全系标配Momenta R7 世界模型智驾方案，车顶前向192线激光雷达×1、高精摄像头×12、前向高精毫米波雷达×1、超声波雷达×12，全车共26颗传感器；支持城区NOA、高速NOA与车位到车位全场景自动泊车，AEB最高140km/h刹停；智行守护礼享300万高阶辅助驾驶系统无忧保障（自购车发票日起12个月）。【功能详情】(依官方配置表分类，四款车型配置一致)① 智能行车辅助：城区领航辅助（点到点/交通信号灯处理/通过路口/掉头/路口通行风险处理/环岛通行/智能避障/大车避让/效率车道优先选择）、高速领航辅助（ETC自主通行/自主上下匝道/汇入汇出）、LCC车道巡航（车道居中保持/道路合流分岔/横向避让/拨杆变道）、ACC自适应巡航（处理切入切出/自主启停/弯道速度控制/纵向人机共驾）、车道保持辅助（车道偏离报警/偏离抑制/紧急车道保持）、交通标识识别（限速标识识别/超速报警/红绿灯识别）、紧急辅助；② 智能泊车辅助：AVP记忆泊车辅助（记忆建图跨楼层/地图管理推送/记忆巡航泊车）、APA自动泊车辅助（车位扫描/自定义车位/自动泊入泊出/泊入位置选择）、RPA遥控泊车辅助（车辆遥控泊入泊出/一键重新停放/遥控直入直出/实体钥匙快捷泊出）、540°全景环视（全景环视/轮毂视角/透明底盘）、RA循迹倒车、NSA狭窄空间辅助、PDC泊车距离控制；③ 主动安全：AEB自动紧急制动、CDW安全时距报警、FCW前向碰撞预警、RCW后向碰撞预警、ESA紧急转向辅助、AES自动紧急转向、RCTA倒车侧向警告、RCTB倒车侧向制动、FCTA前向横穿碰撞预警、FCTB前向横穿碰撞制动、DOW开门预警、BSD盲区检测；④ 智能补盲：侧后盲区影像辅助、开门预警侧后盲区影像辅助；⑤ 驾驶员实时感知系统：疲劳检测、分心检测。',
+  status: '10月12日上市 · 指导价 ¥22.68-28.98万 · 限时权益价 ¥20.68-26.98万 · 4款车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/vw-id-era-8x-20261013.html',
+  note: '新车要闻 · 单车单页；智驾功能依官方配置表，四款车型配置一致；另含“行云驾控”底盘品宣'
+  },
+{
+  date: '2026-10-10',
+  type: '新车要闻',
+  brand: '长安启源 CHANGAN',
+  model: '2027款启源A06',
+  supplier: '天枢智能驾驶辅助激光版（高配搭载）',
+  chip: '地平线J6M · 128TOPS',
+  highlight: '【本期重点】中大型轿车，10月10日上市，10款配置，售价10.99-14.99万元；高配搭天枢智能驾驶辅助激光版，配备禾赛激光雷达×1、高感知摄像头×11（前视800万像素）、超声波×12、毫米波×3；双英飞凌TC399车控芯片舱驾融合，毫秒级风险预判+整车控制双冗余；碰撞风险降低25%，风险预判能力提升29%；AEB刹停车速提高至白天>120km/h、夜间>90km/h；城市+高速领航NOA（城市段OTA）；支持APA/RPA/自定义泊车/循迹倒车/记忆泊车HZP（OTA）；AES智能避险+倒车紧急制动+盲区辅助。',
+  status: '10月10日上市 · ¥10.99-14.99万 · 10款车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/changan-qiyuan-a06-20261010.html',
+  note: '新车要闻 · 单车单页；功能取自高配「天枢智能驾驶辅助激光版」官方配置表，标注OTA功能后续升级解锁'
+  },
+{
+  date: '2026-10-10',
+  type: '新车要闻',
+  brand: '一汽红旗 HONGQI',
+  model: '红旗天工07',
+  supplier: '红旗司南智驾5.0 · 激光+视觉前融合 · 卓驭高悟性大模型',
+  chip: '',
+  highlight: '【本期重点】中大型轿车，10月10日上市，共3款车型，限时权益价16.99万起（16.99-19.99万元）；搭红旗司南智驾5.0，全系标配384线动态可变焦激光雷达×1、摄像头×11（前方感知800万像素）、毫米波×1、超声波×12；「灼见」专利算法雨雾灰尘智能去噪，强标场景全通过，全场景障碍物>220m检出，120km/h对静止目标舒适刹停；卓驭高悟性大模型30亿+公里数据训练，支持端到端三点掉头、待转区通行等组合驾驶辅助；城市/高速领航、车位到车位领航辅助、PNP泊车领航辅助、全场景智能泊车覆盖100+泊车场景、ETC无感通行；全系标配驾驶辅助功能（AES等部分场景OTA后开放）。',
+  status: '10月10日上市 · 限时权益价¥16.99-19.99万 · 3款车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/hongqi-tiangong07-20261010.html',
+  note: '新车要闻 · 单车单页；硬件与功能取自天工07全系三版本官方配置表，均为全系标配（含部分场景OTA）'
+  },
+{
+  date: '2026-10-09',
+  type: '新车要闻',
+  brand: '长安深蓝 DEEPAL',
+  model: '2027款深蓝L06（含追风版）',
+  supplier: '天枢领航驾驶辅助 · 一段式端到端（世界模型+强化学习）',
+  chip: '地平线J6M ×2',
+  highlight: '【本期重点】中型轿车，10月9日上市，L06共6款配置11.49-14.69万元，追风版2款15.19/16.19万元；搭天枢领航一段式端到端算法，世界模型+强化学习，基于30000+中国道路场景数据集训练（训练片段45-60s）；90项高阶驾驶辅助功能，贯通城市/高速NCA，车位到车位领航辅助（OTA）；Ultra+激光版传感器1激光雷达+11高感知摄像头+3毫米波+12超声波；四图融合实景车道级导航，一屏显示全部导航与驾驶辅助信息；追风版搭英特尔酷睿Ultra车载AI BOX，引入PC级端侧AI算力，含车辆起停安全辅助（低矮障碍物识别）、AI智能哨兵模式、AI自主理解控车+端侧记忆用车习惯。',
+  status: '10月9日上市 · ¥11.49-16.19万 · 8款车型(6+2)',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/deepal-l06-20261010.html',
+  note: '新车要闻 · 单车单页；传感器与功能取自Ultra+激光版官方配置表，Max版无激光雷达（毫米波5个/摄像头5个）'
+  },
+{
+  date: '2026-10-08',
+  type: '新闻资讯',
+  brand: '广汽埃安 AION',
+  model: '埃安N60',
+  supplier: '第四次OTA升级',
+  chip: '',
+  highlight: '【本期重点】埃安N60第四次OTA于10月8日起分批推送，全系在售车型均可升级，共14项优化，覆盖辅助驾驶安全、座舱生态、场景与能效三大维度，纯软件迭代无需更换硬件。辅助驾驶安全6项：辅助驾驶模式新增柔和/标准/敏捷三档可选、智能泊车提供舒缓/标准/高效三档节奏、新增智能闪灯提醒（检测大车压实线自动切换远近光）、新增ACC功能开关（升级后默认关闭拨杆启动ACC）、一键开启智能防晕车模式、智能用车助手支持语音提问。座舱生态：新增Apple CarPlay有线/无线互联（22款高频应用上车机）、应用商城新增汽水音乐、酷狗音乐等9款APP。场景与能效：手机APP场景大师远程创建/分享自定义场景、充电限值自定义。',
+  status: '第四次OTA · 10月8日起分批推送 · 全系在售车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aion-n60-ota-4th-20261010.html',
+  note: 'OTA资讯 · 埃安N60第四次OTA；14项优化=6辅助驾驶安全+5座舱生态+3场景与能效'
+  },
+
+{
+  date: '2026-09-30',
+  type: '新车要闻',
+  brand: '奇瑞新能源 · iCAR',
+  model: 'iCAR V27长续航版',
+  supplier: '超级猎鹰700+ · HSD V2.1一段式端到端',
+  chip: '地平线 征程6P · 560TOPS',
+  highlight: '【本期重点】中大型增程式SUV，9月30日上市，共2款配置，售价18.98-20.38万元；猎鹰700版搭超级猎鹰700+辅助驾驶系统，首搭HSD V2.1一段式端到端，配备禾赛ATX激光雷达，地平线征程6P芯片560TOPS算力；27颗传感器全维融合感知（1激光雷达+3毫米波雷达+11摄像头+12超声波雷达）；国内首发辅助驾驶全场景倒车；支持城市路段+高速路段辅助驾驶，含CNOA城市领航辅助、HNOA高速领航辅助、AES自动紧急避障、APA/RPA/EPA泊车等；3年辅助驾驶无忧保障权益（首任非营运车主）。',
+  status: '9月30日上市 · ¥18.98-20.38万 · 2款车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/icar-v27-changxu-20261008.html',
+  note: '新车要闻 · 单车单页；科技蓝主题；功能依「四驱猎鹰700」版官方配置表整理'
+  },
+{
+  date: '2026-09-30',
+  type: '新车要闻',
+  brand: '赛力斯 · 问界 AITO',
+  model: '新款问界M8',
+  supplier: '华为乾崑智驾ADS 5高阶版',
+  chip: '',
+  highlight: '【本期重点】大型SUV，9月30日开启预售，赛力斯全面主导问界品牌后首款新车，全系标配华为乾崑智驾ADS 5高阶版及面向L3级自动驾驶的架构设计；新一代全向立体融合感知系统，38个融合感知传感器（4激光雷达+5个4D毫米波雷达+11高清摄像头+12超声波雷达+6车外麦克风）；WEWA 2.0技术架构，支持车位到车位出行、窄道会车掉头、拥堵加塞、冰雪路面脱困绕行；全向防碰撞，侧向AEB+eAES最高150km/h安全避让；园区领航辅助Campus NCA、离车泊入等。',
+  status: '9月30日开启预售 · ¥38.98万起',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/wenjie-m8-20261008.html',
+  note: '新车要闻 · 单车单页；华为系页面用华为红主题；功能取自问界M8 896线双光路图像级激光雷达版官方配置表'
+  },
+{
+  date: '2026-10-08',
+  type: '新闻资讯',
+  brand: '华为智选 · 享界',
+  model: '享界 S9 / S9T',
+  supplier: '国庆 OTA 升级',
+  chip: '',
+  highlight: '【本期重点】享界S9/S9T国庆OTA升级，6大核心能力全面升级。新增手势泊出功能（面向车头2-4m范围内挥手激活）、充电站分时电价显示、充电车位忙闲状态实时查看、调音魔方、汽水音乐（HIMA）上车、车外扬声器/车外喊话、智慧生活App上车、手机图库图片设为车机壁纸；优化入队及队伍切换、哨兵存储空间自定义调节（4%-42%）、中控转向灯激活影像三档大小设置。覆盖2024-2026款多个年款车型。',
+  status: '国庆 OTA 升级 · 覆盖2024-2026款多个年款车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xiangjie-s9-s9t-guoqing-ota-20261008.html',
+  note: 'OTA资讯 · 享界S9/S9T国庆OTA；不同年款或动力车型升级功能有差异'
+  },
+{
+  date: '2026-10-08',
+  type: '新闻资讯',
+  brand: '智界 LUXEED',
+  model: '智界R7 / S7',
+  supplier: '国庆 OTA 升级',
+  chip: '',
+  highlight: '【本期重点】智界R7/S7国庆OTA升级，7项新增+7项优化，充电导航与领航辅助全面升级。新增：充电站分时电价显示、可编辑已添加途经点、同园区导航至充电车位、中控转向灯激活影像大小设置、导航中按沿途/周边/目的地分类搜索、领航者勋章页签、汽水音乐。优化：组队出行实时对讲、沿途联想搜索、NCA途经点设置灵活性、充电车位闲忙信息、充电站收费信息及停车减免提示、高速服务区卡片显示充电站品牌及桩数、行车记录仪清晰度。',
+  status: '国庆 OTA 升级 · 大部分功能面向辅助驾驶高阶版车型',
+  link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijie-r7-s7-guoqing-ota-20261008.html',
+  note: 'OTA资讯 · 智界R7/S7国庆OTA；领航者勋章面向R7 24/25款Pro车型，汽水音乐面向全系'
+  },
+
+{
+    date: '2026-09-29',
+    type: '新车要闻',
+    brand: '奇瑞捷途 JETOUR（纵横）',
+    model: '2027款纵横G700',
+    supplier: '华为乾崑智驾ADS 5（智境乾崑版及以上 · WEWA 2.0架构）',
+    chip: '',
+    highlight: '【本期重点】全领域豪华越野SUV，9月29日上市，共5款车型，限时权益价30.49-42.29万；智境乾崑版搭载华为乾崑智驾ADS 5，896线双光路激光雷达下沉至36.59万起；基于WEWA 2.0架构，33个高精度传感器构建360°融合感知；高速NCA支持自动进出匝道、智能控速、自动换道与超车，事故车/施工区域智能避让；全场景泊车感知距离30m、泊车时长30s、最高速度3-4km/h，支持水平拥挤车位/断头路泊车/逆鱼骨泊车/障碍物泊车；越野NCA全地形识别，与底盘联动自动调高；XWD-S超级全自动智能四驱——双目视觉AI+95%路面感知+X+18种模式；3年ADS辅助驾驶无忧服务（行车+泊车最高1000万保障，高德+百度双地图）。【功能详情】(依纵横G700官方配置表，按官方分类分为全系标配、猎鹰500辅助驾驶、华为乾崑智驾ADS 5 三组)① 全系标配：高精地图、ACC自适应巡航辅助、LDW车道偏离预警、LKA车道保持辅助、LCK车道居中保持、BSD盲区监测预警、TSR交通标志识别；② 猎鹰500辅助驾驶（仅纵野版5座搭载，其他版本无）：记忆泊车VPA、辅助变道、辅助匝道自动驶出(入)、高速智慧领航辅助驾驶；③ 华为乾崑智驾ADS 5（智境乾崑版及以上标配）：HOD方向盘脱手感应、高速NCA、高速LCC、城区LCC、AEB、LAEB、GAEB前向异形障碍物自动紧急制动、路面自适应AEB、ESA紧急转向辅助、LOCP侧向障碍物防碰撞、防误踩加速踏板、FCW、FCTA、FCTB、RCTA、RCTB、RAEB、ELKA紧急车道保持、DOW开门预警、RCW后向碰撞预警、TLR交通信号灯识别、TLA红绿灯提醒、TSA超速告警、APA泊车辅助、RA循迹倒车辅助、RPA遥控泊车辅助、哨兵模式；④ 选装（高阶功能包，需购车后通过APP/中控屏单独购买）：城区NCA、城区LCC+、P2P车位到车位领航辅助、eAES增强型自动紧急转向、AVP代客泊车辅助、VPD泊车代驾。传感器（智境乾崑版及以上）：896线双光路激光雷达×1+4D毫米波雷达×3+高清摄像头×11+超声波雷达×12+车外麦克风×6，共33个；猎鹰500辅助驾驶版传感器数差异以官方配置表为准。',
+    status: '9月29日上市 · 限时权益价 ¥30.49-42.29万 · 5款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zongheng-g700-20260930.html',
+    note: '新车要闻 · 单车单页；奇瑞系页面用科技蓝主题（非华为系）；智驾方案仅智境乾崑版及以上搭载华为乾崑智驾ADS 5，其余版本仅猎鹰500辅助驾驶（仅纵野版5座），其他版本无单独配置表；选装功能需购车后通过APP/中控屏单独购买'
+  },
+{
+    date: '2026-09-28',
+    type: '新车要闻',
+    brand: '智界 LUXEED(奇瑞×华为)',
+    model: '智界RX',
+    supplier: '华为乾崑智驾ADS 5（Max增强版 / Ultra高阶版）',
+    chip: '',
+    highlight: '【本期重点】鸿蒙智行首款以X命名的SUV，9月28日上市，共6款车型，售价25.98-38.98万；Max版搭华为乾崑智驾ADS 5增强版，Ultra版搭ADS 5高阶版。Ultra标配四激光雷达矩阵（896线双光路图像级×1+高精度固态×3），全车38个融合感知传感器构建全向立体感知；L3级全链路冗余架构（制动/转向/计算/感知/定位/交互/通信/供电八重冗余）；CAS 5.0全维防碰撞，覆盖全时速/全方向/全场景/全目标/全天候/全时域六维安全；3.6秒零百加速、32.4米百零制动、首创多意图扭矩矢量控制。【功能详情】(依智界RX官方配置表，Max搭ADS 5增强版、Ultra搭ADS 5高阶版，标注Ultra为Ultra版标配/Max无)① 主动安全：AEB、RCTB后向横穿碰撞制动、FCTB前向横穿碰撞制动、RAEB后向自动紧急制动、LAEB低速自动紧急制动、LOCP侧向障碍物防碰撞、GAEB异形障碍物自动紧急制动(Ultra含后向)、路面自适应AEB(Ultra)、防误踩加速踏板、防误打方向盘(Ultra)、人驾防御性驾驶(Ultra)、ESA紧急转向辅助、eAES增强型自动紧急转向(选装)、防被追尾辅助(选装)、防侧向挤压辅助(选装)、驾驶员失能辅助(选装)、BSD盲区监测、DOW开门预警、FCW、RCTA、FCTA、RCW后向碰撞预警、LDW、LKA、ELKA紧急车道保持、TSR交通标志识别、TSA超速告警、TLR交通信号灯识别；② 泊车：360°全景环视、透明底盘、APA泊车辅助、RA循迹倒车辅助、RPA遥控泊车辅助(遥控泊入/泊出·垂直/平行/斜列、遥控直行辅助、离车泊入辅助)、NCA园区领航辅助(选装)；③ 巡航&领航：ACC自适应巡航、高速LCC、NCA高速领航辅助、城区LCC、NCA城区领航辅助(选装)、LCC+城区增强(选装)、RCA漫游巡航辅助(选装·Ultra含园区)、P2P车位到车位领航辅助(选装·Max无)；④ 其它：哨兵模式。传感器(Ultra版)：激光雷达×4(896线×1+固态×3)、毫米波雷达×5、高感知摄像头×11、超声波×12，全系标配倒车摄像头电动清洗；Max版为1个共光路舱内激光雷达+3个毫米波雷达，其余相同。',
+    status: '9月28日上市 · ¥25.98-38.98万 · 6款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijie-rx-20260929.html',
+    note: '新车要闻 · 单车单页；华为系页面用华为红主题；传感器基于Ultra版(Max版为舱内激光雷达×1+毫米波×3)；Ultra专属标配：路面自适应AEB、防误打方向盘、人驾防御性驾驶；Ultra选装(高阶功能包，需购车后通过APP/中控屏单独购买)：eAES增强型自动紧急转向、防被追尾辅助、防侧向挤压辅助、驾驶员失能辅助、城区NCA、LCC+、NCA园区领航辅助、RCA漫游巡航辅助、P2P车位到车位领航辅助(Max无)'
+  },
+{
+    date: '2026-09-28',
+    type: '新车要闻',
+    brand: '智界 LUXEED(奇瑞×华为)',
+    model: '新款智界R7',
+    supplier: '华为乾崑智驾ADS 5（高阶版Max+及以上 / 增强版Max）',
+    chip: '',
+    highlight: '【本期重点】中大型SUV，增程+纯电双动力，9月28日上市，共4款车型，售价23.98-31.98万；搭载华为乾崑智驾ADS 5，896线双光路图像级激光雷达+后向高精度固态激光雷达，360°全域覆盖；全新WEWA技术架构——云端WE世界引擎(难例扩散生成模型+安全强化学习)+车端WA世界行为模型(全模态感知、预见式开车)；CAS 4.0全向防碰撞；误踩油门提醒、主动预知防滑控制、主动弯道控制(双电机四轮扭矩独立控制)。【功能详情】(依智界R7纯电Ultra官方配置表；Max版差异：无路面自适应AEB/防误打方向盘/人驾防御性驾驶/车位到车位领航辅助/eAES增强型自动紧急转向/防被追尾辅助/防侧向挤压辅助/驾驶员失能辅助，GAEB仅前向；标注「选装」为高阶功能包需购车后通过APP/中控屏单独购买)① 领航&巡航（全系标配）：ACC自适应巡航、高速LCC、高速NCA、城区LCC；选装：NCA城区领航辅助、LCC+城区车道巡航辅助增强、RCA漫游巡航辅助(Max仅城区/高阶版含园区)、P2P车位到车位领航辅助(Max无)；② 泊车（全系标配）：APA泊车辅助、RPA遥控泊车辅助、AVM 360°全景环视+透明底盘、RA循迹倒车辅助；选装：NCA园区领航辅助 Campus NCA；③ 安全辅助（全系标配）：AEB、GAEB异形障碍物自动紧急制动(Max前向/高阶版前向+后向)、RAEB、LAEB、ESA紧急转向辅助、LOCP侧向障碍物防碰撞、FCW、FCTA、FCTB、RCTA、RCTB、RCW、BSD盲区监测、DOW开门预警、LDW、LKA、ELKA、TSR、TSA、TLR、防误踩加速踏板；高阶版专属标配：路面自适应AEB、防误打方向盘、人驾防御性驾驶；高阶版选装（高阶功能包）：eAES增强型自动紧急转向、驾驶员失能辅助、防被追尾辅助、防侧向挤压辅助；④ 其它（全系标配）：哨兵模式、倒车摄像头电动清洗。传感器(高阶版)：896线激光雷达×1+固态激光雷达×1+4D毫米波雷达×5+高感知摄像头×11+超声波×12；Max版为舱内激光雷达×1+4D毫米波×3，无后向固态激光雷达。',
+    status: '9月28日上市 · ¥23.98-31.98万 · 4款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijie-r7-20260929.html',
+    note: '新车要闻 · 单车单页；华为系页面用华为红主题；功能取纯电Ultra官方配置表，Max版(增强版)部分功能有差异'
+  },
+{
+    date: '2026-09-28',
+    type: '新车要闻',
+    brand: '东风猛士 MENGSHI',
+    model: '猛士X700',
+    supplier: '华为乾崑智驾ADS 5（Pro/Max双版本 · L2级驾驶辅助）',
+    chip: '',
+    highlight: '【本期重点】方盒子SUV，主打轻户外泛越野，9月28日开启预售，共3款车型，预售价24.98-28.98万；猛士与华为乾崑战略合作2.0首款落地车型，全系搭载乾崑智驾ADS 5；行业首发NCA领航辅助越野版——非铺装路面持续领航，土路/碎石路/山地窄路均适用，配合RCA漫游巡航辅助，不用导航也能随时开启领航；896线双光路图像级激光雷达，120米外识别14厘米高的低矮障碍物；27个高性能传感器；CAS 5.0全维防碰撞；车位到车位全场景辅助驾驶(高速/城市/泊车全链路)。【功能详情】(依285km四驱Max+官方配置详情，选配项需另行开通)① 领航&巡航：NCA高速辅助驾驶、NCA城市辅助驾驶、ACC全速自适应巡航、ALC自动变道辅助、匝道自动驶出/入、LCC车道居中保持、LKAS车道保持、LDWS车道偏离预警；② 泊车&影像：APA自动泊车、RPA遥控泊车、记忆泊车(需购车后单独开通)、倒车循迹、360°全景影像、车侧盲区影像、底盘透视、前后驻车雷达；③ 安全辅助：AEB主动刹车、FCW前方碰撞预警、RCW后方碰撞预警、FCTA前方交通穿行预警、BSM并线辅助、DOW开门碰撞预警、RCTA倒车车侧预警、TSR道路交通标识识别、主动式疲劳提醒。传感器(Max+/Ultra版，共27个)：前向10(896线激光雷达×1+4D毫米波×1+高清摄像头×2+超声波×6)、侧向8(高清摄像头×4+环视摄像头×4)、后向9(4D毫米波×2+超声波×6+高清摄像头×1)、前向双目800万像素摄像头；Max版为共光路舱内激光雷达。',
+    status: '9月28日开启预售 · ¥24.98-28.98万 · 3款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/mengshi-x700-20260929.html',
+    note: '新车要闻 · 单车单页；华为系页面用华为红主题；传感器取Max+/Ultra版，Max版为共光路舱内激光雷达(略弱于Max+/Ultra)；3款车型均全系标配华为乾崑智驾ADS 5，记忆泊车需购车后单独开通'
+  },
+{
+    date: '2026-09-28',
+    type: '新车要闻',
+    brand: '长安深蓝 DEEPAL',
+    model: '深蓝S07 AI激光版',
+    supplier: 'AI激光智能辅助驾驶系统',
+    chip: '',
+    highlight: '【本期重点】中型SUV，9月28日上市，共4款车型，限时权益价14.99-16.99万；搭载AI激光智能辅助驾驶系统，1颗顶置激光雷达+3颗4D毫米波雷达+11颗高清摄像头+12颗超声波雷达，高速NCA标配，城区NCA/LCC+/园区NCA/记忆泊车为选配，覆盖高速、城区、泊车三大场景；全维防碰撞系统含24项主动安全功能，路面自适应AEB与前向异形障碍物GAEB持续OTA进化；A柱舱内专用摄像头集成全天候DMS驾驶员监测。【功能详情】(依725智臻AI激光版官方配置表，4款AI激光版传感器硬件均标配，选配功能需额外选装开通)① 领航&巡航：NCA高速领航辅助、NCA城区领航辅助(选配)、高速LCC、城区LCC、LCC+城区车道巡航增强(选配)、ACC自适应巡航、UDLC驾驶员触发换道；② 泊车：APA智能泊车辅助、RPA遥控泊车辅助、记忆泊车(选配)、AVM 360°全景环视、透明底盘、自定义车位、EPA离车泊入辅助、RA循迹倒车辅助、NCA园区领航辅助(选配)；③ 主动安全：AEB、GAEB异形障碍物自动紧急制动(前向)、路面自适应AEB、FCW、FCTA、FCTB、RCTA、RCTB、RAEB、RCW、LOCP侧向障碍物防碰撞、LAEB、ESA、防误踩加速踏板、LDW、LKA、ELKA、BSD盲区监测预警、DOW、TSR、TSA超速告警、TLR、TLA红绿灯提醒、哨兵模式。城区领航覆盖环岛通行、无保护左转、窄道会车、掉头、人车混行；高速领航自主进出匝道、智能变道与车速调节；泊车支持极窄车位、断头路、靠墙车位等复杂场景。',
+    status: '9月28日上市 · 限时权益价 ¥14.99-16.99万 · 4款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/deepal-s07-ailaser-20260929.html',
+    note: '新车要闻 · 单车单页；功能取725智臻AI激光版官方配置表；高速NCA标配，城区NCA/LCC+增强/园区NCA/记忆泊车为选配(需购车后通过APP/中控屏单独购买)；主动安全24项以官方CAS 4.0概念名为准'
+  },
+{
+    date: '2026-09-28',
+    type: '新车要闻',
+    brand: '长城汽车',
+    model: '大狗混动版',
+    supplier: 'Coffee Pilot 3 Lite（长城第三代辅助驾驶系统 · 一段式端到端大模型）',
+    chip: '128TOPS（页面未标注芯片型号）',
+    highlight: '【本期重点】紧凑型SUV，9月28日上市，共3款车型，限时换新价10.59-12.39万；搭载Coffee Pilot 3 Lite，一段式端到端辅助驾驶大模型，26颗智慧传感器+128TOPS算力实现行泊一体。城市NOA：无标线道路稳定直行、辅助超车、障碍避让、汇流避让、路口提前变道；高速NOA：辅助进出匝道、提前避让汇入口车流、监测后方来车、危险工况及时终止变道；交通灯识别覆盖城市常规/乡村非常规/施工警示灯多场景；可识别锥桶、水马等静止障碍物稳定绕行；车道线模糊或无车道线时虚拟车道线行驶。全融合泊车辅助系统：200+泊车场景，遥控泊车(狭窄车位遥控泊入/泊出)、倒车循迹(100米以内)、540°全景影像(360°全景+180°透明车底)。【功能详情】(依大狗混动版官方配置表；3款HEV混动版(Hi2两驱/Hi4四驱Max/Hi4四驱Max领航)全系标配：城市NOA、高速NOA、APA、RPA、倒车循迹、前向横穿预警/制动、ACC等；Hi4与Hi2的真正差异在动力底盘——双电机四驱+4挡DHT+iTVC智能矢量控制+差速锁+7种驾驶模式，智驾能力两者一致)城市NOA智慧领航、高速NOA智慧领航、APA泊车辅助、RPA遥控泊车、倒车循迹、ACC自适应巡航、车道居中保持、FCW前碰撞预警、TJA交通拥堵辅助、巡航过弯辅助、LDW、LKA车道保持辅助、智慧躲闪、TSR道路标志提示、BSD并线辅助、ELK紧急车道保持、FCTA、FCTB、RCTA、RCTB、RCW、DOW、AEB低速紧急制动、DMS疲劳驾驶提示、360°全景影像、透明车底、前后驻车雷达。传感器：3毫米波雷达(含4D)+11高清摄像头+12超声波雷达，共26颗。',
+    status: '9月28日上市 · 限时换新价 ¥10.59-12.39万 · 3款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/changcheng-dadou-hundun-20260929.html',
+    note: '新车要闻 · 单车单页；3款HEV混动版全系标配Coffee Pilot 3 Lite(26颗智慧传感器+128TOPS算力)，Hi4与Hi2智驾能力一致，差异仅在动力底盘；页面未标注智驾芯片型号'
+  },
+{
+    date: '2026-09-28',
+    type: '新闻资讯',
+    brand: '北汽新能源 ARCFOX 极狐',
+    model: '极狐阿尔法T5 OTA',
+    supplier: '高悟性端到端4.0（辅助驾驶模型 · 元境版）',
+    chip: '',
+    highlight: '【本期重点】极狐汽车为阿尔法T5推送新一轮OTA，共5项新增+1项优化，不同版本车型获得对应专属功能。元境版上线高悟性端到端4.0辅助驾驶模型：窄路更从容、泊车更顺畅、变道更丝滑、风险早预判；升级后辅助驾驶相关设置恢复初始状态需重新配置，纯电版需切换运动/舒适模式、增程版需切换运动/经济模式方可启用泊车辅助。睿享版新增APA泊出辅助+RPA遥控泊车辅助：自动泊出车位+车外手机遥控泊车，窄车位进出更轻松。全车型新增HUD导航红绿灯读秒（无需转移视线观察信号灯）；手机互联新增CarLink(全车型)、CarPlay与华为HiCar(元境版专属)；哨兵模式远程控制——极狐APP远程开启/关闭布防（需APP更新至最新版）。优化天空扬声器音效（音量配比与环绕声场）。',
+    status: 'OTA升级 · 5项新增 + 1项优化 · 分版本推送',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/jihu-alpha-t5-ota-20260928.html',
+    note: 'OTA资讯 · 元境版/睿享版各获对应专属功能；含手机互联、车辆安防、座舱音效等非驾驶辅助项；页面未注明推送日期，按页面日期2026-09-28记录'
+  },
+{
+    date: '2026-09-26',
+    type: '新车要闻',
+    brand: '长安马自达 MAZDA',
+    model: '马自达EZ-60（2027款）',
+    supplier: 'E-ZERO无界智能领航（激光雷达版 · 端到端架构 · L2级）',
+    chip: '',
+    highlight: '【本期重点】中型SUV年度改款，9月26日上市，共9款车型，限时权益价11.39-16.69万；年度改款新增激光雷达版：禾赛ATX激光雷达（最远测距200m、水平视场角120°、可识别异形障碍物）+前方双目800万像素摄像头（整车前向探测超250m），端到端架构实现高速+城区领航双域覆盖；全场景泊车可识别300余种车位；25项主动安全，AEB&AES刹让一体——前方静止车辆110km/h刹停、纵向行人90km/h、横穿行人/骑行者/三角牌锥桶等异形障碍60km/h内有效应对、鬼探头及横穿车辆50km/h内可规避。【功能详情】(依EZ-60官方配置表)① 高速领航NCA-SE：工作区间0-130km/h，依托腾讯车道级导航，自主变道/超车/障碍绕行/进出匝道，变道逻辑贴近真人驾驶员；② 城区领航：0-80km/h主干道，绿灯起步响应<0.8秒，路口通行/环岛/掉头/主辅路切换/绕障辅助/借道避障，近距离加塞斜插车辆毫秒级识别平稳控速避让；后期OTA解锁跟车伴游(组队跟随)；③ 泊车：300余种车位(垂直/水平/鱼骨/坡道/弯道)，车宽+50cm超窄车位、端头断头车位，水平泊车与路沿保持10-15cm安全距离，自定义拖拽车位框、三档泊车速度；后续OTA解锁关门泊入(自动泊入/闭锁/升窗/下电)与记忆泊车；④ 安全辅助：AEB、LDW、LKA、FCW、FCTA/FCTB、RCW、RCTA/RCTB、BSD、DOW、ELK、TSR、OSW超速预警、限速辅助；⑤ 行车泊车：APA车内泊车、RPA遥控泊车、RMA遥控挪泊、RADS循迹倒车、DIY-P自定义泊车、ACC、LCC、UDLC驾驶员触发换道。传感器：激光雷达×1+毫米波雷达×3+高清摄像头×11(含环视4颗300万)+超声波×12(前6后6)+车内摄像头×1(驾驶员监测)。',
+    status: '9月26日上市 · 限时权益价 ¥11.39-16.69万 · 9款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/mazda-ez60-20260928.html',
+    note: '新车要闻 · 单车单页；2027款年度改款新增激光雷达版；关门泊入/记忆泊车/跟车伴游为后续OTA'
+  },
+{
+    date: '2026-09-24',
+    type: '新闻资讯',
+    brand: '鸿蒙智行 AITO 问界',
+    model: '问界国庆版本 OTA',
+    supplier: '华为乾崑智驾ADS 5 + 鸿蒙座舱（OTA）',
+    chip: '',
+    highlight: '【本期重点】9月24日晚间启动分批推送，覆盖问界M9/M8/M7/M6/M5系列，华为乾崑智驾ADS 5与鸿蒙座舱双板块焕新。【ADS 5·新增5项】中控屏转向灯激活影像大小设置(三档记忆)、导航按沿途/周边/目的地分类搜索、途经点可编辑(修改/调序/重新规划)、充电站分时电价显示、百度地图(高德/百度双地图切换，部分车型)；【ADS 5·优化5项】组队出行实时对讲(全员同时讲话、单次60秒、昵称编辑与入队流程简化)、组队功能栏大小调节、沿途搜联想搜索、高速服务区卡片显示充电站品牌与桩数、高德道路信息提示增强。【鸿蒙座舱·新增】调音魔方(混音台/均衡器/混响/通道延时/增益五大调音)、语音安全急停(座椅移动场景免唤醒急停)、超级桌面设置车机壁纸、超级桌面空间音频、AR-HUD萌宠华华箭头主题、HUD转向影像盲区告警光晕、M9 2026款迎宾灯效(金秋画卷/花好月圆/开门见喜)、迎宾灯效自定义投影、四款情景灯语(鸿运当头/福禄双全/福字临门/恭喜发财)、雨雾天气灯光照明增强(需选装双百万像素投影大灯)、M8系列Wi-Fi热点+DLNA投屏、新M5 Ultra iPhone镜像投屏/车外喊话/车外扬声器播放(车外播放与内外同播)。【鸿蒙智行】哨兵存储容量划分、车内高温保护(高于40℃自动开空调)、一键备车(法定工作日筛选/座椅加热通风档位/后视镜后挡加热)、智慧场景(橱窗灯/后排娱乐屏/一键副驾置物位等，M6系列)、汽水音乐(M7/M5 2022款)。',
+    status: '9月24日晚间分批推送 · 覆盖M9/M8/M7/M6/M5系列',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aito-wenjie-guoqing-ota-20260928.html',
+    note: 'OTA资讯 · 分批推送；ADS/座舱/智行三板块，含灯光、座舱娱乐等非驾驶辅助项；各功能支持车型不同，以页面标注为准'
+  },
+  {
+    date: '2026-09-23',
+    type: '新车要闻',
+    brand: '别克(上汽通用)',
+    model: '别克至境E7',
+    supplier: '逍遥智行高阶辅助驾驶（Momenta R6 强化学习大模型）',
+    chip: '',
+    highlight: '【本期重点】中型SUV·插混，9月23日上市，共3款车型，限时置换价14.79-18.79万元；搭载逍遥智行高阶辅助驾驶系统，基于Momenta R6强化学习大模型，以激光雷达等27个感知硬件为感知基础，实现高速、城区无断点NOA与全场景泊车；另配备预瞄式RTD连续阻尼可变悬架，每秒扫描500次、调节阻尼200次、提前20米感知路况，化解未知颠簸；赠送首年智驾险，最高保额500万元。【智驾方案】逍遥智行高阶辅助驾驶系统 · Momenta R6强化学习大模型。【传感器配置】(取1600超满配Pro版/Turbo版官方配置表)激光雷达×1、毫米波雷达×3、超声波雷达×12、智驾辅助高清摄像头×7、360环视摄像头×4，共27个感知硬件。【智驾功能】(取1600超满配Pro版/Turbo版官方配置表)UNP城市领航辅助(红绿灯识别和通过、无保护左/右转、窄路掉头、复杂路口与环岛通行、自主变道、特殊车道识别通行或避让、避让/绕行路边障碍物)、HNP高速领航辅助(上下匝道、智能避障、收费站ETC自主通行、自主超车)、LCOD指令变道、LCC车道居中辅助、ACC全速域自适应巡航、AEB自动紧急制动、FCA前方碰撞预警、LKA车道保持辅助系统、LCA车道偏离预警、SBZA并线辅助、DOW开门提醒、RCTA倒车侧碰预警、RCTB后方车辆通过制动、DMS疲劳驾驶提示、PA泊车预警、EM直进直出、SRP遥控泊车辅助、APA自动泊车辅助、LPN记忆泊车。【底盘】预瞄式RTD连续阻尼可变悬架：每秒扫描500次、调节阻尼200次、提前20米感知路况。',
+    status: '9月23日上市 · 限时置换价 ¥14.79-18.79万 · 3款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/buick-zhijing-e7-20260924.html',
+    note: '新车要闻 · 单车单页；传感器/功能配置取自1600超满配Pro版、Turbo版官方配置表；页面未标注智驾芯片型号'
+  },
+{
+    date: '2026-09-22',
+    type: '新车要闻',
+    brand: '蔚来 NIO',
+    model: 'EC6 灵韵特别版',
+    supplier: '蔚来世界模型 NWM（世界模型+闭环强化学习 · SkyOS 天枢整车全域操作系统）',
+    chip: '自研神玑 NX9031 智驾芯片 + 高通骁龙 SA8295P（座舱）',
+    highlight: '【本期重点】中型纯电SUV（NT2.0平台），9月22日上市，BaaS电池租用方案26.18万起、整车36.98万；搭载蔚来世界模型NWM与自研神玑NX9031智驾芯片，AQUILA超感系统29个高性能感知硬件，支持点到点全域领航辅助。【功能详情】(依EC6灵韵特别版官方配置表，按官方分类整理)① 智能驾驶·全域行车：Pilot+增强车道居中辅助、i-ACC智能自适应巡航、ALC转向灯控制变道、TSR道路标识识别、ESD动态环境模拟显示、AGN视觉融合起步提醒、绿灯起步提醒、前车起步提醒；② 智能辅助驾驶·轻松泊车：S-APA视觉融合泊车辅助、PSAP换电站泊车辅助、NBS车辆近距离召唤、VPS代客换电、随心停、RPA遥控泊车辅助、车辆泊入、车辆泊出；③ 智能辅助驾驶·安全辅助：AEB全向自动紧急制动、FCTA-B前方穿行预警带制动、RCTA-B后方穿行预警带制动、AES自动紧急避让、EAS紧急主动停车、GOA全向通用障碍物预警及辅助、FCW前向碰撞预警、BSD盲区监测、LCA变道盲区预警、DOW侧方开门预警、LDW车道偏离预警、LKA车道保持、ELK紧急车道保持、MAI全向误加速抑制、RCM追尾碰撞预防及保护、ADMS增强型驾驶员感知（疲劳提醒/分心提醒/动态注意力守护）。传感器29个：激光雷达×1（全球量产最远）+4D成像雷达×1+800万像素摄像头×7+300万环视×4+超声波×12+高精度定位×2+增强主驾感知×1+驾驶员脱手检测×1。卖点卡另载：城区领航换电（自主进出换电站及园区）、NOP+点到点全域领航辅助（高速/城市快速路/城区道路及高速服务区领航换电）、NIO Link超感泊车。',
+    status: '9月22日上市 · BaaS ¥26.18万起 · 整车 ¥36.98万',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/nio-ec6-lingyun-20260923.html',
+    note: '新车要闻 · 单车单页；NOP+全域领航辅助与NAD服务为订阅制选装，需单独开通；NAD含智能辅助驾驶（部分城区与封闭高速）与低速及泊车智能辅助驾驶（领航泊车/智能召唤）；ADAM中央计算平台整合神玑NX9031+骁龙8295P双芯片'
+  },
+{
+    date: '2026-09-22',
+    type: '新车要闻',
+    brand: '红旗',
+    model: '红旗G919',
+    supplier: '红旗司南智驾5.0Max（端到端大模型 · L2）',
+    chip: '高通8650',
+    highlight: '【本期重点】中大型SUV，9月22日开启预售，共3款车型，预售价35.98-43.98万；搭载红旗司南智驾5.0Max，首发可变视野激光雷达技术（卓驭384线，最远探测400m），激光+视觉+红外三光一体主动安全，高通8650芯片满足端到端大模型全场景实时决策算力需求。【功能详情】(依四电机御境版官方配置表，官方无分类平铺)辅助驾驶路段·高速+城市、辅助匝道自动驶出(入)、ACC自适应巡航、并线辅助、辅助变道、车道居中保持、LKA车道保持辅助、RCTA倒车车侧预警、TSR道路交通标识识别、TLR信号灯识别、红外夜视系统(御境版)、APA辅助泊车入位、RPA遥控泊车、记忆泊车、循迹倒车、方向盘离手检测。红外夜视：400m车辆探测/220m行人探测。传感器：激光雷达×1（卓驭384线）+摄像头×11+超声波雷达×12+毫米波雷达×1。卖点卡另载：车位到车位领航辅助、全场景智能泊车辅助、540°透明底盘。',
+    status: '9月22日开启预售 · ¥35.98-43.98万 · 3款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/hongqi-g919-20260923.html',
+    note: '新车要闻 · 单车单页；官方配置表无分类、按原始顺序平铺；可变视野激光雷达=城区横向展开扩大水平视场/高快路况看得远；三光一体=激光+视觉+红外'
+  },
+{
+    date: '2026-09-22',
+    type: '新车要闻',
+    brand: '岚图',
+    model: '岚图梦想家9',
+    supplier: '华为乾崑智驾 ADS 5（L3级自动驾驶架构 · MoLA 2.0架构）',
+    chip: 'MoLA 2.0 架构 · 千亿级算力',
+    highlight: '【本期重点】7座MPV，9月22日上市，共6款车型，售价41.99-52.99万；搭载华为乾崑智驾ADS 5，基于L3级自动驾驶架构研发，全车37个智慧传感器（4激光雷达：896线双光路图像级×1+高精度固态×3），八大安全冗余全链路守护，全维防碰撞系统CAS 5.0，MoLA 2.0架构千亿级算力。【功能详情】(依礼尊版EV官方配置表，带*为待OTA解锁)① 辅助驾驶：高速NCA、城区NCA(待OTA)、P2P车位到车位领航辅助(待OTA)、园区NCA(待OTA)、ACC自适应巡航辅助、高速LCC、城区LCC、城区LCC+(待OTA)、AVM 360°全景影像系统、APA智能泊车辅助、RPA遥控泊车辅助、EPA离车泊入辅助、RDA遥控直行辅助、RA循迹倒车辅助、IHBC智能远光灯辅助、透明底盘；② 旗舰安全：AEB、GAEB异形障碍物、RAEB后向、GRAEB后向异形障碍物、LOCP侧向障碍物防碰撞、BSD盲区监测、DOW开门预警、LDW、LKA、ELK紧急车道保持、FCW、RCW、SDW低速侧向距离报警、FCTA、RCTA、FCTB、RCTB、ESA紧急转向辅助、eAES增强自动紧急转向(待OTA)、LAEB低速自动紧急制动、MAI UAP踏板误操作加速抑制、哨兵模式。传感器37个：896线激光雷达×1+高精度固态激光雷达×3+高清摄像头×11+4D毫米波雷达×5+超声波雷达×12+车外麦克风×4。【智能底盘】岚图虎踞：三腔空悬+双阀EDC魔毯（空悬4档刚度/底盘高低60mm可调）、VMC智能运动控制、双向10°后轮转向（双车道掉头一把过）。',
+    status: '9月22日上市 · ¥41.99-52.99万 · 6款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/lantu-mxj9-20260923.html',
+    note: '新车要闻 · 单车单页；华为系页面用华为红主题；L3架构八大安全冗余=感知/计算/制动/转向/供电/通信/交互/定位；含岚图虎踞智能底盘与智能视觉哨兵模式内容；待OTA项：城区NCA/P2P/园区NCA/城区LCC+/eAES'
+  },
+{
+    date: '2026-09-22',
+    type: '新车要闻',
+    brand: '东风日产 NISSAN',
+    model: '新款日产N7',
+    supplier: 'Momenta R7 世界模型（当前R6强化学习大模型，将升级R7）',
+    chip: '高通骁龙8650P · 200TOPS（最高稀疏算力）',
+    highlight: '【本期重点】纯电轿车年度改款，9月22日上市，共6款车型，限时权益价10.99-14.69万；年度改款新增激光雷达版本，搭载Momenta R7智驾辅助系统与高通8650P智驾芯片，实现全场景C-NOA领航、车位到车位、城区园区漫游；最高配搭载e-Damper电控减振器，行业首创防晕车模式；车机高通8295P座舱芯片+NISSAN OS 2.0。【功能详情】(依Max激光雷达版官方配置表，Pro/Air版功能逐级递减)① 高速领航辅助NOA：根据导航路径驾驶辅助、自适应车速调节、车道居中、驾驶员运动脱离检测、变道辅助（导航变道/超车变道/上下匝道）、避让辅助（大车避让/压线车避让）；② 城市领航辅助NOA(部分OTA)：Door to Door(OTA)、环岛/斑马线/红绿灯通行、闸机通行(OTA)、收费站通行(OTA)、无图漫游(OTA)、无保护左右转、掉头辅助、出入匝道、变道功能（变道辅助/拨杆变道/进出辅道）、避让辅助（行人/开车门/大车避让）；③ 巡航辅助：ACC自适应巡航、ICC车道巡航（含车道居中）、大车避让；④ 泊车辅助(部分OTA)：APA智能泊车辅助（无感搜库/泊入模式切换/逆向限位器水平泊入/断头路泊入/大角度泊入/离车泊入OTA/窄车位自动折叠外后视镜/自定义车位/泊车风格快速·舒适·平稳/语音选车位/不停车泊入OTA/灵活预留下车空间/最多6个泊出方向）、记忆泊车辅助部分OTA（无感建图/障碍物绕行/跨层巡航不限楼层/地面巡航OTA/泊出巡航OTA/礼让行人/一键直达/车位收藏/窄路通行/路况播报）、RPA近距离遥控泊车（遥控直行/遥控泊入/遥控泊出）；⑤ 主动安全22项：FCW、AEB、ELA紧急车道辅助、AES自动紧急转向、ESA紧急转向辅助、FCTA、FCTB、RCTA、RCTB、BSW盲区预警、RCW后车碰撞预警、EAPM加速踏板误踩、LDW、LDP车道偏离抑制、CDW安全时距预警、DOW、UPA泊车辅助预警、ISLS限速系统、HBA远光灯辅助、TSR、TLA交通信号灯提醒、PDC自适应车身稳行。传感器29个(Max激光雷达版)：激光雷达×1（200m探测/25°垂直视场角/智能凝视8°分辨率翻倍）+3D毫米波雷达×3+高清摄像头×11+超声波雷达×12；Pro版无激光雷达/侧视后视高清摄像头/DMS，Air版仅基础巡航。【保障】智行无忧：免费赠1年保障权益，至高赔付500万，智能泊车全兜底。',
+    status: '9月22日上市 · 限时权益价 ¥10.99-14.69万 · 6款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/nissan-n7-20260923.html',
+    note: '新车要闻 · 单车单页；功能依Max激光雷达版官方配置表，Pro/Air版逐级递减；footer免责口径涵盖驾驶辅助+座舱+底盘（页面含e-Damper防晕车/8295P座舱等内容）；OTA开放项：Door to Door/闸机/收费站/无图漫游/离车泊入/不停车泊入/记忆泊车跨层等'
+  },
+  {
+    date: '2026-09-20',
+    type: '新闻资讯',
+    brand: '特斯拉 TESLA',
+    model: '特斯拉 OTA 2026.26.200.11',
+    supplier: '特斯拉自研',
+    chip: '',
+    highlight: '【本期重点】特斯拉推送软件版本2026.26.200.11，覆盖Model 3/Y/S/X全系，共计28项新增与优化。豆包大模型智能语音助手上车，支持自然流畅对话、多音色选择、个性化角色、方言识别、多轮对话及声纹识别。【安全·新增3项】① 盲点警报氛围灯——转向或驻车探测到物体时氛围灯变红预警；② 驻车开门盲点预警——后方非机动车靠近时首次按下不会开启车门；③ 三模式牵引力控制——标准/湿地/越野三模式可选。【导航·优化4项】行程规划续航估算更精准（考虑海拔/风速/气温）、智能导航学习日常驾驶习惯、在线路线规划优先显示、地图缩放保持。【影音·新增2项+优化2项】QQ音乐/酷狗/网易云/喜马拉雅上线、Apple Music上线、沉浸式空间音频全流媒体支持、Apple Music播放队列快捷添加。【座舱·新增1项+优化3项】欢迎动画、驻车3D显示、可视化驾驶定制化摄像头视角、键盘增强扩展布局与表情符号。【系统·新增1项+优化3项】家长控制（禁用浏览器/剧场/游戏）、自动软件更新夜间安装、行车记录仪查看器循环播放、摄像头预览非驻车可用。',
+    status: '软件版本2026.26.200.11 · 分批次推送 · Model 3/Y/S/X全系 · 28项升级',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/tesla-ota-20260920.html',
+    note: 'OTA资讯 · 豆包大模型上车；含座舱娱乐/影音/系统等非驾驶辅助项'
+  },
+  {
+    date: '2026-09-19',
+    type: '新闻资讯',
+    brand: '东风猛士 MENGSHI',
+    model: '猛士M817 OTA',
+    supplier: '华为乾崑智驾ADS 5',
+    chip: '',
+    highlight: '【本期重点】猛士M817迎来OTA升级，搭载华为乾崑智驾ADS 5，通行效率、驾乘舒适、主动安全三大维度提升。9月19日晚20点起推送，全新M817先行升级，2025款座舱先行优化、ADS 5预计2026年10月下旬推送。【智驾·新增6项】① 城区漫游巡航RCA——无目的地也能漫游，支持红绿灯识别/路口连续通行/自主超车变道，园区可就近泊车；② 自动防追尾辅助——0-70km/h后车逼近主动加速避让（恶劣天气暂不生效）；③ 守位泊车——后方来车抢位时自动调整轨迹；④ 领航NCA直达充电车位——根据充电桩忙闲自动匹配，合作场站一键直达；⑤ NCA支持园区内部途经点——车位/电梯口可设途经点；⑥ 花瓣地图组队出行——实时位置共享+语音群聊。【座舱·新增3项】全时四驱开关（驾控中心切换全时/适时四驱）、智慧场景（自定义用车方案自动触发）、主驾解锁保护（仅解锁主驾车门）。【座舱·升级1项】HUD新增越野参数/转向倒车影像投射/雪地增强显示。',
+    status: '9月19日晚20点起推送 · 全新M817先行 · 2025款ADS 5预计2026年10月下旬',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/mengshi-m817-ota-20260920.html',
+    note: 'OTA资讯 · 含座舱/车控等非驾驶辅助项；全新M817先行升级，2025款座舱先行、ADS 5预计2026年10月下旬推送'
+  },
+  {
+    date: '2026-09-19',
+    type: '新闻资讯',
+    brand: '零跑汽车 LEAPMOTOR',
+    model: '零跑A10 OTA',
+    supplier: '',
+    chip: '',
+    highlight: '【本期重点】零跑A10迎来OTA升级，9月19日起分批推送，覆盖4款配置，新增6项+优化8项，涵盖智能驾驶、自动泊车、用车安全、座舱娱乐与手机互联。【泊车辅助·新增2项】① 360全景影像新增后视镜调节入口——无需退出全景页面即可调节左右后视镜角度；② 记忆泊车新增车速设定及车位收藏——园区内可自定义行驶车速，支持收藏常用车位并添加个性化标签。【泊车体验优化3项】自动泊车算法优化（提升车位识别成功率与泊入效率）、行人场景制动策略优化（减少不必要急停）、泊出辅助界面升级（显示剩余距离与行驶轨迹线）。【行车辅助·优化2项】城市领航辅助UI可视化升级（展示方向箭头信号灯状态、支持路口直行待行区）、辅助驾驶语音播报新增详细/简洁双模式切换。【安全·新增2项】声纹守护（仅响应已录入声纹用户）、车辆离线提醒（长期停放主动推送）。【安全·优化2项】哨兵模式视觉算法优化（减少误报）、权限设置按应用管理及到期弹窗续期。【座舱娱乐·新增2项】腾讯云游戏、芒果TV。【互联·优化3项】方向盘加热三档调节、氛围灯适配酷我音乐、App充电信息展示优化。',
+    status: '9月19日起分批推送 · 4款配置 · 新增6项+优化8项',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/lingpao-a10-ota-20260920.html',
+    note: 'OTA资讯 · 505激光雷达版获记忆泊车车速设定及城市领航优化；含座舱娱乐/手机互联等非驾驶辅助项'
+  },
+  {
+    date: '2026-09-17',
+    type: '新闻资讯',
+    brand: '比亚迪 · 仰望 YANGWANG',
+    model: '仰望U9',
+    supplier: '',
+    chip: '',
+    highlight: '【本期重点】仰望U9迎来全新OTA升级，新增4项实用功能，覆盖通话、记录、车控、安防场景。【新增功能4项】① 电话时允许导航播报开关——来电时导航播报临时静音，避免通话对方听到行驶路线等隐私信息，挂断后自动恢复；② 行车记录仪增加自动录制功能——新增自动录制开关按钮，设置后长期有效，下次上电保持当前状态；③ 手机App新增车辆部分设置功能——通过仰望汽车App可远程完成多维度车辆设置；④ 哨兵模式新增自定义时段开启——支持始终开启/单次开启/自定义开启，可设置时段、保留电量(30%–80%)、监测灵敏度(低/中/高)及允许上传高风险视频。【功能优化5项】① 数字钥匙使用体验及兼容性提升；② 支持软件自动升级，满足条件且到预约时间时自动升级；③ 解锁状态退出哨兵模式后视镜保持展开；④ 调整系统UI显示及文案提示；⑤ 改进待机状态，减少车辆运行冗余。',
+    status: '9月17日推送 · OTA升级 · 新增4项+优化5项',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/yangwang-u9-ota-20260917.html',
+    note: 'OTA资讯 · 新增4项实用功能（电话时导航播报开关/行车记录仪自动录制/手机App车辆设置/哨兵模式自定义时段），优化5项（数字钥匙/软件自动升级/哨兵模式后视镜/UI显示/待机状态）'
+  },
+  {
+    date: '2026-09-16',
+    type: '新车要闻',
+    brand: '比亚迪 · 方程豹 BYD',
+    model: '方程S · 方程S GT',
+    supplier: '天神之眼B (DiPilot 300) · 比亚迪全栈自研',
+    chip: '',
+    highlight: '【本期重点】方程S与方程S GT正式上市，全系标配天神之眼B辅助驾驶激光版，激光雷达加持实现高速NOA与城区NOA，不区分版本。【智驾方案】比亚迪全栈自研，1个激光雷达+3个毫米波雷达+12个超声波雷达（前6/后6），前方双目+7环境感知+4环视摄像头构建融合感知。【行车辅助】CNOA城市领航辅助、HNOA高速领航辅助、ILCA拨杆变道、ICC车道巡航辅助、ACC自适应巡航、TSR交通标识提醒、TLA交通灯提醒。【泊车辅助】APA泊车辅助、RPA遥控泊车辅助、AVP下车泊入、AVM全景影像。【安全辅助】AEB自动紧急制动、FCW前向碰撞提醒、FCTA/B前方横向碰撞提示/制动、RCTA/B后向横向碰撞提示/制动、MEB低速紧急制动、ELKA邻车靠近避让、BSD盲区监测、DOW开门安全提醒、LDA车道偏离辅助。【底盘】首搭云辇-M智能磁流变悬架，毫秒级软硬调节，支持预瞄感知。【权益】1年内城市领航安全兜底+智能泊车场景安全及损失全面兜底。',
+    status: '9月16日上市 · 方程S ¥18.99-22.99万 · 方程S GT ¥21.99-23.99万 · 方程S 5款/方程S GT 4款',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/fangchengbao-fangs-20260918.html',
+    note: '新车要闻 · 含驾驶辅助与底盘智能悬架内容；方程S GT智驾硬件及功能与方程S相同'
+  },
+  {
+    date: '2026-09-16',
+    type: '新车要闻',
+    brand: '理想汽车 LI AUTO',
+    model: '理想i9',
+    supplier: '马赫智驾平台（马赫M100芯片 + 马赫VLA模型 + 3D ViT视觉模型）',
+    chip: '马赫M100 · 1280TOPS（选装双芯片2560TOPS）',
+    highlight: '【本期重点】理想i9搭载自研马赫M100芯片（1280TOPS），配合马赫VLA模型与3D ViT视觉模型，实现全国范围内任意道路、任意园区/地库的VLA全场景NOA。【智驾方案】VLA全场景导航辅助驾驶：按导航路径行驶、智能调速、自主变道、城市路口通行（无保护左/右转、环岛通行）、避让绕行（障碍物/施工/邻车）、高速收费站ETC自主通行。【泊车】VLA泊车任意车位到任意车位，支持机械臂自动充电。【感知】ATL-P激光雷达×1、UWB近场雷达×8、800万像素摄像头×7、300万像素环视×4。【主动安全】130km/h AEB和AES。选装双马赫M100具身智能套装（¥30,000）升级双芯片2560TOPS+侧后向激光雷达，解锁悬空障碍物AEB、限宽墩通行辅助、舱外具身迎宾。【底盘】线控转向+后轮转向，转弯半径5.3米。',
+    status: '9月16日上市 · ¥36.98万 · 旗舰纯电SUV',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/lixiang-i9-20260918.html',
+    note: '新车要闻 · 功能配置取自理想i9 Home官方配置表；选装双马赫M100具身智能套装¥30,000'
+  },
+  {
+    date: '2026-09-17',
+    type: '新闻资讯',
+    brand: '小鹏汽车 Xpeng',
+    model: 'XOS 6.3.0 OTA（Ultra/Ultra SE/单图灵Max）',
+    supplier: '第二代VLA · VLA 2.0 / VLA 2.0 Lite蒸馏版',
+    chip: '',
+    highlight: '【本期重点】XOS 6.3.0底层架构焕新，第二代VLA量产上车。VLA 2.0引入Infini-VLA长时序架构（30秒时序记忆）、X-Foresight预测世界模型（6秒未来推演）、MoT混合架构（场景动态调度）、流式自回归推理优化（端到端提速3倍）。VLA 2.0 Lite蒸馏版首次量产下放单图灵Max，首次验证模型蒸馏下沉量产落地。【座舱】Omni多模态模型+Master Agent超级智能体上车，VLA+VLM驾舱融合。【辅助驾驶】城区NGP升级、NGP漫游拨杆转向、车位到车位衔接提升、语音控车靠边停车/就近泊入、车头泊入/车尾泊出、闸机窄路辅助影像、线控转向泊车偏好。【安全】鹏友守望驾驶员失能辅助（1公里范围推送救援通知）。【座舱】分屏回归、CarPlay、控制中心全屏下拉、AI数字投影大灯三场景、OPPO数字钥匙。8295芯片Max车型年内支持，8155仍在评估。',
+    status: '9月17日起陆续推送 · XOS 6.3.0.8907 · 覆盖Ultra/Ultra SE及单图灵Max',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xpeng-xos630-ota-20260918.html',
+    note: 'OTA资讯 · VLA 2.0适配Ultra/Ultra SE，VLA 2.0 Lite适配单图灵Max（G9L Max首发）；双Orin Max车型VLA 2.0正在推进跨平台迁移，暂未搭载'
+  },
+  {
+    date: '2026-09-17',
+    type: '新车要闻',
+    brand: '小鹏汽车 XPENG',
+    model: '小鹏G9L',
+    supplier: '小鹏图灵AI智驾 · 第二代VLA全新版本',
+    chip: '图灵AI芯片×3 · 2250 TOPS',
+    highlight: '【本期重点】小鹏G9L首发搭载第二代VLA全新版本，3颗图灵AI芯片2250TOPS。VLA+VLM舱驾融合，Master Agent让整车拥有统一大脑，Omni全模态模型上车。G9L Max首发搭载蒸馏版（第二代VLA Lite），模型蒸馏已实现量产。【智驾能力】复杂路况随机应变：施工占道自动绕行调头、水坑路段借道绕行后变回原车道、鬼探头预防性避让。新增车头泊入功能。【安全】航空级安全冗余设计对齐GX旗舰水准，四重冗余架构（制动三重/驱动双冗余/通信双重/解锁四重）。全系标配全场景主动安全，行业领先130km/h车手级AES自动紧急转向避让，冰雪AES轨迹偏差降低50%。驾驶员失能辅助+鹏友守望（1km内推送求救）。【底盘】双向15°线控后轮转向，最小转弯半径5.4m，横摆角速度降低25%。',
+    status: '9月17日上市 · 限时售价 23.18–30.98万 · 6款车型 · 中大型5座SUV（纯电+增程）',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xiaopeng-g9l-20260918.html',
+    note: '新车要闻 · 传感器配置取自755四驱Ultra旗舰版官方配置表；G9L Max首发搭载VLA 2.0 Lite蒸馏版'
+  },
+  {
+    date: '2026-09-16',
+    type: '新闻资讯',
+    brand: '比亚迪 · 腾势 DENZA',
+    model: '腾势Z9GT · N9闪充版 · 第二代D9',
+    supplier: '迪迪虾 AI超级智能体（比亚迪整车AI级助理）',
+    chip: '',
+    highlight: '【本期重点】三车型本轮OTA核心均为「迪迪虾」AI超级智能体上线，支持陪聊、点单、订酒店、AI个性化设置、AI技能库、导航智能体等功能，深度接入AI生态。三车均增用车问答/车控智能体，N9闪充版另增底盘调校大师。【核心功能9项·三车型均适配】① 迪迪虾整车AI超级智能体（智能搭子焕新上线，支持7分屏和全屏设置）；② 生态智能体服务（听音乐、看视频、点外卖、订酒店，语音全流程完成）；③ AI空间（沉浸式陪聊，百变闲聊风格随心切换）；④ 人设（形象/性格/音色/回复风格自由定制）；⑤ 技能（推荐技能/场景模式/智慧物联，丝滑协同）；⑥ 记忆（声纹注册后记住偏好习惯，越聊越懂你）；⑦ 导航智能体（多地点复杂路线规划，直达导航）；⑧ 用车问答智能体（随车顾问有问必答）；⑨ 车控智能体（复杂指令/模糊语义识别）。【N9闪充版专属】底盘调校大师（云辇底盘阻尼/刚度/高度一键调节，实时评分，智能防晕车，3组预设）。【Z9GT专属新增】氛围灯联动空调仪式感、行车能耗分布显示、帝瓦雷音效「气势如宏」模式。【体验升级·Z9GT+N9共有】整车使用体验改善、HUD自适应提升、易三方功能平顺性提升、数字钥匙使用体验提升、闪充体验提升。【Z9GT专属升级】驾乘体验提升、驾驶稳定性提升、高速超车工况体验提升、空调压缩机稳定性/空调体验提升、闭锁升窗逻辑调整。',
+    status: '9月16日推送 · Z9GT OTA · N9闪充版 V1.2.0 · 第二代D9 OTA',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dengsi-didixia-ota-20260917.html',
+    note: 'OTA资讯 · 三车型核心功能一致，差异项已标注适配范围；N9闪充版为V1.2.0（前版V1.1.0见2026-09-04条目）；含AI智能体及整车体验升级等非纯驾驶辅助项'
+  },
+  {
+    date: '2026-09-16',
+    type: '新车要闻',
+    brand: '一汽红旗 HONGQI',
+    model: '全新红旗H7',
+    supplier: '红旗司南组合驾驶辅助系统（红旗×卓驭联合研发）',
+    chip: '骁龙8295P（灵犀座舱5.0 · 24GB运行内存）',
+    highlight: '【本期重点】全新红旗H7由上代燃油车型全面迭代为插混车型，搭载红旗与卓驭联合研发的司南组合驾驶辅助系统，卓驭高悟性端到端4.1算法量产落地，不依赖高精地图。【智驾方案】10V1R12U视觉方案（23个高性能传感器），800万像素长焦三目摄像头可识别距离高达600米。【核心功能】① 全场景城市领航（无保护左转/环岛通行/窄路会车/横穿行人主动制动/复杂分叉自主择道）；② 高速领航（自适应巡航/智能超车/主动避让大型货车/自动进出匝道/ETC无感通行）；③ 智能泊车（垂直车位仅需车宽+40cm、水平车位仅需车长+80cm、120米循迹倒车、2公里记忆泊车及跨层记忆泊车）；④ 转弯半径5.8m，三车道一把掉头。【主动安全】全系标配22项主动安全防护功能，AEB支持150km/h紧急刹停，AES自动紧急避让最高支持140km/h。【底盘】iDCS智能预瞄提前15米识别路况实时调节悬架阻尼，CDC连续可变阻尼悬架+DP-EPS转向+CST舒适制动。',
+    status: '9月16日上市 · 限时置换价 16.88–20.88万 · 3款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/hongqi-h7-20260917.html',
+    note: '新车上市 · 由燃油全面迭代为插混车型，搭载红旗司南组合驾驶辅助系统，全系标配22项主动安全，智驾功能全系标配'
+  },
+  {
+    date: '2026-09-15',
+    type: '新车要闻',
+    brand: '广汽埃安 GAC AION',
+    model: '2027款埃安i60 激光雷达版',
+    supplier: '广汽GSD + 文远知行L4同源一段式端到端算法',
+    chip: '高通8650',
+    highlight: '【本期重点】9月15日上市,共7款配置,权益后10.36-13.48万元。激光雷达版搭192线激光雷达+文远知行L4同源一段式端到端算法,支持城市与高速双场景领航辅助驾驶及全场景智能泊车。【硬件】27颗感知硬件:192线激光雷达×1(大幅领先同级128线,雨夜可看清200米外行人与雪糕筒)、4D毫米波雷达×3、高精摄像头×11、超声波雷达×12;高通8650高性能芯片。【算法】文远知行L4同源一段式端到端大模型,感知决策合二为一,通信0延迟数据0丢失,比二段式效率更高执行更精准;物理AI认知大模型与世界模型完成超10亿种复杂路况训练。【功能详情】① 领航辅助:CNOA城市领航/HNOA高速领航/NLC导航换道/RCA上下匝道;② 泊车:AVP代客泊车/FAPA融合泊车/RPA遥控泊车;③ 行车:ICA集成巡航/ACC自适应巡航/LCC车道巡航;④ 主动安全:AEB自动紧急制动/FCTB前向穿行辅助/RCTB后向穿行辅助/PMA加速踏板防误踩/RAEB后向紧急制动;⑤ 其他:360°全景影像/透明底盘/DMS疲劳监测/FCW/TSR/LDW/LDP/CSC/WDI/ELKA/BSD/DOW/FCTA/RCTA/RCW等。',
+    status: '9月15日上市 · 指导价11.16-14.28万 · 权益后10.36-13.48万 · 7款车型(本页只列1738激光雷达版,指导价14.28万/权益后13.48万)',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aion-i60-20260916.html',
+    note: '新车要闻;只列1738激光雷达版最高配置;前驻车雷达/倒车雷达属硬件不列入功能网格;提供增程和纯电可选'
+  },
+  {
+    date: '2026-09-14',
+    type: '新车要闻',
+    brand: '长城魏牌 WEY',
+    model: '高山8/9 PHEV 智慧版',
+    supplier: 'Coffee Pilot 4 · VLA大模型',
+    chip: '英伟达 Thor-U · 700TOPS',
+    highlight: '【本期重点】9月14日开启预订,5000元订金抵扣8000元购车尾款,2款车型,双色车身可选。高山8/9智驾配置一致,搭Coffee Pilot 4 + VLA大模型。【硬件】英伟达Thor-U 700TOPS,28个高性能传感器,前后双激光雷达(192线+高精度固态),800万像素摄像头×2,300万像素摄像头×9,4D前毫米波雷达×1,角毫米波雷达×2,超声波雷达×12;全系标配iTVC智能扭矩矢量控制+智能四驱。【功能详情】① VLA大模型:语音指令控车、防御性驾驶、思维推理可视化;② 高速NOA:导航路径行驶/进出匝道/汇入主路/智能调速/导航变道/超车变道/远离大车防御性变道/施工区域避让/通用障碍物绕行等17项;③ 城市NOA:路口左右转/环岛通行/动态博弈绕行/行人礼让/左转待转区/多把掉头等9项;④ 车位到车位领航辅助;⑤ APA泊车辅助(200种车位类型/自选车位/车头车尾泊入等8项)+遥控泊车+记忆泊车+泊车漫游辅助;⑥ 主动安全:AEB/AES/MEB/RAEB+FCW/RCW/ESS/LDW/LKA/ELK/FCTA&B/RCTA&B/TSR/BSD/LCA/DOW共16项。',
+    status: '9月14日开启预订 · 5000元订金抵扣8000元购车尾款 · 2款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/wey-gaoshan-8-9-20260915.html',
+    note: '新车要闻;高山8/9智驾配置一致,座舱与空间配置因车型而异;高山9标配29.6英寸一体智慧屏+高通8797芯片,高山8采用双15.6英寸连屏'
+  },
+  {
+    date: '2026-09-14',
+    type: '新闻资讯',
+    brand: '比亚迪 · 方程豹',
+    model: '豹8',
+    supplier: '云辇-P Ultra智能底盘',
+    chip: '',
+    highlight: '【本期重点】豹8第七次OTA,新增8项功能,其中6项无人机相关,另含多项功能优化。适用于豹8闪充版和豹8普通版,不同配置可激活功能有差异。【新增功能】① 无人机实名认证校验(未认证阻飞);② 全景拍摄模式(一键合成全景照片);③ 轨迹延时拍摄(自由/定向/轨迹三模式);④ 人工开关舱模式(手动取出无人机);⑤ 潜望模式(机舱上方1.2米悬停);⑥ 离车模式快速切换(车载/离车模式);⑦ 三足鼎行(云辇-P Ultra抬升故障车轮,避免缺气行驶损坏);⑧ 庭院模式(庭院内不响应无感解锁和迎宾)。【优化功能】豹8闪充版8项(车道保持/防晕车香氛/冰箱防夹/电动踏板收回等);豹8普通版6项(踏板收回/全景影像/泊出车位/氛围灯UI等);大五座版3项;六七座版3项。',
+    status: '第七次OTA · 新增8项功能 + 多项优化 · 适用于豹8闪充版/普通版',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/fangchengbao-bao8-ota-20260914.html',
+    note: 'OTA资讯;含无人机、底盘、座舱等非驾驶辅助项;蓝色版页面(蓝色标题);不同配置车型具体可激活功能有差异'
+  },
+  {
+    date: '2026-09-10',
+    type: '新闻资讯',
+    brand: '理想汽车',
+    model: '理想L系列/i8/i6(OTA 8.6) · 全新理想L9/L8/L6/新一代MEGA(OTA 9.1.1)',
+    supplier: '理想马赫 VLA 2.0',
+    chip: '',
+    highlight: '【本期重点】9月10日推送,OTA 8.6面向2022-2025款理想L系列/i8/i6,OTA 9.1.1面向2026年全新L9/L8/L6和新一代MEGA。马赫VLA 2.0部署至Orin-X与Thor-U平台。【OTA 8.6·辅助驾驶】马赫VLA 2.0上线、非划线车位推荐泊入、AI眼镜Livis指挥泊车、遥控泊出远程唤醒。【OTA 8.6·座舱】大屏转向影像、《饥饿鲨:世界》游戏、艺术相框动静态循环屏保。【OTA 8.6·续航与导航】电池温控优化、目的地预测地址增加。【OTA 9.1.1·座舱】主动悬架游戏(底盘悬架实时反馈),适用全新L9/L8 Livis和新一代MEGA。',
+    status: '9月10日推送 · OTA 8.6 + OTA 9.1.1',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/lixiang-ota-86-91-20260914.html',
+    note: 'OTA资讯;含辅助驾驶、座舱体验、续航与导航、主动悬架游戏等非纯智驾项;OTA 8.6面向老款L系列/i系列,OTA 9.1.1面向2026全新车型'
+  },
+  {
+    date: '2026-09-13',
+    type: '新闻资讯',
+    brand: '华境汽车',
+    model: '华境S',
+    supplier: '华为乾崑智驾 ADS 5 Pro',
+    chip: '',
+    highlight: '【本期重点】9月13日华境汽车官方宣布,覆盖智能驾驶、泊车辅助、主动安全、用车体验四大板块,累计新增与优化20余项功能。【城区领航辅助·场景扩容】新增三点式掉头(窄路智能倒车再通行)、山野小路(乡村窄路场景适配)。【泊车辅助】新增园区领航辅助(入口到车位全程自主行驶);升级循迹倒车(80m→120m)、泊车体验优化(障碍物识别精度升级)。【主动安全·双重防护】新增前向异形障碍物自动紧急制动GAEB、紧急自动转向辅助ESA。【用车体验】新增ADS APP双地图切换(新增百度地图)、洗车模式(常规/传送带)、驻车通风(停车6小时自动启动)、窄道浮窗位置自定义。',
+    status: '9月13日宣布 · 新增与优化20余项功能',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/huajing-s-ads5-ota-20260914.html',
+    note: 'OTA资讯;华为乾崑智驾ADS 5 Pro搭载上车;含主动安全、用车体验等非纯智驾项'
+  },
+  {
+    date: '2026-09-16',
+    type: '新闻资讯',
+    brand: '广汽埃安 AION',
+    model: '第二代AION V',
+    supplier: 'Momenta R6 智驾大模型',
+    chip: '',
+    highlight: '【本期重点】第二代AION V 9月16日起分批推送,13项新增15项优化。【泊车辅助】新增遥控泊车(窄车位遥控泊入)、代客泊车(记忆2公里停车场路线)、安全靠边停车(领航辅助遇险主动靠边)。【主动安全】新增低速与倒车主动安全辅助、加速踏板防误踩辅助。【智驾模型与通行】新增Momenta R6强化学习大模型(路口环岛匝道预判更贴近人类)、高速ETC闸机自主通行;升级高德地图810版本引擎(顺路播报/红绿灯播报)。【智能座舱】新增探索埃安、语音声纹识别(延时聆听/粤语)等。',
+    status: '9月16日起分批推送 · 13项新增 + 15项优化',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aion-v-ota-20260911.html',
+    note: 'OTA资讯;泊车相关功能及加速踏板防误踩辅助仅激光雷达版/配备高速领航辅助车型可用;含座舱等非纯智驾项;date为推送日(9月16日)'
+  },
+  {
+    date: '2026-09-09',
+    type: '新车要闻',
+    brand: '奇瑞 · 捷途',
+    model: '全新捷途X90',
+    supplier: '猎鹰500辅助驾驶系统',
+    chip: '',
+    highlight: '【本期重点】中大型SUV,9月9日上市,共5款车型,指导价12.29-15.99万,超级置换价9.99-13.19万。搭猎鹰500辅助驾驶,摄像头×7(前视双目800万像素)+毫米波雷达×3+超声波雷达×12。【功能详情】高速NOA支持自动变道与上下匝道;300+场景记忆泊车含自动泊车与跨层记忆泊车;100米循迹倒车窄路一键返航。',
+    status: '9月9日上市 · 指导价¥12.29-15.99万 · 超级置换价¥9.99-13.19万 · 5款车型',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/jetour-x90-lieying-20260911.html',
+    note: '新车要闻;猎鹰500辅助驾驶;前视双目800万像素;智驾芯片官方未公布'
+  },
+  {
+    date: '2026-09-05',
+    type: '新闻资讯',
+    brand: '奇瑞风云',
+    model: 'T11',
+    supplier: '猎鹰700辅助驾驶系统',
+    chip: '200TOPS算力芯片',
+    highlight: '【本期重点】第二次OTA全域推送，9项新增+4项优化；【新增功能】紧急转向辅助、窄路三点掉头、高速ETC自主通行、智驾卡片、儿童遗忘提醒、儿童座椅异常提醒、远程一键备车、伯牙之音智慧调音、远程诊断；【体验优化】窄路通行能力优化、不规则障碍物及临时信号灯通行优化、智驾底层模型升级、全系UI交互优化',
+    status: '9月5日第二次OTA全域推送 · 9项新增功能 + 4项体验优化',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/qirui-fengyun-t11-ota-20260908.html',
+    note: ''
+  },
+  {
+    date: '2026-09-07',
+    type: '新车要闻',
+    brand: '上汽通用凯迪拉克',
+    model: 'XT5 PHEV 2027款',
+    supplier: 'Momenta R7 世界模型辅助驾驶',
+    chip: '高通骁龙8775P',
+    highlight: '【本期重点】行业首个物理AI大模型，1激光雷达+11摄像头+3毫米波雷达全天候三重感知矩阵；无图漫游、20cm窄路通行、150米循迹倒车、200条记忆泊车路线；超150亿公里真实道路里程验证，16亿公里0事故；3年辅助驾驶无忧保障。【功能详情】(依Pro Max版官方配置表，Momenta R7功能平铺无子卡片)城市及高速辅助驾驶、无图漫游模式、自动变道辅助、匝道自动导航、信号灯识别、立体车库自动泊车、记忆泊车、循迹倒车、哨兵模式、疲劳驾驶提示；FSRACC全速域自适应巡航、HoLCA智能车道居中辅助、APA自动泊车辅助、TSR交通标志识别、ISA智能限速辅助。【品宣补入】RTD预瞄式电子实时阻尼可调悬架(提前20米扫描/每秒500次/减60%簧下冲击)、Brembo六活塞刹车、豆包AI语音助手(四音区独立识别)、舱内OMS感知(儿童/宠物监测)、CarPlay互联。',
+    status: '9月7日上市 · 限时权益价 ¥25.99-27.99万 · 2款车型(Pro/Pro Max)',
+    link: 'file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/cadillac-xt5-phev-20260908.html',
+    note: '单车单页推送;官网品宣内容全部纳入(含RTD悬架/豆包AI/OMS感知等非智驾项),footer免责已同步调整;Momenta R7智驾功能平铺不设子卡片,10项无缩写功能用SVG图标,5项有缩写功能(FSRACC/HoLCA/APA/TSR/ISA)保留缩写文字;权益卡位置在传感器配置上方;Hero导语仅保留限时权益价,已删除指导价/一口价/激光雷达描述'
+  },
+  
+  { date:"2026-09-04", type:"新车要闻", brand:"广汽 · 启境", model:"启境GX7", supplier:"华为乾崑智驾ADS 5超阶版", chip:"", highlight:"【本期重点】中大型SUV,9月4日开启预售,共3款车型,预售价24.99-31.19万;搭载华为乾崑智驾ADS 5超阶版,面向L3级自动驾驶架构,配备4激光雷达(含896线双光路图像级激光雷达)共38个高性能传感器,同级唯一4激光雷达消除侧向及后向盲区;八大冗余全链路守护(感知/计算/制动/转向/通信/供电/定位/交互);全维防碰撞CAS 5.0六维主动安全;RCA漫游巡航、全场景智能泊车、88英寸AR-HUD覆盖三车道。【功能详情】(依Ultra三电机四驱版官方配置表整理)① 传感器配置(38个=前向14+侧向12+后向12):4激光雷达(896线×1+固态×3)、5个4D毫米波雷达、11个高感知摄像头、12个超声波雷达、6个车外麦克风;② L3架构全链路冗余:感知/计算/制动/转向/通信/供电/定位/交互八重;③ 领航&巡航:高速领航NCA(金色)、城区领航NCA、车位到车位P2P、城区车道巡航增强LCC+、车道巡航LCC、自适应巡航ACC、驾驶员状态监测DMS;④ 泊车:360°+透明底盘全景影像、智能泊车APA、循迹倒车RA、遥控泊车RPA、离车泊入EPA、园区领航NCA;⑤ 安全辅助:AEB/GAEB/路面自适应AEB/LAEB/RAEB/GRAEB、FCW/FCTA/FCTB、RCTA/RCTB、ESA/eAES、UAP防误踩、LOCP侧向防碰撞、TSA超速告警、TLA红绿灯提醒、TLR信号灯识别、TSR交通标志识别、爆胎稳定控制、LDW/LKA/ELK、BSD/DOW/RCW、驾驶员失能辅助、eAES增强紧急转向。", status:"9月4日开启预售 · 预售价¥24.99-31.19万 · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/qijing-gx7-20260907.html", note:"单车单页推送;华为系页面用华为红主题;页面结构含车型信息卡(智驾方案+感知硬件)在横幅之后、卖点卡之前;传感器配置区用三列纵向卡片(前向/侧向/后向并排);功能分组用grp-title(领航&巡航/泊车/安全辅助)合并于同一feature-block内;智驾芯片与算力官方未公布" },
+  { date:"2026-09-04", type:"新车要闻", brand:"长安启源 CHANGAN", model:"启源Q06", supplier:"天枢领航Ultra（全栈自研一段式端到端）", chip:"地平线 J6P · 560TOPS", highlight:"【本期重点】中型SUV,SDA天枢架构,9月4日开启预售,共9款车型(7纯电+2增程),预售价14.99-19.19万、权益后14.79-18.99万;全系搭载天枢领航,顶配首搭天枢领航Ultra,央企全栈自研一段式端到端,560TOPS算力+256线激光雷达,贯通高速NCA与城区NCA,率先实现交互式领航(语音复合指令);AEB白天135km/h对静止车辆刹停,爆胎稳行最高190km/h;2026年12月31日前购车赠一年天枢领航安心包(至高1000万保额);长安正同步推进L3级自动驾驶研发,今年3月已获批L4级Robotaxi测试牌照。【功能详情】(依700智尊型天枢领航Ultra版官方配置表,共30项)① 行车辅助:全速ACC、IACC驾驶巡航辅助、拨杆变道、语音变道、TSR交通标识识别、电容式方向盘离手监测、辅助匝道驶出(入)、高速领航(高速路段)、城区领航(城市路段);② 泊车辅助:APA车内泊车、RPA遥控泊车、RMP遥控挪泊、EPA离车泊入、自定义泊车、风格自定义、循迹倒车、HZP记忆泊车、遥控泊车直进直出;③ 主动安全:AEB、FCTB前方横穿制动、RCTB倒车横向制动、LKA车道居中、ELKA紧急车道保持、LDW车道偏离预警、DOW开门预警、FCW前向碰撞预警、RCW后方碰撞预警、FCTA前方穿行预警、RCTA倒车横向预警。硬件:地平线J6P 560TOPS+256线激光雷达×1+毫米波雷达×3+超声波雷达×12+高感知摄像头×11(前视2×800万+后视1+环视4+侧视4,均300万)+高精度定位。", status:"9月4日预售 · 预售价¥14.99-19.19万 · 权益后¥14.79-18.99万 · 9款车型(7纯电+2增程)", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/changan-qiyuan-q06-20260907.html", note:"单车单页推送;功能依700智尊型天枢领航Ultra版官方配置表逐项列出;全系9款均标配天枢领航,算力分100+/200+/500+TOPS梯度;天枢领航设Pro/Max/Ultra/Ultimate四个梯度,均配激光雷达+端到端架构;256线激光雷达出自官方品宣,配置表仅标注激光雷达×1;爆胎稳行系统、AES、800V 6C闪充等非智驾内容按要求未纳入页面" },
+  { date:"2026-09-04", type:"新闻资讯", brand:"腾势 DENZA", model:"腾势N9 闪充版", supplier:"天神之眼-B（V1.1.0 OTA）", chip:"", highlight:"【本期重点】腾势N9闪充版迎来V1.1.0 OTA升级，9项智驾相关更新；哨兵模式大升级，支持自定义启停时段与高风险声光报警；领航辅助驾驶系统性能与稳定性提升；泊车辅助、全景影像、路面预瞄同步优化。闪充版可做到5分钟充好、9分钟充饱。【智驾升级详情】① 领航辅助驾驶系统性能与稳定性提升；② 哨兵模式预约功能（自定义启停时段）；③ 哨兵模式高风险事件声光报警；④ 侧开门雷达强制休眠功能；⑤ 全景界面后视镜展开折叠快捷入口；⑥ 已选择车位偏好记忆；⑦ 泊车辅助设置同步至系统设置；⑧ 路面预瞄舒适度提升；⑨ 其余导航与座舱多项焕新（停车助手、HUD导航箭头自定义、电话时导航播报开关、顺路搜索绕行展示、OPPO步行接续导航、超级童锁、车家互联TCL/海信、IoT生态等）。", status:"OTA V1.1.0 · 闪充版专属", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dengshi-n9-shanchong-ota-20260904.html", note:"OTA资讯 · 面向腾势N9闪充版车型；智驾相关9项，其余导航与座舱功能已列入页面；时光音乐壁纸、爱奇艺跨屏点播、气势如宏模式等纯娱乐项按要求未纳入" },
+  { date:"2026-09-02", type:"新车要闻", brand:"比亚迪 BYD", model:"海狮08", supplier:"天神之眼 B - 辅助驾驶 激光版(DiPilot 300, L2级)", chip:"英伟达 Orin-X · 254 TOPS", highlight:"【本期重点】中大型SUV,9月2日上市,共8款车型,售价22.99-27.99万;搭载天神之眼B激光版+1颗高感知激光雷达+1颗英伟达Orin-X(254TOPS),支持城市领航CNOA与高快领航HNOA;辅助驾驶无忧礼:自提车1年内城市领航安全兜底+智能泊车场景安全及损失全面兜底(因泊车系统异常或算法失误、依法应由本车承担的维修/第三方财产/人身伤害损失由比亚迪承担)。【功能详情】(依800km四驱旗舰型官方配置表平铺,共30项;无官方分类)① 领航(金色高亮):城市领航CNOA、高快领航HNOA;② 行车:拨杆变道ILCA、车道巡航ICC、自适应巡航ACC、自适应前照灯AFL、限速控制ISLC、限速提醒ISLW、限速标志识别SLIF、交通标识提醒TSR、交通灯提醒TLA;③ 泊车:下车泊入AVP、泊车辅助APA、遥控泊车RPA、倒车雷达PDC、侧边距离提醒SDW;④ 主动安全:自动紧急制动AEB(金色高亮)、前向碰撞提醒FCW、前方横向碰撞提醒FCTA、前方横向碰撞制动FCTB、后向碰撞提醒RCW、后方横向碰撞提醒RCTA、后方横向碰撞制动RCTB、盲区监测BSD、开门安全提醒DOW、邻车靠近避让ELKA、弯道超速提醒CSW、车道偏离辅助LDA、全场景环境模拟显示SR;⑤ OTA项:低速紧急制动MEB(需后期OTA)。【品宣补入】云辇-A智能空气车身控制系统(路面预瞄/主动后轮转向/智能蟹行/防侧翻/4.95m转弯半径)、高速爆胎稳行系统(湿滑弯道140km/h/湿滑直线160km/h)、驾驶员疲劳监测。硬件:1 Orin-X芯片+1激光雷达+3毫米波雷达+12超声波雷达(前6后6)+双目前视摄像头+7环境感知摄像头+4环视摄像头+1车内摄像头。", status:"9月2日上市 · ¥22.99-27.99万 · 8款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/byd-haishi08-20260903.html", note:"单车单页推送;功能依800km四驱旗舰型官方配置表平铺,无官方分类;MEB需后期OTA,页面以OTA胶囊标注;页面按用户要求补入云辇-A、高速爆胎稳行、驾驶员疲劳监测等非智驾内容,footer免责已同步调整;辅助驾驶无忧礼完整法规责任说明已原样保留" },
+  { date:"2026-09-01", type:"新闻资讯", brand:"千里速闻", model:"2026年8月智驾月报", supplier:"", chip:"", highlight:"【本期重点】8月共24款智驾新车上市或预售,另有4组OTA与功能升级。华为乾崑ADS 5系落地9款,比亚迪天神之眼与Momenta世界模型各3款;价格带从6.39万到76.6万。本期取19款与千里ZAD放进同一张表,只比5项高阶智驾能力(城区领航/车位到车位/园区领航/漫游巡航/跨层记忆·代客泊车)。【对照结论】城区领航已成标配(17款具备);车位到车位14款具备;园区领航仅华为系具备;漫游巡航华为系全系具备,千里4.1 OTA在即;跨层记忆·代客泊车10款同时具备。【本月信号】①华为乾崑ADS 5功能清单成为价格带模板;②责任兜底下探到10万级;③跨层记忆泊车是泊车分水岭。", status:"8月智驾月报 · 24款新车上市/预售 · 19款进表对照 · 5项高阶功能", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-monthly-202608.html", note:"月报页面;汇总8月全部智驾新车与OTA升级;对照表含千里ZAD基准+华为乾崑9款+Momenta2款+奇瑞2款+长安1款+行云2款+车企自研3款;data字段为月报定稿日(9月1日)" },
+  { date:"2026-09-01", type:"新车要闻", brand:"奇瑞星途 EXEED", model:"2027款揽月", supplier:"L2级智能驾驶辅助系统", chip:"座舱 高通骁龙8155", highlight:"【本期重点】中大型SUV，9月1日上市，燃油版2款（星耀两驱/飞鱼四驱）、C-DM插混版2款（Max/Ultra），均6座/7座，燃油版权益价¥14.99-16.99万、C-DM版权益价¥18.99-19.99万；32项ADAS驾驶辅助系统+21个高精传感器（1前视摄像头+4超清300w像素摄像头+4角毫米波雷达+4短距超声波+8长距超声波），高速NOA领航辅助驾驶已覆盖全国243城高快路，支持导航红绿灯读秒；品宣核心亮点为HWA高速公路辅助、HPA记忆泊车、FCTB/RCTB前后交叉碰撞制动、MEB低速倒车紧急制动、ELK紧急车道保持、BSD+BSV盲区监测；座舱搭Lion5.0雄狮智云系统+高通8155芯片，应用切换<1秒、语音响应<540ms。【功能详情】(按高阶到基础排序，5项金色高亮置顶)① 高阶行车:高速导航辅助驾驶、iHWA智能高速公路辅助、HWA高速公路辅助、iACC智能自适应巡航、ICA集成巡航辅助、TJA交通拥堵辅助、LCA变道辅助、iDodge智能避让；② 主动安全:AEB自动紧急制动、FCTB前方交叉碰撞制动、RCTB后方交叉碰撞制动、MEB低速倒车紧急制动、FCW前向碰撞预警、FCTA前方交叉碰撞预警、RCTA后方交叉碰撞预警、RCW后方碰撞预警、DOW对内开门预警；③ 泊车:HPA记忆泊车、APA辅助泊车、FTBA循迹倒车、超清540°全景影像(透明底盘)；④ 车道:LKA车道保持辅助、ELK紧急车道保持、RDP车道偏离纠正、LDW车道偏离预警；⑤ 其他:BSD盲区监测、BSV盲区影像辅助、TSI交通标识识别、SLA智能限速辅助、IHC智能远光灯。", status:"9月1日上市 · 燃油版权益价¥14.99-16.99万 · C-DM版权益价¥18.99-19.99万 · 4款配置(均6座/7座)", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xingtu-lanyue-20260902.html", note:"单车单页推送;燃油版星耀两驱官方18.99万/权益14.99万、飞鱼四驱官方20.99万/权益16.99万;C-DM版Max四驱官方20.99万/权益18.99万、Ultra四驱官方22.99万/权益19.99万;页面价格标签只呈现权益价区间;座舱内容(Lion5.0+8155)按要求补入页面并同步放宽footer免责口径;HPA记忆泊车、iHWA智能高速公路辅助为选装功能;智驾芯片官方未公布;功能按高阶到基础重排,金色高亮5项(高速导航辅助驾驶/AEB/FCTB/RCTB/MEB)集中置顶,非官方配置表原始顺序" },
+  { date:"2026-08-21", type:"新车要闻", brand:"鸿蒙智行 AITO 问界", model:"问界M9 Ultimate 领世加长版", supplier:"华为乾崑智驾 ADS 5(全向立体融合感知系统)+ 全新华为途灵龙行平台", chip:"", highlight:"【本期重点】大型SUV,增程+纯电,实车亮相2026成都车展,建议零售价64.98-65.98万、共4款车型(享六座65.98万/阔五座64.98万);全系首发华为乾崑智驾ADS 5,出厂即交付。感知端首创前向双冗余激光雷达矩阵(896线双光路图像级+共光路舱内,新增舱内激光雷达叠加全天候冗余)与首创全向4固态激光雷达矩阵(针对小目标及低矮/悬空/异形障碍物);底盘搭全新华为途灵龙行平台六合一全域融合架构,道路预瞄系统2.0基于ADS全路况深度感知识别坑洼/减速带/凸台提前调节减震器,800V全主动悬架最大举升力11451N、最快响应400毫米每秒、调节范围180毫米,全新线控转向毫秒级响应且转向比自适应;全向防碰撞5.0全新升级侧向加速防追尾(预判后向碰撞风险主动加速驶离),事前预防含座椅姿态切换与悬架高度自动调整、事后守护含车窗车门自动解锁留救援通道并主动拨打救援电话;双子座全域冗余设计含门把手四重解锁机制;华为星河通信2.0极致地网双卡双通带宽较上一代提升100%、畅联天网卫星通话(分布式可与手机共享)、智慧车网预判前向碰撞/交叉路口碰撞/闯红灯/紧急制动风险。【功能详情】(依官方配置表共43项;页面保留官方分类但按功能逻辑重排为巡航→泊车→主动安全→其他,未照官方原始顺序)① 巡航8项:高速领航辅助Highway NCA、城区领航辅助City NCA、车位到车位领航辅助、自适应巡航ACC、高速车道巡航辅助Highway LCC、城区车道巡航辅助City LCC、城区车道巡航辅助增强City LCC PLUS、漫游巡航辅助;② 泊车6项:园区领航辅助Campus NCA、遥控泊车辅助RPA(遥控召唤泊入泊出支持垂直平行斜列车位、遥控直进直出辅助、离车泊入辅助)、泊车辅助APA、循迹倒车辅助RA、360°全景环视AVM、透明底盘;③ 主动安全28项:异形障碍物自动紧急制动GAEB(前向+后向)、AEB自动紧急制动、低速LAEB、后向RAEB、路面自适应AEB、侧向障碍物防碰撞LOCP、紧急转向辅助ESA、增强型自动紧急转向eAES、紧急车道保持辅助ELKA、FCW前向碰撞预警、RCW后向碰撞预警、FCTA&FCTB前向横穿预警与制动、RCTA&RCTB后向横穿预警与制动、BSD盲区监测、DOW开门预警、防被追尾辅助、防侧向挤压辅助、LDW车道偏离预警、LKA车道保持辅助、TSR交通标志识别、TLR交通信号灯识别、TSA超速告警、防误踩加速踏板、防误打方向盘、爆胎稳定控制辅助、驾驶员失能辅助;④ 其他:哨兵模式。硬件:6激光雷达(1颗896线双光路图像级+1颗共光路舱内+4颗高精度固态)+5个4D毫米波雷达(含1套分布式)+15超声波雷达(含涉水雷达3颗)+7高感知摄像头(前视2+侧视4+后视1)+4全景摄像头+6车外麦克风;另配高精度定位、舱外激光雷达自适应清洗、倒车摄像头电动清洗;全域冗余设计覆盖感知/计算/转向/制动/通信/供电/定位/交互八个维度。", status:"实车亮相 2026 成都车展 · 建议零售价 ¥64.98-65.98万 · 4款车型(享六座 ¥65.98万 / 阔五座 ¥64.98万)", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aito-m9-ultimate-20260828.html", note:"单车单页推送;date 按 2026 成都车展开展日(8月21日)记,与同展 MG 07、ID.ERA 5S 等条目口径一致,该车官方上市或亮相的具体日期未单独确认,拿到准确日期需回改;智驾芯片与算力官方未公布;功能依「问界 M9 Ultimate 领世加长版」官方配置表整理,4款车型该部分配置一致;官方选装(○)项共9项(城区NCA、车位到车位领航、园区NCA、City LCC PLUS、漫游巡航、eAES、防被追尾、防侧向挤压、驾驶员失能),按用户要求未在页面标注;7颗高感知摄像头为配置表前视2+侧视4+后视1得出;媒体口径「六激光雷达=前向三激光雷达+左右侧向补盲+后向补盲」与官方「1颗896线双光路+1颗共光路舱内+4颗高精度固态」不一致,页面采官方口径;按要求补入途灵龙行平台与星河通信内容(非严格智驾),footer 免责已同步放宽;座舱生命体监测属座舱内容未纳入;硬件与选装项口径与尊界V680/V800 高度一致,可交叉参照" },
+  { date:"2026-08-26", type:"新车要闻", brand:"北汽新能源 ARCFOX 极狐", model:"阿尔法T7", supplier:"华为乾崑智驾 ADS 5 Pro(WEWA 2.0 架构)+ 华为乾崑全维防碰撞 CAS 5.0", chip:"智驾芯片官方未公布 · 座舱 全球首款 5G 4nm 车规级高算力芯片", highlight:"【本期重点】中大型SUV,增程+纯电双动力,8月26日开启预售,共9款车型,指导价14.18-17.88万、预售补贴价13.78-17.48万;ADS 5 平台首批落地车型之一,搭华为乾崑智驾ADS 5 Pro + 华为乾崑全维防碰撞CAS 5.0,行车覆盖高速/城区/园区三级领航辅助NCA,泊车可见即可泊并支持离车泊入;主动安全覆盖前后向紧急制动、横穿预警与制动、紧急转向与紧急车道保持;ADS辅助驾驶无忧权益:保障标的车辆正常使用ADS辅助驾驶过程中,在合法行驶道路和区域内发生意外事故所造成的自身及第三者人身损害或财产损失,并含终身免费智驾流量与终身免费OTA升级。【功能详情】(依增程1315ULTRA乾崑版官方配置表「智能辅助驾驶系统」逐项列出,共40项;官方无子分类,页面按重点项在前、其余按功能模块相邻排列,未加自造分类标题)① 重点项:城区领航辅助、高速领航辅助、园区领航辅助、组合辅助驾驶紧急制动AEB、低速自动紧急制动LAEB、后向自动紧急制动RAEB、异形障碍物自动紧急制动GAEB、侧向障碍物防碰撞LOCP、紧急转向辅助ESA、紧急车道保持ELK;② 行车与巡航:城区车道巡航辅助City LCC、高速车道巡航辅助Highway LCC、全速域自适应巡航ACC、集成式巡航ICA、交通拥堵辅助TJA、车道保持辅助LKA、变道辅助LCA、智能限速控制ISLC、交通信号灯识别、交通标识识别TSR;③ 预警与监测:前碰撞预警FCW、后碰撞预警RCW、前向横穿碰撞预警FCTA、前向横穿碰撞制动FCTB、后向横穿碰撞预警RCTA、后向横穿碰撞制动RCTB、车道偏离预警LDW、盲区监测BSD、开门防撞预警DOW、智能限速告警ISA;④ 泊车与影像:智能辅助泊车APA、遥控辅助泊车RPA、指尖/自定义泊车、记忆泊车、循迹倒车、离车泊入、停车场便捷缴费、全景影像(透明底盘);⑤ 车外监控:哨兵模式、车外相机。品宣补充:WEWA 2.0架构算法升级(云端算力/数据/算法共享、类人驾感)、华为舱内激光视觉Limera、CAS 5.0共24项主动安全功能且AEB最高刹停速度130km/h、高速NCA平均安全接管里程超1500km(智能上下匝道/变道超车/调速/避障/cut-in预警鸣笛)、城区NCA(复杂路口/环岛、窄道会车、绕行路边临时停车、智能换道与避障、三点式掉头)、泊车(自定义泊车/高难车位/跨楼层记忆泊车/离车泊入障碍物挪开即停/园区领航NCA+停车便捷缴费)、元境AI智能底盘(智能掉头、智能减速带、晕车舒缓模式、爆胎稳定系统)、座舱四音区语音定位+声纹识别+车外语音喊话+千问&豆包双AI智能体。硬件:27个智能感知元件 = 1舱内激光雷达+3个4D毫米波雷达+11高清摄像头+12超声波雷达,另含前方感知摄像头。", status:"8月26日开启预售 · 指导价 ¥14.18-17.88万 · 预售补贴价 ¥13.78-17.48万 · 9款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/arcfox-alpha-t7-20260827.html", note:"单车单页推送;功能依增程1315ULTRA乾崑版官方配置表(该版指导价17.28万/预售补贴价16.88万,未达价格区间上限,区间顶配疑为纯电版);页面价格标签只呈现预售补贴价,指导价未上页面;12颗超声波雷达出自官方品宣,配置表截图未体现;「ADS 5 平台首批落地车型之一」为整理口径,官方未用首搭表述;预售专属权益(4000元置换补贴、赠车漆价值5000元、前备厢敲击开关/电容方向盘价值3000元、预售礼包/交车礼盒/积分)按体例未上页面;智驾芯片官方未公布,座舱为全球首款5G 4nm车规级高算力芯片;座舱AI与元境AI智能底盘属非智驾内容,按要求补入页面并同步放宽footer免责口径;品宣卖点卡按要求合并为6张(平台+安全、高速NCA、城区NCA、泊车、座舱+底盘、权益),纯形容词式「五个维度提升」已删" },
+  { date:"2026-08-26", type:"新车要闻", brand:"奇瑞汽车 CHERY(风云系列)", model:"风云T7", supplier:"猎鹰500 辅助驾驶系统(600km 智享版)", chip:"8775 舱驾融合芯片 · 72TOPS · 4nm", highlight:"【本期重点】紧凑型纯电SUV,8月26日上市,共3款车型,全系CLTC纯电续航600km;顶配600km智享版搭猎鹰500辅助驾驶系统,3毫米波雷达+7高性能摄像头+12超声波雷达共22颗高精度传感器(3R7V12U),行车支持高速NOA领航辅助(汇入/变道/上下匝道提示),泊车覆盖300+全场景;8775舱驾融合芯片72TOPS/4nm一芯双智,座舱与辅助驾驶协同。兜底礼:泊车与智能领航场景判定为辅助驾驶系统原因导致的事故,最高赔偿500万(限首任车主非营运车辆)。【功能详情】(顶配600km智享版官方配置表「极致安全防护」中的驾驶辅助项,共25项;页面按重点项在前、其余按功能归类排列)① 重点项:高速NOA高速领航辅助、AEB自动刹车系统(车辆/行人/自行车)、ELK紧急车道保持系统、RCTB后方交叉碰撞制动;② 行车巡航:ACC自适应巡航、ICA集成式巡航辅助、TJA交通拥堵辅助、LDW车道偏离预警、LDP车道偏离抑制;③ 泊车:APA自动泊车、RPA遥控泊车;④ 前向安全:FCW前方碰撞预警、IES智能避让系统、DAI前车驶离提醒;⑤ 侧后向安全:BSD盲点监测、LCA变道辅助系统、DOW开门预警系统、RCW后方碰撞预警、RCTA后方交叉碰撞预警;⑥ 限速与监测:SLA限速辅助、ISA智能主动限速、DMS疲劳驾驶监测、IHC智能大灯控制、哨兵模式;⑦ 影像:540°全景影像。泊车品宣覆盖全场景泊入泊出、远程泊车、循迹倒车、断头路泊车、离车泊入、跨楼层记忆泊车、可见即可泊。", status:"8月26日上市 · 指导价 ¥9.79-11.89万 · 抢先置换价 ¥9.49-11.59万 · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/chery-fengyun-t7-20260827.html", note:"单车单页推送;功能以顶配600km智享版为准,低配版本存在差异(如动态辅助线倒车影像仅悦享版有);页面价格标签只呈现抢先置换价,指导价未上页面;权益时间2026-08-26至09-30 24:00 按要求未在页面呈现;页面只梳理驾驶辅助硬件与功能,涉水/落水测试等非智驾项已按要求移除;8775芯片供应商官方材料未标注;配置表「前雷达」含义待核(前驻车雷达或前向毫米波);IHC智能大灯控制、哨兵模式属边界项已保留;前雷达、倒车雷达(驻车雷达)按要求已从页面删除;气囊/安全带提醒/ABS/EBD/BAS/ESP/HAC/HDC/胎压等被动安全与底盘项未纳入" },
+  { date:"2026-08-30", type:"新闻资讯", brand:"广汽埃安 AION / 长安启源 CHANGAN", model:"埃安i60 · 长安启源Q07", supplier:"埃安i60 OTA(20项) · 长安启源Q07 OTA 1.7.0", chip:"", highlight:"【本期重点】广汽埃安i60与长安启源Q07同期开启OTA升级。埃安i60开启新一轮OTA共20项(8大核心升级+12项体验优化),8月30日起分批推送,按官方安全/座舱/屏显三大维度呈现,含座舱、充电等非驾驶辅助项;长安启源Q07 OTA 1.7.0新增3项辅助驾驶与用车便捷功能。【埃安i60·8大核心升级】① 安全:RAEB倒车紧急制动辅助(R挡起识别后方行人/含儿童、汽车、自行车,530/650进阶版);② 座舱:原生Apple CarPlay互联、自定义充电上限(80-90%护电池)、手机APP自定义「场景大师」、手机APP充电记录查询;③ 屏显:纯电/燃油里程分显(增程双里程独立显示)、能量回收操作路径优化(升级)。另含12项体验优化(空调/车机/泊车/蓝牙,官方未逐项公开明细)。【长安启源Q07·OTA 1.7.0】① 陡坡前视辅助(坡度≥16%约9°自动显示车头前视影像);② 超越大车闪灯提醒(NCA-SE城区智驾激活时);③ 闭锁自动关遮阳帘。", status:"埃安i60 8月30日起分批推送 · 长安启源Q07 OTA 1.7.0", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/aion-i60-changan-q07-ota-20260826.html", note:"OTA资讯 · 埃安i60与长安启源Q07同页推送;埃安i60为官方全部升级内容(含座舱/充电等非驾驶辅助项,非仅智驾);埃安12项体验优化官方未公开逐项明细;长安启源Q07 OTA 1.7.0官方未公布具体推送日期(date暂按埃安推送日);功能以车企官方推送为准。" },
+  { date:"2026-08-21", type:"新车要闻", brand:"上汽名爵 MG", model:"MG 07", supplier:"Momenta R7 强化学习世界模型", chip:"新芯航途 Xheart X7(大模型专用)", highlight:"【本期重点】中型轿车,纯电/插混双动力,8月21日成都车展上市,共7款车型,限时补贴价10.59-15.69万;10万级首搭Momenta R7强化学习世界模型+激光雷达+城市NOA,配新芯航途Xheart X7大模型专用芯片,软硬一体结合3D激光雷达,104项智能驾驶辅助功能全覆盖;另有9大泊车模式、全新一代VMC2.0底盘动态系统、AI哨兵模式、25项全域主动安全(基于120亿公里复杂场景实车数据)。配置以混动245激光雷达版为准。【功能详情】(依激光雷达版官方配置表)① 行车辅助:Momenta智能辅助驾驶系统(限时免费)、城区导航辅助City NOA、高速导航辅助Highway NOA、打灯变道辅助CALC、窄路通行、车道巡航辅助ICA、自适应巡航ACC、高精度地图HD Map;② 泊车与影像:智能泊车APA、遥控泊车RPA、记忆泊车HPA、循迹倒车RA、泊车辅助提醒PDC、360°全景影像AVM、透明底盘、前后泊车雷达、倒车影像、车侧盲区监测;③ 主动安全:AEB、前/后向低速紧急制动LAEB/RAEB、车道内/跨车道自动紧急转向AES、车道内/跨车道紧急转向辅助ESA、本车道/跨车道安全停车RMF、FCW/FCTA/FCTB/RCW/RCTA/RCTB、起步误加速抑制ACPM、BSD/LCA/DOW、LDW/LDP/ELK、IHC智能远光灯、TSR交通标志识别、限速信息显示与报警、DMS疲劳检测、疲劳驾驶提示、哨兵模式。硬件(激光雷达版):1激光雷达+1个4D毫米波雷达+12超声波+11车外摄像头+2车内摄像头,新芯航途Xheart X7大模型专用芯片。", status:"8月21日上市 · 补贴价¥10.59-15.69万 · 7款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/mg-07-20260825.html", note:"2026成都车展上市;单车单页推送;配置以「混动245激光雷达版」为准,舒享版智驾配置较低;Momenta R7世界模型功能随整车OTA升级交付,以官方配置表及实车交付状态为准。" },
+  { date:"2026-08-21", type:"新车要闻", brand:"上汽大众 SAIC VOLKSWAGEN", model:"ID.ERA 5S", supplier:"行云智行 · 地平线 HSD 深度定制(大众专属一段式端到端大模型)", chip:"地平线征程®6M", highlight:"【本期重点】中型插电混动轿车,8月21日成都车展上市,共5款车型,指导价11.99-14.99万、权益后8.99-11.99万;搭载地平线HSD深度定制的「行云智行」系统(大众专属一段式端到端大模型)、地平线征程6M芯片,城区/高速双NOA全场景领航,一段式端到端绕行灵活、变道果断、控车平顺,支持最高140km/h的AEB;智行守护礼享300万高阶辅助驾驶系统无忧保障(自购车发票日起12个月)。【功能详情】(依顶配Pro领航版/Max官方配置表分类)① 智能行车辅助:城区领航辅助(含内置ETC,车位到车位/交通信号灯处理/路口通行/掉头/路口通行风险处理/环岛通行/智能避障/大车避让/效率车道优先/拨杆变道)、高速领航辅助(ETC自主通行/自主上下匝道/汇入汇出)、LCC车道居中巡航、ACC自适应巡航、LKA车道保持、TSR交通标识识别、紧急辅助;② 智能泊车辅助:AVP记忆泊车(跨楼层记忆建图/地图管理/记忆巡航泊车)、APA自动泊车(车位扫描/自定义车位/自动泊入泊出/泊入位置选择)、RPA遥控泊车、540°全景环视(轮毂视角/透明底盘)、RA循迹倒车、NSA狭窄空间辅助、前后泊车雷达;③ 主动安全:AEB/AES/ESA、CDW/FCW/RCW、RCTA/RCTB、FCTA/FCTB、DOW、BSD;④ 智能补盲:侧后盲区影像辅助、开门预警侧后盲区影像辅助。硬件:11高精摄像头+1前向高精毫米波雷达+12超声波雷达,地平线征程®6M芯片。", status:"8月21日上市 · 指导价 ¥11.99-14.99万 · 权益后 ¥8.99-11.99万 · 5款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/vw-id-era-5s-20260825.html", note:"单车单页推送;功能以顶配Pro领航版/Max为准,各版本存在差异;端到端大模型名「酷睿程 Hyper Sense 8」读自配置表待核;定速巡航(低配Pure)、全场景自适应感知调节(驾驶模式/NVH)、2000km续航等非智驾项未纳入" },
+  { date:"2026-08-21", type:"新车要闻", brand:"长安深蓝 DEEPAL", model:"深蓝G318", supplier:"华为乾崑智驾 ADS 5 Pro(乾崑版)/ 天枢领航(天枢版)", chip:"", highlight:"【本期重点】方盒子SUV,8月21日上市,共3款车型;乾崑版(21.98/23.98万)搭华为乾崑智驾ADS 5 Pro,天枢版(19.98万)搭天枢领航;激光雷达布置于座舱内前风挡后方而非车顶或前保险杠。【功能详情】① WEWA 2.0架构 + CAS 5.0全维防碰撞:云端世界引擎+车端世界行为模型覆盖长尾场景连续决策,主动安全覆盖前向/侧向/后向并向低速与异形障碍物延伸;② 领航:城区领航辅助NCA(无图,路口与拥堵场景)、高速领航辅助NCA(平均接管里程>1500公里);③ 泊车:车位到车位3.0、垂直/平行/斜列全覆盖、极窄车位/窄通道/靠墙车位/断头路/嵌草砖等无标线场景、园区领航辅助NCA(可跨楼层)、离车泊入EPA、遥控泊车RPA、循迹倒车(≤30km/h自动记录120米轨迹);④ 安全:侧向防碰撞·主动避障修正、防误踩加速踏板UAP(语音警示/动力约束/紧急制动)、障碍物避让。硬件(乾崑版共27颗):1舱内激光雷达+3个4D毫米波雷达+11高清摄像头+12超声波雷达;天枢版为5毫米波+5摄像头+12超声波、不含激光雷达。", status:"8月21日上市 · ¥19.98-23.98万 · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/deepal-hongqi-20260824.html", note:"与新款红旗HS5同页推送;功能中4项(GAEB、路面自适应紧急制动、ESA、驾驶员失能辅助)为后续OTA开放、不随车交付;芯片/算力官方未公布" },
+  { date:"2026-08-21", type:"新车要闻", brand:"一汽红旗 HONGQI", model:"新款红旗HS5", supplier:"红旗司南智驾系统", chip:"", highlight:"【本期重点】中型SUV,8月21日上市,共5款车型,指导价17.68-23.98万、权益后13.48-20.08万;搭红旗司南智驾,官方按泊车无忧/行车自在/安全主动性三块宣传,顶配给到高速领航辅助与记忆泊车,城市记忆领航辅助全系未配备。【功能详情】(依顶配车型官方配置表顺序平铺)① 感知与影像:前驻车雷达、后驻车雷达、360°全景影像+透明构造、道路交通标识识别TSR;② 巡航系统·高速领航辅助、匝道自动驶出(入)辅助、拨杆换道;③ 泊车:自动泊车入位辅助APA、离车停车、手机遥控停车RPA、记忆泊车辅助、循迹倒车辅助;④ 预警:前碰撞预警FCW、盲区监测BSD、开门预警DOW、后碰撞预警RCW、倒车横向预警RCTA、重点注意预警系统。硬件:官方配置表未公布传感器数量,页面未列传感器卡。", status:"8月21日上市 · 指导价 ¥17.68-23.98万 · 权益后 ¥13.48-20.08万 · 5款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/deepal-hongqi-20260824.html", note:"与深蓝G318同页推送;页面价格标签只呈现权益价;部分项按版本适配;配置表另有一项名称待核(读作「主动对话系统」,疑为主动刹车),未列入" },
+  { date:"2026-08-21", type:"新车要闻", brand:"大众安徽与众 ID. UNYX", model:"与众08 猎影版", supplier:"行云智行 VLA 2.0(一段式端到端,合资阵营首搭VLA模型)", chip:"图灵 AI 芯片 ×2 · 标配 1500TOPS", highlight:"【本期重点】中大型纯电SUV,8月21日开启预售,预售价23万;搭行云智行VLA 2.0一段式端到端,双图灵AI芯片标配1500TOPS,支持车位到车位与130km/h人机共驾。【功能详情】① VLA智能辅助行车:车位到车位、人机共驾(130km/h内可随时介入方向盘、全程ADAS不退出)、ETC自动通行、ALC智能辅助变道、直行红绿灯起停、跨线障碍绕行;② 超级智能辅助泊车:自定义泊车(指尖划过生成车位)、效率泊车、遥控泊车、离车泊入、语音泊入、直线召唤、智能出库、循迹倒车(100米);③ 主动安全:自动紧急制动、倒车碰撞预防、多重碰撞自动制动、车道偏离辅助(预警+纠正)、起步避障辅助、前/后向碰撞预警、后方横向来车预警、盲区安全辅助、车门开启预警、疲劳分神提醒、交通标志识别与智能限速辅助;④ 智能影像:360°全景影像(窄路自动激活)、透明底盘、3D透明车体、转向自动激活侧后影像、哨兵模式、行车录像、全场景车感SR;⑤ 智能寻车/智慧语音/智慧导航。硬件:2正前800万+1正后800万+2侧前300万+2侧后300万+4环视300万摄像头、1前向MRR+2后侧SRR毫米波雷达、12超声波雷达,另配1车内驾驶员监测摄像头。", status:"8月21日开启预售 · 预售 ¥23万", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/unyx-08-lieying-20260824.html", note:"单车单页推送;三个预售版本上述智驾项均为标配;页面另附官方座舱AI大语言模型与底盘智能预瞄内容(非智驾部分,前双目摄像头每秒1000次扫描前方120米、悬架每秒200次调节)" },
+  { date:"2026-08-21", type:"新车要闻", brand:"比亚迪王朝 BYD", model:"大汉EV", supplier:"天神之眼B - 辅助驾驶激光版(天神之眼 5.0,全系标配)", chip:"英伟达 Orin-X ×2", highlight:"【本期重点】王朝9系旗舰大型轿车,8月21日开启预售,预售24.99-29.99万、共3款车型;全系标配天神之眼B-辅助驾驶激光版,双英伟达Orin-X,城市领航提供1年安全兜底承诺。【功能详情】① 城区NOA与高速NOA;② 自主泊入;③ 城市领航1年安全兜底。硬件:1激光雷达+5毫米波雷达+12摄像头(超声波雷达等其余硬件数量暂未披露)。", status:"8月21日开启预售 · 预售 ¥24.99-29.99万 · 3款车型 · CLTC 1008km", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/jetour-dahan-20260824.html", note:"与全新捷途山海L7 PLUS同页推送;官方暂未公布逐项功能配置表,能力以文字描述呈现,页面未做功能网格" },
+  { date:"2026-08-19", type:"新车要闻", brand:"奇瑞捷途 JETOUR", model:"全新捷途山海L7 PLUS", supplier:"猎鹰700 驾驶辅助(端到端世界模型,激光雷达版车型搭载)", chip:"高通 8650 · 200TOPS", highlight:"【本期重点】中型插混SUV,8月19日在捷途粉丝文化节上市,共6款车型,11.99-16.99万、超级置换价10.99-15.99万;激光雷达版搭猎鹰700,高速NOA随车交付,城市NOA等能力2026年Q4 OTA解锁,购车赠驾险礼驾驶辅助安心兜底权益。【功能详情】① H-NOA高速及快速路领航驾驶辅助:含LCC所有场景与功能、LCC/高速NOA自动升降级、自动上下匝道、最优车道选择、智能速度调节;② C-NOA城市领航驾驶辅助(Q4 OTA):路口通行、左右转、掉头、ETC通行、待转区提醒;③ 制动类:AEB自动刹车、FCTB前向交叉碰撞制动、RCTB后向交叉碰撞制动、MEB低速紧急制动、AMAP加速踏板防误踩;④ 行车:LCC车道巡航、ACC自适应巡航、ICA智能跟车、TJA交通拥堵驾驶辅助、LKA车道保持、LDW车道偏离预警;⑤ 预警:FCW、FCTA、RCW、RCTA、BSD、LCA并线辅助、DOW开门预警、TSR限速标识识别、TLR信号灯提醒、IHC自适应远近光;⑥ 泊车:APA自动泊车、RPA遥控泊入/泊出(Q4 OTA)、HPA跨层记忆泊车(Q4 OTA)、循迹倒车(Q4 OTA);⑦ 其他:道路环境信息显示、疲劳驾驶安全提示、前车驶离提醒、方向盘脱手提醒、哨兵模式、高清行车记录。硬件:27颗 = 1车顶高清激光雷达+3毫米波雷达+11高清摄像头+12超声波雷达。", status:"8月19日上市 · ¥11.99-16.99万 · 超级置换价 ¥10.99-15.99万 · 6款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/jetour-dahan-20260824.html", note:"与大汉EV同页推送(车展前品牌活动上市);功能依220km电七座激光雷达旗舰版官方配置表逐项列出;标Q4 OTA的项需2026年第四季度OTA后解锁" },
+  { date:"2026-08-18", type:"新车要闻", brand:"东风奕境(东风×华为乾崑)", model:"奕境X9", supplier:"华为乾崑智驾 ADS 5 Max(全栈解决方案)", chip:"", highlight:"【本期重点】东风汽车与华为乾崑联合打造的全新品牌首款旗舰级SUV,8月18日开启预售,共3款车型;配备华为乾崑六大智能化解决方案,标配896线双光路图像级激光雷达,行业领先四激光感知方案(1颗896线双光路+3颗高精度固态激光雷达),搭载华为乾崑智驾ADS 5 Max全栈解决方案,支持全场景领航与漫游模式,全系搭载CAS 5.0全维防碰撞系统。【功能详情】① 全向立体融合感知系统:896线双光路图像级激光雷达(可识别14cm低矮障碍物)+分布式4D毫米波雷达+高精度固态激光雷达矩阵,感知赋能底盘(预瞄魔毯/主动预知式防滑);② WEWA架构2.0:车位到车位3.0全链路(城市/高速/窄路全场景)、全场景NCA(非结构化空地/乡村土路/园区/城市十字路口/环岛/地库/T型路口)、漫游巡航辅助RCA(无图无导航零干预通行);③ 全维防碰撞CAS 5.0:全时速/全天候/全目标/全方向/全场景/全时域六维主动安全、主动避障、预防开门杀。硬件(旗舰配置,官方分布图):前向13+侧向8+后向11=32个高性能传感器全向覆盖,含4激光雷达(896线双光路×1+高精度固态×3)、3个4D毫米波雷达、12超声波雷达、13摄像头。", status:"8月18日开启预售 · ¥29.98-37.98万 · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/yijing-zhiji-20260819.html", note:"与智己L6同页推送;奕境X9暂未公布详细功能配置表,能力依官方与媒体口径文字描述,未列功能配置项;芯片/算力官方未公布" },
+  { date:"2026-08-18", type:"新车要闻", brand:"上汽 · 智己汽车 IM", model:"智己L6(新款)", supplier:"IM AD 3.0 · 智己×Momenta 世界模型(一段式端到端)", chip:"英伟达 Orin X(IPD 超算中枢)", highlight:"【本期重点】中大型轿车新款,8月18日开启预售,共3款车型,权益价¥21.99-26.99万(预售价22.99-27.99万);搭载IM AD 3.0——采用Momenta世界模型方案,全球首款一段式端到端智驾大模型上车「全国都能开、全国都好开」,无图城市NOA全国都市可用;智行礼:IM AD高级辅助驾驶全功能包(价值¥36,800)首任非营运车主终身免费使用权。【功能详情】① 全功能包:城市领航辅助Urban NOA、高速高架领航辅助Highway NOA、AVP代客泊车(静默建图/地图内车位自由选择/漫游找车位/沿途泊入/障碍物·会车绕行/跨层泊车)、IM CE信任增强;② 一键AI代驾:一键泊车/脱困/贴边/循迹/穿行;③ 标准配置包:超感AEB高速域全场景自动紧急制动、AES横向紧急避让、ELK紧急车道保持、ACC全速自适应巡航、LCC循线行驶、DLC指令式换道、ILC自动避让、LDW/LDP、FCW、BSD、LCA、DOW、FCTA、RCTA&RCTB、SLIF限速报警、PDC泊车雷达、APA视觉融合泊车、RPA遥控泊车、通勤模式(路口信号灯识别/红灯刹停/绿灯直行通行)。硬件:基于英伟达Orin X智能辅助驾驶超算中枢(IPD),1超远距高精度激光雷达+2高精度定位单元+3毫米波雷达+11高清感知摄像头+12超声波雷达。", status:"8月18日开启预售 · 权益价¥21.99-26.99万 · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/yijing-zhiji-20260819.html", note:"与奕境X9同页推送;新款L6,功能依官方配置表逐项整理;智行礼全功能包限首任非营运车主终身免费;IM AD 3.0采用Momenta世界模型方案,主动安全新增超感AEB/AES横向紧急避让" },
+  { date:"2026-08-14", type:"新车要闻", brand:"FREELANDER 神行者(奇瑞×捷豹路虎)", model:"神行者8", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】奇瑞×捷豹路虎联合打造的增程式豪华SUV，8月14日开启预售，共4款车型；全球首个全系标配华为乾崑智驾ADS 5的全球豪华新能源科技品牌，一个乾崑提供增强版(舱内激光视觉Limera方案)与超阶版(896线双光路+dToF后固态双激光雷达)两套方案，高速/城区智驾功能全覆盖。超阶版首搭华为896线双光路图像级激光雷达(120米识别14cm、分辨率提升4倍)+全球唯一dToF后固态激光雷达(最小识别精度3cm)，全车30个高性能传感器。【功能详情】① 领航与巡航：City NCA城区领航、Highway NCA高速领航、P2P车位到车位、城区漫游巡航、ACC、Highway/City LCC、City LCC+；② 泊车：园区领航Campus NCA、APA/RPA/RDA遥控直行/EPA离车泊入/RA循迹倒车/VPD泊车代驾、守位泊车、手势泊出、3D环境模拟、AVM 360°环视、透明底盘；③ 主动安全：AEB/LAEB/RAEB/GAEB异形障碍物制动、eAES增强紧急转向、ESA、ELKA、LOCP侧向防碰撞、FCW/RCW、FCTA&FCTB、RCTA&RCTB、前后向异形障碍物AEB、路面自适应AEB、BSD/DOW/LDW/LKA、TSR/TLR/TLA/TSA、防误踩加速踏板、人驾防御性驾驶、防被追尾/防侧向挤压辅助；④ 其他：哨兵模式、行程轨迹分享、高光时刻分享、车位级充电导航。硬件(超阶版)：2激光雷达(896线双光路×1+dToF后固态×1)+5个4D毫米波(含1分布式)+11高感知摄像头+12超声波=30个高性能传感器，另配6个车外麦克风。增强版为1激光雷达+3毫米波+12超声波+11摄像头。", status:"8月14日开启预售 · ¥33.99-42.99万(首发限定版¥45.99万/权益价¥44.99万) · 4款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/freelander-shenxingzhe8-20260817.html", note:"全系标配华为乾崑ADS 5，分增强版/超阶版；版本对应PRO/MAX标配增强版、首发限定版/MAX+标配超阶版、MAX可选装超阶版；智驾功能与传感器均依官方首发限定版(超阶版)配置及功能项整理，共30个高性能传感器。座舱芯片等非智驾件未纳入" },
+  { date:"2026-08-13", type:"新车要闻", brand:"上汽荣威 ROEWE", model:"荣威家越07", supplier:"Momenta R7 世界模型", chip:"新芯航途 XHEART X7 · 车规级 Armv9 CPU", highlight:"【本期重点】15万级大五座中大型SUV，综合续航1480km，8月13日开启盲订，主戰15-20万元市场；15万级唯一搭载Momenta R7世界模型的SUV，配新芯航途XHEART X7大模型专用芯片(中国首发车规级Armv9 CPU、约10倍模型参数)、激光雷达，软硬一体懂路况能预判。【功能详情】① 行车：辅助驾驶路段城市+高速、全速自适应巡航ACC、车道居中保持、车道保持辅助、并线辅助、辅助变道、辅助匝道自动驶出入、道路交通标识识别TSR、前车起步提醒；② 泊车：辅助泊车入位APA、遥控泊车RPA、记忆泊车、单侧20cm极窄垂直泊车、300+车位适配(断头路/离车泊入/一键贴边/循迹规划/脱困)；③ 主动安全：倒车车侧预警系统；④ 辅助影像：360°全景影像、透明底盘/540°影像、前/后驻车雷达。硬件：1激光雷达+1毫米波+11摄像头(含车内3、前方双目)+12超声波，Momenta方案、L2级。", status:"8月13日开启盲订 · 15万级 · 大五座中大型SUV", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/roewe-jiayue-07-20260814.html", note:"盲订阶段配置及传感器数量以官方最终发布为准；毫米波数量采官方配置表(1顆)，自媒体口径(5顆)未采用" },
+  { date:"2026-08-11", type:"新车要闻", brand:"比亚迪 BYD", model:"海豹06(2027款)", supplier:"天神之眼5.0(天神之眼B-辅助驾驶激光版)", chip:"英伟达 Orin-N · 84 TOPS", highlight:"【本期重点】中型车，DM-i/EV双线布局，8月11日上市，共12款车型，DM-i ¥9.99-14.19万 / EV ¥10.99-15.59万；高配采用激光雷达方案+天神之眼5.0，城市领航CNOA与高快领航HNOA双覆盖；辅助驾驶无忧礼：自提车1年内城市领航安全兜底+智能泊车场景安全及损失全面兜底(因泊车系统异常或算法失误、依法应由本车承担的维修/第三方财产/人身伤害损失由比亚迪承担)。【功能详情】① 城市领航CNOA：路口通行、红绿灯识别及实时读秒、博弈变道、全场景避障绕行、无车道线道路通行、窄路多把掉头、环岛行驶；② 高快领航HNOA：上下匝道、自动变道超车、大曲率过弯、智慧礼让大车；③ 行车：全速域ACC、ICC车道巡航/居中保持/辅助变道/匝道自动驶出入/并线辅助；④ 泊车：APA(车头泊入/车尾泊出/偏置泊车)、AVP下车泊入、RPA遥控泊车；⑤ 主动安全：AEB、BSD、DMS疲劳监测、TSR、RCTA倒车车侧预警、方向盘离手检测、360°全景影像+透明底盘、高德地图+卫星导航。硬件(EV 630KM旗舰型/激光版参考)：1激光雷达+11摄像头(前方双目)+3毫米波+12超声波+1车内摄像头，DiPilot 300、L2。", status:"8月11日上市 · DM-i ¥9.99-14.19万 / EV ¥10.99-15.59万 · 12款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/byd-leapmotor-20260812.html", note:"与零跑A05同页推送；硬件以EV 630KM旗舰型激光版为参考，部分功能按配置版本适配，以官方配置表为准" },
+  { date:"2026-08-11", type:"新车要闻", brand:"零跑汽车 LEAPMOTOR", model:"零跑A05", supplier:"Leapmotor Pilot 组合驾驶辅助", chip:"高通8650超级计算平台", highlight:"【本期重点】8.59万起车型即上激光雷达，8月11日上市，共5款车型，售价¥6.39-9.09万；搭载等效128线激光雷达，支持车位到车位全场景辅助驾驶(城市NAP/高速领航/记忆泊车)，把激光雷达城市领航拉进10万级以下市场。【功能详情】① 领航：车位到车位P2P(起步出库/自动过闸/城市高速领航/终点自动泊入)、城市NAP、高速NAP；② 行车：全速ACC、LCC车道居中(拨杆变道ALC/限速ISA/交通标志识别TSR/前车起步提醒/手握方向盘监测)；③ 泊车：HPA停车场记忆泊车、APA(自定义泊车/直进直出/循迹倒车)、RPA手机泊车辅助；④ 主动安全：AES紧急转向(80-130km/h)/AEB/LAEB/RAEB、MAI误加速抑制、FDM/FCW/RCW、FCTA&FCTB、RCTA&RCTB、LDW/LKA/ELK、BSD/DOW、哨兵模式；⑤ 辅助影像：360°全景/透明底盘/倒车影像/窄道/上坡/盲区起步辅助影像。硬件(510激光雷达版/510S参考)：等效128线激光雷达+2×800万前视+4×300万环视+4×300万盲区+1×300万后高位摄像头+3毫米波(前1侧2)+12超声波。", status:"8月11日上市 · ¥6.39-9.09万 · 5款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/byd-leapmotor-20260812.html", note:"与海豹06同页推送；硬件以510激光雷达版/510S为参考，以官方配置表为准" },
+  { date:"2026-08-11", type:"新闻资讯", brand:"别克(上汽通用)", model:"至境世家 · 至境E7 · 至境L7", supplier:"别克至境OS 2.1 OTA(辅助驾驶)", chip:"", highlight:"【本期重点】别克至境OS 2.1正式推送，覆盖至境全系；辅助驾驶最受关注为新增智绘泊车与AES自动紧急转向。推送节奏：至境世家现已开启，至境E7/L7预计8月内开启。各车型新增项数不同：世家15项功能+14项场景优化、L7 8项+9项优化、E7 5项+10项优化。【辅助驾驶智驾项·新增在前】① 智绘泊车(全系)：无划线空地/老旧停车场/露营地等非标场景，车机自由拖拽车位框一键泊入；② AES自动紧急转向(全系)：突发风险精准判断主动避让；③ 窄路灵动掉头(至境世家)。【优化】④ 行车辅助自恢复(全系)：高速领航临时避让/绕行手动接管后自动恢复NOP领航；⑤ AEB识别增强(全系)：新增纸箱/三角牌/锥桶/水马等异形障碍物识别。(座舱交互类升级未纳入)", status:"至境世家已推送 · E7/L7 预计8月内 · OS 2.1", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/buick-zhijing-ota-20260812.html", note:"OTA资讯 · 仅保留驾驶辅助功能，座舱升级未纳入；各车型新增项数及推送时间以车企官方为准" },
+  { date:"2026-08-14", type:"新车要闻", brand:"魏牌 WEY", model:"魏牌V8X", supplier:"Coffee Pilot 4 辅助驾驶系统", chip:"Thor-U · 700 TOPS", highlight:"【本期重点】中大型SUV，纯电/插混双动力，8月14日上市；搭载Coffee Pilot 4辅助驾驶系统+Thor-U 700TOPS芯片+VLA大模型，支持车位到车位全场景NOA领航；三重主动防护AEB支持120km/h、AES支持80-130km/h、RAEB支持45km/h。小魏同学行车智能体：听得懂/会思考/不挑路/更安全，思维链卡片实时展示决策，支持园区漫游+静默建图。【功能详情】① 行车：城市/高速NOA、车位到车位P2P、ACC、ICC智慧巡航、拨杆/导航/超车变道、红绿灯路口控车、通用障碍物绕行；② 泊车：APA(200种车位)、RPA遥控泊车/直线召唤、记忆泊车(地面+地下)、泊车漫游辅助(找车位/楼层/出口/充电位)；③ 主动安全：AEB(120)/AES(80-130)/RAEB(45)/MEB、FCW/RCW/ESS、LDW/LKA/ELK、FCTA&FCTB、RCTA&RCTB、BSD/LCA/DOW、TSR。硬件：1激光雷达+2×800万像素+9×300万像素摄像头+1×4D前毫米波+2角毫米波+12超声波+辅助驾驶小蓝灯。", status:"8月14日上市 · 中大型SUV · 纯电/插混", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-3cars-20260811.html", note:"已开启预订：试驾购车享10万积分、2000元订金抵5000元尾款；硬件依官方Coffee Pilot 4配置表(豪华家庭版Ultra/Ultra+)" },
+  { date:"2026-08-10", type:"新车要闻", brand:"阿维塔", model:"阿维塔07L", supplier:"华为乾崑智驾 ADS5", chip:"", highlight:"【本期重点】中大型大五座SUV，8月8日正式上市，共3款配置；配置华为乾崑全球量产最高896线激光雷达+华为乾崑智驾ADS5+鸿蒙座舱，搭载华为乾崑全维防碰撞系统CAS 5.0，向全时速/全方向/全目标/全天候/全场景/全时域六维安全迈进。基于WEWA 2.0架构，可见即可泊。【功能详情】① 领航与泊车：Highway NCA、City NCA、Highway/City LCC、City LCC PLUS、ACC、园区领航Compus NCA、APA/RPA/EPA/RA、360°环视、透明底盘；随时随地可激活NCA、无导航漫游巡航辅助RCA；② 主动安全CAS 5.0：AEB/LAEB/RAEB/GAEB异形障碍物制动、FCW/RCW/FCTA/FCTB/RCTA/RCTB、LOCP侧向防碰撞、ESA紧急转向、ELKA、LKA+、LDW/BSD/DOW、TSR/TLR/TSA/TLA、路面自适应AEB、防误踩加速踏板、eAES增强自动紧急转向、驾驶员失能辅助；③ 智能地点记忆。硬件：896线激光雷达(双光路一体双焦、120米识别14cm小目标、分辨率提升4倍)+3个4D毫米波+11高清摄像头+12超声波，共27个高感知传感器。", status:"8月8日上市 · ¥22.99-27.99万(限时权益价¥21.99-26.99万) · 3款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/avatr-07l-20260808.html", note:"配备89.33kWh宁德时代5C神行超充电池；硬件主口径以官方896线+ADS5为准" },
+  { date:"2026-08-10", type:"新闻资讯", brand:"腾势 / 小米", model:"腾势N8L · 小米SU7/YU7", supplier:"腾势N8L V1.4.0 OTA · 小米1.17 OTA", chip:"", highlight:"【本期重点】腾势N8L(非闪充版)推送V1.4.0 OTA，最受关注为哨兵模式新增预约(自定义启停时段、精准防护省电)；小米SU7全系及YU7推送1.17版本，新增画框泊车/车头泊入/车尾泊出等泊车辅助并优化行车辅助与前向防碰撞。【腾势N8L智驾项】① 哨兵模式预约；② 停车助手订单主动提醒；③ 全景界面后视镜展开折叠快捷入口；④ 导航功能同步增强(通话时允许导航播报开关+顺路搜索绕行时间距离列表+充电站智能推荐闪充站)；⑤ 高速行驶方向盘操作顺滑性提升；⑥ P挡车前位置灯呼吸闪烁。【小米1.17智驾项·各车型有差异】泊车(画框泊车/车头泊入/车尾泊出)=现款SU7·YU7·老款SU7 Pro/Max/Ultra；行车辅助(加减速/路口选道/大曲率弯道车速/车道选择逻辑)与前向防碰撞(4D毫米波)=现款SU7·YU7专属；前方倒车碰撞提醒=现款SU7·YU7·老款SU7 Pro/Max/Ultra；方向盘未回正提醒/雨天后雾灯=老款SU7全系；稳定控制增强=老款SU7标准版/Pro/Max；侧翼支撑联动=老款SU7 Max。(座舱娱乐类升级未纳入)", status:"腾势8月推送V1.4.0 · 小米8月8日推送1.17", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dengsi-xiaomi-ota-20260808.html", note:"OTA资讯 · 仅保留驾驶辅助与用车安全项；小米各车型更新内容有差异，已按车型标注适配范围；以车企官方推送为准" },
+  { date:"2026-08-06", type:"新闻资讯", brand:"腾势", model:"腾势N9", supplier:"天神之眼-B（V1.8.0 OTA）", chip:"", highlight:"【本期重点】腾势N9（不含闪充版）推送V1.8.0版本OTA，上市以来第8次OTA；对领航辅助系统底层逻辑调优，进一步提升行驶过程整体性能与稳定性。【智驾升级详情】① 新增驾驶辅助报告：完整记录领航辅助行驶各项数据，车机与手机端数据互通，行程状态随时可查；② HUD导航箭头自定义（瑞风/灵蝶等风格可切换）；③ 全景影像界面新增后视镜展开/折叠快捷入口，窄路无需跳出全景即可控制后视镜；④ 哨兵模式预约（自定义启停时间段）；⑤ 停车助手订单主动提醒（进场自动识别、离场一键结算）；⑥ 泊车辅助设置迁移至系统设置菜单、车位偏好记忆优化；⑦ 侧开门雷达强制休眠；⑧ HUD P挡车模显示逻辑优化。", status:"8月6日推送 · 软件版本V1.8.0", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dengsi-n9-ota-v180-20260807.html", note:"OTA资讯 · 面向腾势N9普通版（闪充版暂不参与）；功能以车企官方口径为准" },
+  { date:"2026-08-06", type:"新车要闻", brand:"深蓝汽车", model:"深蓝S05", supplier:"天枢领航（激光版：激光雷达+一段式端到端算法）", chip:"", highlight:"【本期重点】三车齐发之一。天枢领航激光版：激光雷达+一段式端到端算法，全场景智能驾驶辅助/智能泊车/主动安全/漫游辅助；8月5日同步推送 DEEPAL OS 3.2 OTA。【功能详情】① 行车领航：城市NCA、高速NCA、高速/城市漫游辅助CPA、ACC、LCC、UDLC触发换道；② 主动安全：AEB/LAEB/RAEB/FCTB/RCTB兜底 + FCW/REW/RCW/FCTA/RCTA/LDW/LKA/ELK/BSD/LCA/DOW/TSR/TLR/TSA/DMS/HMA、哨兵模式；③ 泊车：AVM/APA/RPA(泊入泊出直进直出)/透明底盘/坡道视野。【OS 3.2 OTA智驾升级】新增车头泊入、垂直车位泊出、车内自定义车位泊车、泊车唤醒词、泊车状态反馈、泊车拉门暂停、低速紧急制动LAEB；优化遥控泊车、辅助驾驶语音提示、智驾安全逻辑(按道路类型自动设巡航上限)。硬件(激光版)：1激光雷达+3毫米波+12超声波+11高感知摄像头(前2×800W/侧4/环4/后1)。视觉版无激光雷达(5毫米波+前1×800W/环4)。", status:"预售中 · ¥11.99万起 · 5款车型", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-3cars-20260805-light.html", note:"与享界G9、尊界V680/V800同页推送；含OS 3.2 OTA智驾升级" },
+  { date:"2026-08-06", type:"新车要闻", brand:"享界", model:"享界G9", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】三车齐发之一。鸿蒙智行首发全地形系统，首款L3级架构设计豪华硬派SUV，首款获批北京市时速120km/h L3级自动驾驶道路测试牌照；全系标配华为乾崑智驾®ADS 5。【功能详情】① 全地形系统：全路况融合感知、主动识别地形、自动调整底盘参数，有路即可从容穿行；② 城市NOA、高速领航、全地形自动辅助（乾崑大模型端到端算法）；③ 复杂山路/泥泞小路/窄乡道自动避让、自主控速。硬件：车顶896线新一代双光路图像级激光雷达（前向具自清洗）+全车38个感知传感器，入门即满配无高低配阉割。采用800V平台，纯电/增程两种动力，另有专属顶帐版。", status:"8月5日预售 · ¥43.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-3cars-20260805-light.html", note:"与深蓝S05、尊界V680/V800同页推送；分项配置以官方正式发布为准" },
+  { date:"2026-08-06", type:"新车要闻", brand:"尊界", model:"尊界V680/V800", supplier:"华为乾崑智驾 ADS 5（高阶版）", chip:"", highlight:"【本期重点】三车齐发之一。旗舰MPV，全系标配华为6激光雷达立体矩阵+40颗传感器360°立体融合感知，华为乾崑智驾®ADS 5，全维防碰撞CAS 5.0，可实现车位到车位3.0。【功能详情】① 领航巡航：ACC、高速LCC、高速NCA、城区LCC；选配城区NCA、City LCC PLUS、车位到车位P2P 3.0、漫游巡航；② 主动安全CAS 5.0：AEB/LAEB/RAEB/FCTB/RCTB、GAEB异形障碍物制动、LOCP侧向防碰撞、ELKA、ESA、路面自适应AEB+、FCW/FCTA/RCW/RCTA/BSD/DOW/LDW/LKA/TSR/TLR/TSA、防误踩/防误打、爆胎稳定控制；选配eAES、驾驶员失能辅助；③ 泊车：APA/RPA(垂直平行斜列+遥控直行+离车泊入)/RA循迹倒车/AVM/透明底盘/哨兵，选配园区NCA。硬件40颗：6激光雷达(1×896线双光路+4固态+1舱内)+5×4D毫米波(含1分布式)+12超声波+7高感知摄像头(前2/后1/侧4)+4全景摄像头+6车外麦克风。", status:"8月5日上市 · V680 ¥64.8万 · V800 ¥76.6万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-3cars-20260805-light.html", note:"V680 1款、V800 3款；配置以尊享版为参考；华为巨鲸800V平台" },
+  { date:"2026-08-04", type:"新车要闻", brand:"腾势", model:"腾势Z9S", supplier:"天神之眼-B 激光版（天神之眼5.0）", chip:"", highlight:"【本期重点】全系标配天神之眼-B激光版，搭载天神之眼5.0——在全闭环端到端大模型基础上新增强化学习能力；城市领航+智能泊车「双兜底」（迪迪都兜，全球唯一）：因泊车辅助系统异常或算法失误导致、依法应由本车承担的维修/第三方财产/人身伤害损失，由比亚迪承担。【功能详情】① 城市领航辅助（城区点到点）；② 高快领航辅助（含辅助匝道自动驶出入、辅助变道）；③ 全场景泊车辅助（辅助泊车入位/遥控泊车/记忆泊车）；④ 全速自适应巡航ACC、车道居中保持、车道保持辅助、并线辅助（L2）；⑤ 主动安全：倒车车侧预警、道路交通标识识别、信号灯识别、方向盘离手检测；⑥ 高德地图、卫星导航、导航路况显示。传感器27颗：1激光雷达+11摄像头+3毫米波+12超声波。", status:"8月3日开启预售 · ¥31.98-38.98万", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/denza-z9s-20260804.html", note:"3款车型；系统官方口径为天神之眼5.0（配置表中DiPilot标注有误）" },
+  { date:"2026-08-03", type:"新车要闻", brand:"小米", model:"澎程 N70/N90", supplier:"小米 HAD · XLA 认知大模型", chip:"NVIDIA Thor · 700TOPS（4nm）", highlight:"【本期重点】全系标配 Xiaomi HAD，升级 XLA 认知大模型，基于自研 Xiaomi MiMo-Embodied 具身基座模型打造，覆盖泊车/城市/高速多场景，车位到车位连续衔接更顺畅，新增商场地库车位级领航。【功能详情】① 领航：高速领航、城市领航、车位到车位 P2P、代客泊车辅助；② 一句话语音控车（行车/泊车/变道/加减速），支持车内外语音泊车；③ 复杂场景风险预判、提前控速；④ 11项泊车辅助（泊入泊出/车外语音泊出/关门泊车/泊车偏移/遥控泊入泊出/直线移车/寻位泊车/路线自学习/增强地图）；⑤ AEB 前向1-135km/h、后向1-30km/h，AES 最多2次连续避让；后方三重障碍识别（负向/悬空/限高）；⑥ 26项安全辅助（前/后/侧向）。硬件：顶部激光雷达+后向固态激光雷达+1颗4D毫米波雷达+11高清摄像头+12超声波雷达+Thor 700TOPS。", status:"已开启预订 · ¥25.99/29.99万 · 2026年9月上市", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xiaomi-pengcheng-haiwei-v6-20260803.html", note:"N70/N90两款；与星海V6同页推送" },
+  { date:"2026-08-03", type:"新车要闻", brand:"东风风行", model:"星海 V6", supplier:"华为乾崑智驾", chip:"", highlight:"【本期重点】6座中型SUV全系搭载华为乾崑智驾，通过全场景高速NOA领航辅助+全维防碰撞系统，针对大六座车身偏大、操控难度高痛点适时介入引导，让大车也能变得「好开」。【功能详情】L2+级方案：① 全场景高速NOA领航辅助（自主保持车道/智能变道）；② 全维防碰撞系统（前/侧/后风险兜底）；③ 自适应巡航ACC；④ 车道居中保持LCC；⑤ 交通标志识别TSR；⑥ 自动泊车（老旧城区/极窄地库泊入泊出）。", status:"8月8日开启预售 · 6座中型SUV", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/xiaomi-pengcheng-haiwei-v6-20260803.html", note:"与小米澎程N70/N90同页推送；详细智驾配置以官方公布为准" },
+  { date:"2026-07-31", type:"新车要闻", brand:"红旗", model:"天工08（2026款）", supplier:"红旗司南 L2 级驾驶辅助", chip:"高通骁龙8650P · 200TOPS", highlight:"【本期重点】红旗司南纯视觉方案——惯导立体三目（800万像素仿生双目+长焦单目），3D点云密度达激光雷达的50倍；高悟性端到端4.1模型，感知规划一体直出，三层安全推理防线，无非预期加减速。全场景能停、全路况会开。【功能详情】① 行车领航：无图城市NOA、高速NOA、全速ACC、LCC车道居中、辅助变道/并线、匝道自动驶出入、道路预瞄底盘调节、AR实景导航；② 智能泊车：全场景智能泊车、跨楼层泊车、一键遥控泊车、狭窄车位泊车、记忆泊车、循迹倒车（原路自动倒回100m遇障制动）；③ 识别监测：信号灯识别、交通标识识别、方向盘离手检测、起步提醒。硬件：三目800万像素+10摄像头+1毫米波+12超声波+2车内摄像头，前方探测300米。", status:"8月1日上市 · 预售权益价¥17.98万（指导价19.98万）", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260731.html", note:"与ID. AURA T6、尊界V680/V800同期推送；纯视觉方案，无激光雷达" },
+  { date:"2026-07-31", type:"新车要闻", brand:"一汽-大众", model:"ID. AURA T6", supplier:"酷睿程「行云智行」（大众×地平线合资）", chip:"地平线征程6H · 420TOPS", highlight:"【本期重点】大众品牌全球量产车型首次搭载激光雷达——车顶192线激光雷达 + 酷睿程「行云智行」智驾系统，以地平线HSD全场景方案为技术底座，融合多传感器感知体系。【功能详情】① 高速NOA领航；② 城区领航辅助；③ 全自动记忆泊车；④ 192线激光雷达融合感知。硬件：车顶192线激光雷达+征程6H芯片（420TOPS）+翼子板摄像头（可选装）+多传感器融合。整车采用CEA电子电气架构。", status:"7月30日开启盲订 · 纯电中型SUV", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260731.html", note:"与红旗天工08同页推送；智驾数据源自工信部申报+官方盲订信息" },
+  { date:"2026-07-24", type:"新车要闻", brand:"岚图", model:"追光S", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】华为乾崑智驾 ADS 5 四激光雷达方案，33颗高性能传感器（1颗前向896线图像级激光雷达 + 3颗固态补盲激光雷达）；120km/h 时速下可识别120米外14cm低矮障碍物。【功能详情】① 全维防碰撞 CAS 5.0：行业首个前向感知支持地面凹坑识别，AEB 4-150km/h、后向1-30km/h、侧向10-130km/h 主动避让；② 车位到车位 P2P 3.0：不依赖高精地图，城区 NCA 99% 道路覆盖，驾驶员失能辅助2.0；③ 160+ 泊车场景覆盖：极窄车位一把入，含智能/遥控/离车泊入/代客泊车、园区领航。传感器：4激光雷达+3前向4D毫米波+2后毫米波+11高清摄像头+12驻车雷达+1车内摄像头。", status:"7月24日预售 · ¥30.99万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/voyah-zhuiguang-s-20260724.html", note:"顶配1款配置；全系标配华为乾崑 ADS 5 四激光雷达方案" },
+  { date:"2026-07-24", type:"新闻资讯", brand:"华为", model:"乾崑智驾 ADS 5", supplier:"华为乾崑", chip:"", highlight:"【本期重点】ADS Max V5.0 首版本即将推送，出行效率 +30%、乘车舒适度 +30%、安全可靠性 +50%。【功能详情】① 领航：NCA 覆盖环岛/乡间土路/无标线等非标路况，支持一键直达充电车位、添加园区内部途经点，新增城区/园区漫游巡航辅助 RCA（导航未开启也可红绿灯识别、路口通行、自主超车变道）；② 泊车：新增即插即充、极限车位泊车增强、守位泊车；③ 主动安全：新增自动防追尾辅助（0-70km/h 主动加速避让）；④ 更多：泊车轨迹规划更快、地图信息焕新、右转专用视角。", status:"首版本即将推送", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/huawei-qiankun-ads5-20260724.html", note:"行业资讯 · 软件版本 ADS Max V5.0；功能及升级时间以各车企官方为准" },
+  { date:"2026-07-23", type:"新车要闻", brand:"北京越野", model:"泰钽700", supplier:"华为乾崑智驾 ADS 5", chip:"", highlight:"【本期重点】硬派越野首搭华为乾崑智驾 ADS 5 + 896线双光路图像级前激光雷达，城区/高速/越野全路况智能覆盖，填补硬派越野主动安全盲区。【功能详情】① 全场景越野 NOA；② CAS 5.0 全维防碰撞（LOCP 侧向障碍物防碰撞、驾驶员失能辅助2.0）；③ 高速 NCA 领航、全速域 ACC；④ 哨兵模式 + 智能远近光 HMA；⑤ 全场景车载卫星通信。硬件：前896线+后DTOF激光雷达+5毫米波+12超声波+11摄像头。高阶选配：城区 NCA、车位到车位 P2P 3.0、AVP 代客泊车、泊车代驾2.0、园区领航、城区漫游巡航等。", status:"7月21日预售 · ¥29.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260723.html", note:"3款车型；与向往S7 PHEV同期推送" },
+  { date:"2026-07-23", type:"新车要闻", brand:"广汽传祺", model:"向往 S7 PHEV（2027款）", supplier:"", chip:"", highlight:"【本期重点】新一代192线激光雷达 + 智能泊车事故责任兜底，支持城市 NDA 领航，全系标配智能自动泊车。【功能详情】① 行车领航：NDA 高速领航（NDA-Highway）、NDA 城区领航（NDA-City）、ACC、LCC；② 主动安全：AEB/RAEB/FCTB/RCTB/ELKA 等兜底 + 智能小蓝灯，含 FCW/FCTA/RCW/RCTA/LDW/LDP/BSD/DOW/TSR；③ 智能泊车：融合泊车 FAPA、遥控泊车 RPA、记忆泊车 HPA。硬件：1颗新一代192线激光雷达+3毫米波+12超声波+7感知摄像头+4环视摄像头。", status:"7月22日上市 · ¥12.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/zhijia-4cars-20260723.html", note:"4款车型；广汽传祺2027款，与泰钽700同期推送" },
+  { date:"2026-07-23", type:"新车要闻", brand:"东风奕派", model:"奕派 M8", supplier:"华为乾崑智驾 ADS 5 Pro", chip:"", highlight:"【本期重点】乾崑智驾 ADS 5 Pro，27个智能感知硬件（1颗 Limera 舱内激光视觉+3颗4D毫米波+11颗高精摄像头+12颗超声波雷达）。【功能详情】① 全链路领航辅助 NCA：高速/城区/园区 NCA，全程几乎无断点；② 全维防碰撞 CAS 5.0：同级领先侧向障碍物防碰撞 LOCP、防误踩加速踏板 UAP；③ 泊车：VPD/AVP/APA/RPA/EPA/RA；④ ADS 辅助驾驶权益：泊车与行车场景意外事故，为自身及第三者人身/财产损失提供增值保障。", status:"7月23日上市 · ¥16.98万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/dongfeng-yipai-m8-20260723.html", note:"5款车型；全系搭载华为乾崑六件套，标配 ADS 5 Pro" },
+  { date:"2026-07-12", type:"新车要闻", brand:"一汽", model:"悦意 08", supplier:"华为乾崑", chip:"座舱骁龙8295P", highlight:"【本期重点】华为乾崑智驾 + 终身智能泊车事故维修保障（不限使用人、不限质保期、不设理赔上限，事故全额包赔）。【功能详情】配备激光雷达，覆盖高速领航、智能泊车、主动安全全场景：高速 NOA、记忆泊车 HPA、120米循迹倒车、ALC 高速智能变道；主动安全兜底 FCW/AEB/AEB-P/FCTB/RCTB/LAEB/RAEB；ACC/LCC、哨兵模式。硬件：1激光雷达+12超声波+3毫米波+11摄像头。", status:"7月12日上市 · ¥9.99万起", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/yueyi-08.html", note:"6款配置；座舱搭载骁龙8295P" },
+  { date:"2026-07", type:"新车要闻", brand:"奇瑞", model:"风云A9", supplier:"猎鹰智能驾驶辅助（奇瑞自研）", chip:"", highlight:"【本期重点】猎鹰智驾，655MAX激光雷达版搭载完整感知硬件矩阵；辅助驾驶兜底：首任车主一年内泊车/智能领航场景经判定为系统原因事故，最高赔付500万。【功能详情】① 城市 NOA / 高速 NOA / 300+ 泊车场景；② 24+ 项主动安全全系标配；③ 4重紧急制动/避让兜底 AEB/AES/FCTB/RCTB；④ 15颗雷达传感器（超声波+毫米波）。三配置 655PRO/655MAX/655MAX激光雷达版；激光雷达版含1激光雷达+11摄像头+12超声波+1前毫米波+2后毫米波+驾驶辅助小蓝灯。", status:"预售 ¥11.59-13.59万", link:"file:///C:/Users/e-ye.gong/Qianli-Projects/qianli-News/fengyun-a9.html", note:"3款配置；预售阶段公开数据" },
+];
+// ====== 数据区结束 ======
+
+const LAST_UPDATED = '2026-10-13';
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const cell = v => (v && String(v).trim()) ? v : '<span class="todo">待补充</span>';
+
+let pageSize = 10, page = 1;
+let sortKey = null, sortAsc = true;
+let filtered = [];
+const expanded = new Set();          // 记住已展开的卖点/备注
+const keyOf = (d,i) => (d.model||'')+'|'+(d.date||'')+'|'+i;
+
+/* ---------- 筛选下拉 ---------- */
+function initFilters(){
+  const uniq = k => [...new Set(DATA.map(d=>d[k]).filter(v=>v&&String(v).trim()))].sort((a,b)=>a.localeCompare(b,'zh'));
+  fill('fType', uniq('type')); fill('fBrand', uniq('brand')); fill('fSupplier', uniq('supplier'));
+}
+function fill(id, arr){
+  const sel = document.getElementById(id);
+  arr.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
+}
+
+/* ---------- 统计 ---------- */
+function renderStats(){
+  const cars  = DATA.filter(d=>d.type==='新车要闻').length;
+  const news  = DATA.filter(d=>d.type==='新闻资讯').length;
+  const brands= new Set(DATA.map(d=>d.brand).filter(Boolean)).size;
+  const months= new Set(DATA.filter(d=>d.date).map(d=>String(d.date).slice(0,7))).size;  // 按年-月去重
+  const s = [
+    [DATA.length,'总条数','var(--main)','▤'],
+    [cars,'新车要闻','#10B981','🚗'],
+    [news,'新闻资讯','var(--gold)','📡'],
+    [brands,'涉及品牌','#8B5CF6','🏷'],
+    [months,'覆盖月份','#0EA5E9','🗓']
+  ];
+  document.getElementById('stats').innerHTML = s.map(([n,l,c,ic])=>
+    `<div class="stat" style="--c:${c}"><div class="ic">${ic}</div><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join('');
+  document.getElementById('totalTop').textContent = DATA.length;
+  document.getElementById('lastUpd').textContent = LAST_UPDATED;
+}
+
+/* ---------- 过滤 + 排序 ---------- */
+function computeView(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const t = document.getElementById('fType').value;
+  const b = document.getElementById('fBrand').value;
+  const sp= document.getElementById('fSupplier').value;
+  filtered = DATA.filter(d=>{
+    if(t && d.type!==t) return false;
+    if(b && d.brand!==b) return false;
+    if(sp && d.supplier!==sp) return false;
+    if(q){ return Object.values(d).join(' ').toLowerCase().includes(q); }
+    return true;
+  });
+  if(sortKey){
+    filtered.sort((a,b2)=>{
+      const x=String(a[sortKey]||''), y=String(b2[sortKey]||'');
+      const r = x.localeCompare(y,'zh');
+      return sortAsc ? r : -r;
+    });
+  }
+  document.getElementById('hit').textContent = filtered.length;
+}
+
+/* ---------- 表格 ---------- */
+function renderTable(){
+  const tb = document.getElementById('tbody');
+  const maxPage = Math.max(1, Math.ceil(filtered.length/pageSize));
+  if(page>maxPage) page = maxPage;
+  const rows = filtered.slice((page-1)*pageSize, page*pageSize);
+
+  if(!rows.length){
+    tb.innerHTML = `<tr><td colspan="10" class="empty"><span class="big">🔍</span>没有匹配的记录<br><span style="font-size:12px">试试更换关键词或点「重置」</span></td></tr>`;
+    return;
+  }
+  tb.innerHTML = rows.map((d,i)=>{
+    const idx = (page-1)*pageSize + i;
+    const k = keyOf(d,idx);
+    const tag = d.type==='新车要闻' ? '<span class="tag car">新车要闻</span>' : '<span class="tag news">新闻资讯</span>';
+    const hlOpen = expanded.has('hl'+k), ntOpen = expanded.has('nt'+k);
+    const hl = d.highlight && d.highlight.trim()
+      ? `${hlOpen?'':'<span class="clamp c5">'}${esc(d.highlight)}${hlOpen?'':'</span>'}<span class="morebtn" data-x="hl" data-k="${k}">${hlOpen?'收起 ▲':'展开全文 ▼'}</span>`
+      : '<span class="todo">待补充</span>';
+    const nt = d.note && d.note.trim()
+      ? `${ntOpen?'':'<span class="clamp c3">'}${esc(d.note)}${ntOpen?'':'</span>'}`
+      : '<span class="todo">待补充</span>';
+    let link = '<span class="todo">—</span>';
+    if(d.link && String(d.link).trim()){
+      const name = String(d.link).split('/').pop() || String(d.link);
+      link = `<a class="link" href="${esc(d.link)}" target="_blank" title="${esc(d.link)}">⎘ ${esc(name)}</a>`;
+    }
+    return `<tr>
+      <td class="date">${cell(d.date)}</td><td>${tag}</td>
+      <td class="brand">${cell(d.brand)}</td><td class="model">${cell(d.model)}</td>
+      <td class="dim">${cell(d.supplier)}</td><td class="dim">${cell(d.chip)}</td>
+      <td>${hl}</td><td class="dim">${cell(d.status)}</td>
+      <td>${link}</td><td class="dim" style="font-size:12px">${nt}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---------- 分页 ---------- */
+function renderPager(){
+  const total = filtered.length, maxPage = Math.max(1, Math.ceil(total/pageSize));
+  document.getElementById('pTotal').textContent = total;
+  document.getElementById('pNow').textContent = page;
+  document.getElementById('pMax').textContent = maxPage;
+  const box = document.getElementById('pbtns');
+  const btn = (label,p,dis,on)=>`<button class="pg${on?' on':''}" ${dis?'disabled':''} data-p="${p}">${label}</button>`;
+  let html = btn('‹ 上一页', page-1, page<=1);
+  const nums = [];
+  for(let i=1;i<=maxPage;i++){
+    if(i===1||i===maxPage||Math.abs(i-page)<=1) nums.push(i);
+    else if(nums[nums.length-1]!=='…') nums.push('…');
+  }
+  nums.forEach(n=>{ html += n==='…' ? '<span class="pg gap">…</span>' : btn(n,n,false,n===page); });
+  html += btn('下一页 ›', page+1, page>=maxPage);
+  box.innerHTML = html;
+  box.querySelectorAll('.pg[data-p]').forEach(b=>b.addEventListener('click',()=>{
+    page = +b.dataset.p; renderTable(); renderPager(); scrollTableTop();
+  }));
+}
+function scrollTableTop(){
+  const z=document.querySelector('.scrollzone');
+  if(z && z.getBoundingClientRect().top < 0) z.scrollIntoView({block:'start'});
+}
+
+/* ---------- 总渲染 ---------- */
+function render(){ computeView(); renderTable(); renderPager(); }
+let sortHint=false;
+function apply(){ page=1; render(); }
+
+/* ---------- 事件 ---------- */
+// 搜索：防抖 + 中文输入法合成期间不触发，避免每敲一个拼音就全量重渲导致卡死
+let searchTimer=null, composing=false;
+const searchEl = document.getElementById('search');
+searchEl.addEventListener('compositionstart', ()=>composing=true);
+searchEl.addEventListener('compositionend', ()=>{ composing=false; schedule(); });
+searchEl.addEventListener('input', schedule);
+function schedule(){
+  if(composing) return;
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(apply, 140);
+}
+['fType','fBrand','fSupplier'].forEach(id=>
+  document.getElementById(id).addEventListener('change', apply));
+document.getElementById('reset').addEventListener('click', ()=>{
+  searchEl.value='';
+  ['fType','fBrand','fSupplier'].forEach(id=>document.getElementById(id).value='');
+  sortKey=null; sortAsc=false; markSorted(); page=1; render();
+});
+document.getElementById('pageSize').addEventListener('change', e=>{
+  pageSize = +e.target.value; page=1; renderTable(); renderPager();
+});
+document.getElementById('tbody').addEventListener('click', e=>{
+  const b = e.target.closest('.morebtn'); if(!b) return;
+  const x=b.dataset.x, k=b.dataset.k, id=(x==='hl'?'hl':'nt')+k;
+  expanded.has(id) ? expanded.delete(id) : expanded.add(id);
+  renderTable();
+});
+document.querySelectorAll('thead th[data-k]').forEach(th=>{
+  th.addEventListener('click', ()=>{
+    const k=th.dataset.k;
+    if(sortKey===k) sortAsc=!sortAsc; else { sortKey=k; sortAsc=true; }
+    markSorted(); apply();
+  });
+});
+function markSorted(){
+  document.querySelectorAll('thead th[data-k]').forEach(th=>{
+    th.classList.toggle('sorted', th.dataset.k===sortKey);
+    const a = th.querySelector('.arrow');
+    if(a) a.textContent = th.dataset.k===sortKey ? (sortAsc?'↑':'↓') : '↕';
+  });
+}
+
+initFilters(); renderStats(); markSorted(); apply();
+</script>
+</body>
+</html>
